@@ -1,7 +1,11 @@
 package newpost.db;
 
-import newpost.utils.MyDynamicArray;
+import newpost.model.Client;
+import newpost.model.Driver;
+import newpost.model.PostTicket;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -10,25 +14,26 @@ import newpost.utils.MyDynamicArray;
  */
 public class AppDataContainer {
 
-    private MyDynamicArray clients;
-    private MyDynamicArray tickets;
-    private MyDynamicArray drivers;
+    private List<Client> clients;
+    private List<PostTicket> tickets;
+    private List<Driver> drivers;
+
 
     public AppDataContainer() {
-        clients = new MyDynamicArray();
-        tickets = new MyDynamicArray();
-        drivers = new MyDynamicArray();
+        clients = new ArrayList<>();
+        tickets = new ArrayList<>();
+        drivers = new ArrayList<>();
     }
 
-    public MyDynamicArray getClients() {
+    public List<Client> getClients() {
         return clients;
     }
 
-    public MyDynamicArray getTickets() {
+    public List<PostTicket> getTickets() {
         return tickets;
     }
 
-    public MyDynamicArray getDrivers() {
+    public List<Driver> getDrivers() {
         return drivers;
     }
 }
