@@ -46,4 +46,14 @@ public class Validator implements IValidator {
         }
         return num;
     }
+
+    private boolean isAlfabet (String str){
+        boolean num = true;
+        for (int i=0; i<str.length() && num; i++){
+            if (!(Character.isAlphabetic(str.charAt(i)))){
+                num = false;
+            }
+        }
+        return num;
+    }
 }
