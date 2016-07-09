@@ -40,6 +40,7 @@ public class PostTicket {
         this.to = to;
         this.creationDate = creationDate;
         this.estimationArrivalDate = estimationArrivalDate;
+        this.status = TicketStatus.NEW;
     }
 
     public String getId() {
