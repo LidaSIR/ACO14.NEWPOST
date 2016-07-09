@@ -5,7 +5,8 @@ package newpost.model;
  */
 public class PostTicket {
 
-    private String id;
+    private final String id;
+    private static int nextId = 0;
 
     private Client client;
     private Product[] products;
@@ -30,12 +31,19 @@ public class PostTicket {
         this.estimationArrivalDate = estimationArrivalDate;
     }
 
-    public String getId() {
-        return id;
+    public PostTicket(Client client, Product[] products, Address from, Address to, MyDate creationDate, MyDate estimationArrivalDate) {
+
+        this.id = Integer.toString(nextId++);
+        this.client = client;
+        this.products = products;
+        this.from = from;
+        this.to = to;
+        this.creationDate = creationDate;
+        this.estimationArrivalDate = estimationArrivalDate;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getId() {
+        return id;
     }
 
     public Client getClient() {
