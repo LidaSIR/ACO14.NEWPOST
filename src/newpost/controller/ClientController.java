@@ -8,7 +8,7 @@ import sun.security.krb5.internal.Ticket;
 /**
  * Created by macaque on 09.07.2016.
  */
-public class ClientController implements IClientController, IValidator {
+public class ClientController implements IClientController {
     @Override
     public boolean sendProduct(Product product) {
         return false;
@@ -29,23 +29,4 @@ public class ClientController implements IClientController, IValidator {
         return null;
     }
 
-    @Override
-    public boolean validationAddress(Address address) {
-        return false;
-    }
-
-    @Override
-    public boolean validationClient(Client client) {
-        return false;
-    }
-
-    @Override
-    public boolean validationProduct(Product product) {
-        return false;
-    }
-
-    @Override
-    public boolean validationTicket(Ticket ticket) {
-        return false;
-    }
 }
