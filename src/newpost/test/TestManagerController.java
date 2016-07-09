@@ -1,9 +1,9 @@
 package newpost.test;
 
-import ua.artcode.week2.newpost.controller.ManagerController;
-import ua.artcode.week2.newpost.db.AppDataContainer;
-import ua.artcode.week2.newpost.model.Client;
-import ua.artcode.week2.newpost.model.Passport;
+import newpost.controller.ManagerController;
+import newpost.db.AppDataContainer;
+import newpost.model.Client;
+import newpost.model.Passport;
 
 /**
  * Created by home on 08.07.2016.

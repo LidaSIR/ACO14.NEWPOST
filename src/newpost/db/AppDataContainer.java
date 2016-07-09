@@ -1,6 +1,8 @@
 package newpost.db;
 
-import ua.artcode.week2.newpost.utils.MyDynamicArray;
+import newpost.utils.MyDynamicArray;
+
+
 
 /**
  * Created by Serhii Fursenko on 08.07.2016.

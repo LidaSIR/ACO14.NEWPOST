@@ -1,8 +1,7 @@
 package newpost;
 
-import ua.artcode.week2.newpost.controller.DirectorController;
-import ua.artcode.week2.newpost.controller.ManagerController;
-import ua.artcode.week2.newpost.db.AppDataContainer;
+import newpost.db.AppDataContainer;
+import newpost.controller.*;
 
 /**
  * Created by Serhii Fursenko on 08.07.2016.

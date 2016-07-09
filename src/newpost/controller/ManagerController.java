@@ -1,11 +1,8 @@
 package newpost.controller;
 
-import ua.artcode.week1.contactlist.Address;
-import ua.artcode.week2.newpost.db.AppDataContainer;
-import ua.artcode.week2.newpost.model.Client;
-import ua.artcode.week2.newpost.model.Passport;
-import ua.artcode.week2.newpost.model.PostTicket;
-import ua.artcode.week2.newpost.model.Product;
+
+import newpost.db.AppDataContainer;
+import newpost.model.*;
 
 /**
  * Created by home on 08.07.2016.
