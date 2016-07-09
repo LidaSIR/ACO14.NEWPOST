@@ -22,7 +22,7 @@ public class TestClientController {
 
         ClientController clientController = new ClientController();
         PostTicket actual = clientController.makeOrder(client,toAddress,product);
-        if (actual.)
+        //if (actual.)
 
     }
 }
