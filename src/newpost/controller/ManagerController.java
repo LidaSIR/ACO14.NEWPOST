@@ -4,6 +4,8 @@ package newpost.controller;
 import newpost.db.AppDataContainer;
 import newpost.model.*;
 
+import java.util.List;
+
 /**
  * Created by home on 08.07.2016.
  */
@@ -31,9 +33,10 @@ public class ManagerController {
     }
 
     public Client getClient(String phone) {
-        Object[] clientArr = appDataContainer.getClients().toArray();
-        for(Object obj : clientArr) {
-            Client iterClient = (Client) obj;
+
+        List<Client> clientArr = appDataContainer.getClients();
+        for(Client client : clientArr) {
+            Client iterClient = client;
             if(iterClient.getPhone().equals(phone)) {
                 return iterClient;
             }
