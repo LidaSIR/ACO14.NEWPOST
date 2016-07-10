@@ -14,6 +14,7 @@ public class TestClientController {
         testMakeOrder(clientController);
         testShowByProductId(clientController);
         testCancelTicket(clientController);
+        testTakeProduct(clientController);
 
     }
 
@@ -44,17 +45,28 @@ public class TestClientController {
     }
 
     public static void testCancelTicket(ClientController clientController){
-        System.out.println("Cancellation test");
+        System.out.println("Cancellation test:");
         if (clientController.cancelTicket(0)){
             System.out.println("test passed" +"\n");
+
         } else System.out.println("test false" + "\n");
     }
 
     public static void testTakeProduct(ClientController clientController){
-        System.out.println("TakeProduct test");
+        System.out.println("TakeProduct test:");
+
         if (clientController.takeProduct(0) != null){
             System.out.println("test passed" +  "\n");
         } else System.out.println("test failed" + "\n");
 
+    }
+
+    public static void showTicketById(ClientController clientController){
+        System.out.println("showTicketById test:");
+//        ClientController clientController = new ClientController(new AppDataContainer());
+        Product product = clientController.takeProduct(0);
+        if (clientController.showProductById(0).equals(product)){
+            System.out.println("test passed" + "\n");
+        } else System.out.println("test false" + "\n");
     }
 }

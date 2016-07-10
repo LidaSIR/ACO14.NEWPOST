@@ -33,8 +33,12 @@ public class ManagerController implements IManagerController {
         Product sendProduct = new Product(product.getName(), product.getSize(), product.getPrice(), client);
         Product[] sendProductArr = {sendProduct};
 
-        return new PostTicket(client, sendProductArr, new Address("Kiyv","Lesi","22"), sendToAdress,
+        PostTicket postTicket = new PostTicket(client, sendProductArr, new Address("Kiyv","Lesi","22"), sendToAdress,
                 currentTime, estimationArrivalDate);
+
+        appDataContainer.getTickets().add(postTicket);
+
+        return postTicket;
     }
 
     @Override
