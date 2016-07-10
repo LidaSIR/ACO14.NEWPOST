@@ -80,7 +80,7 @@ public class ClientController implements IClientController {
     public Product takeProduct(int ticketId) {
         for(PostTicket postTicket : appDataContainer.getTickets()) {
             if(postTicket.getId().equals(String.valueOf(ticketId))){
-                if(postTicket.getStatus()==TicketStatus.DONE) {
+                if(postTicket.getStatus()==TicketStatus.DONE || postTicket.getStatus()==TicketStatus.CANCELED) {
                     return postTicket.getProducts()[0];
                 }
 
