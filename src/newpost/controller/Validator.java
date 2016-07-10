@@ -33,7 +33,7 @@ public class Validator implements IValidator {
                             && validSize(product.getSize()) && product.getPrice()>=MIN_PRODUCPRICE;
     }
 
-    public boolean validation(Product[] products) {
+    private boolean validation(Product[] products) {
 
         for (int i = 0; i < products.length; i++){
 
