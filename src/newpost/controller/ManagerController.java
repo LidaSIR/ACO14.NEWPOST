@@ -6,9 +6,6 @@ import newpost.model.*;
 
 import java.util.List;
 
-/**
- * Created by home on 08.07.2016.
- */
 public class ManagerController {
 
     private AppDataContainer appDataContainer;
