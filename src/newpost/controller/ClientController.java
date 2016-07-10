@@ -33,14 +33,18 @@ public class ClientController implements IClientController {
         Product sendProduct = new Product(product.getName(), product.getSize(), product.getPrice(), client);
         Product[] sendProductArr = {sendProduct};
 
-        return new PostTicket(client, sendProductArr, new Address("Kiyv","Lesi","22"), sendToAdress,
+        PostTicket postTicket = new PostTicket(client, sendProductArr, new Address("Kiyv","Lesi","22"), sendToAdress,
                 currentTime, estimationArrivalDate);
+
+        appDataContainer.getTickets().add(postTicket);
+
+        return postTicket;
     }
 
     @Override
     public PostTicket showTicketById(String ticketId) {
         for(PostTicket postTicket : appDataContainer.getTickets()) {
-            if(postTicket.getId().equals(postTicket.getId())){
+            if(postTicket.getId().equals(String.valueOf(ticketId))){
                 return postTicket;
             }
         }
@@ -76,7 +80,7 @@ public class ClientController implements IClientController {
     public Product takeProduct(int ticketId) {
         for(PostTicket postTicket : appDataContainer.getTickets()) {
             if(postTicket.getId().equals(String.valueOf(ticketId))){
-                if(postTicket.getStatus()==TicketStatus.DONE) {
+                if(postTicket.getStatus()==TicketStatus.DONE || postTicket.getStatus()==TicketStatus.CANCELED) {
                     return postTicket.getProducts()[0];
                 }
 
