@@ -1,9 +1,6 @@
 package newpost.controller;
 
-import newpost.model.Address;
-import newpost.model.Client;
-import newpost.model.Passport;
-import newpost.model.Product;
+import newpost.model.*;
 import sun.security.krb5.internal.Ticket;
 
 /**
@@ -12,6 +9,11 @@ import sun.security.krb5.internal.Ticket;
 public class Validator implements IValidator {
 
     public static final int MIN_PASSPORT_LENGTH = 8;
+    public static final int MIN_PRODUCTNAME_LENGTH = 2;
+    public static final int MAX_PRODUCTNAME_LENGTH = 20;
+    public static final int MIN_PRODUCPRICE = 0;
+    public static final int MIN_PHONE_LENGTH = 9;
+    public static final int MAX_PHONE_LENGTH = 12;
 
     @Override
     public boolean validation(Address address) {
@@ -26,12 +28,32 @@ public class Validator implements IValidator {
 
     @Override
     public boolean validation(Product product) {
-        return false;
+        return product.getName().length()>MIN_PRODUCTNAME_LENGTH
+                && product.getName().length()<MAX_PRODUCTNAME_LENGTH
+                            && validSize(product.getSize()) && product.getPrice()>=MIN_PRODUCPRICE;
     }
 
+    private boolean validation(Product[] products) {
+
+        for (int i = 0; i < products.length; i++){
+
+            if (!(validation(products[i]))){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
     @Override
-    public boolean validation(Ticket ticket) {
-        return false;
+    public boolean validation(PostTicket postTicket) {
+        return validation(postTicket.getClient()) && validation(postTicket.getProducts());
+    }
+
+
+
+    private boolean validSize(Size size){
+        return size.getHeight()>0 && size.getLength()>0 && size.getWeight()>0;
     }
 
     private boolean validPassportNumber(String str) {
@@ -43,7 +65,8 @@ public class Validator implements IValidator {
     }
 
     private boolean validPhone(String str) {
-        return trueStringNum(str) && (str.length() <= 9) && (str.length() >= 12);
+        return trueStringNum(str) && (str.length() <= MIN_PHONE_LENGTH)
+                                        && (str.length() >= MAX_PHONE_LENGTH);
     }
 
     private boolean trueStringNum(String str) {
