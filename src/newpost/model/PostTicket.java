@@ -1,8 +1,5 @@
 package newpost.model;
 
-/**
- * Created by home on 08.07.2016.
- */
 public class PostTicket {
 
     private static int nextId = 0;

@@ -36,7 +36,7 @@ public class Menu {
 
     private void showAllLogs() {
         System.out.println("Show all logs: ");
-        Logging.showAllLogs();
+        LogContainer.showAllLogs();
     }
 
     private void showShowInfoMenu() {

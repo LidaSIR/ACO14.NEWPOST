@@ -17,6 +17,9 @@ public class RunApp {
         ManagerController managerController = new ManagerController(appDataContainer);
 
         Menu menu = new Menu();
-        menu.start(new ClientController(appDataContainer));
+        menu.start(
+                new ValidationControllerProxy(
+                        new LoggingClientControllerProxy(
+                                new ClientController(appDataContainer)),new Validator()));
     }
 }
