@@ -6,7 +6,7 @@ import newpost.model.*;
  * Created by macaque on 10.07.2016.
  */
 public interface IManagerController {
-    PostTicket CreateTicket(Client client, Address sendToAdress, Product product);
+    PostTicket createTicket(Client client, Address sendToAdress, Product product);
     PostTicket filterTicketById(String ticketId);
     PostTicket showTicketByClientPhone(String phone);
     Client getClient(String phone);
