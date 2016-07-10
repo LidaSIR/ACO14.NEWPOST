@@ -10,7 +10,8 @@ import newpost.model.Product;
  */
 public interface IClientController {
     PostTicket makeOrder(Client client, Address sendToAdress, Product product);
-    Product showProductById(int productId);
+    PostTicket showTicketById(String ticketId);
+    Product showProductById(int ticketId);
     boolean cancelTicket(int ticketId);
     Product takeProduct(int ticketId);
 }
