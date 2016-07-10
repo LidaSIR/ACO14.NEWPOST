@@ -10,13 +10,14 @@ import newpost.model.*;
 public class TestClientController {
 
     public static void main(String[] args) {
-        testMakeOrder();
-        testShowByProductId();
-        testCancelTicket();
+        ClientController clientController = new ClientController(new AppDataContainer());
+        testMakeOrder(clientController);
+        testShowByProductId(clientController);
+        testCancelTicket(clientController);
 
     }
 
-    private static void testMakeOrder(){
+    private static void testMakeOrder(ClientController clientController){
         System.out.println("MakeOrder test");
         Size size = new Size(1,1,1,1);
         Passport passport = new Passport("Client1", "CM346452");
@@ -25,7 +26,6 @@ public class TestClientController {
         Product product = new Product("Monitor",size,price,client);
         Address toAddress = new Address("Kiev", "Khreshatyk", "5");
 
-        ClientController clientController = new ClientController(new AppDataContainer());
         PostTicket actual = clientController.makeOrder(client,toAddress,product);
 
         // need to put logic about ID, Address, Product, etc. here
@@ -34,20 +34,27 @@ public class TestClientController {
         } else System.out.println("failed");
     }
 
-    public  static void testShowByProductId(){
+    public static void testShowByProductId(ClientController clientController){
         System.out.println("ShowByProductId test");
-        ClientController clientController = new ClientController(new AppDataContainer());
+//        ClientController clientController = new ClientController(new AppDataContainer());
 
         if (clientController.showProductById(0) != null){
             System.out.println("test passed" + "\n");
         } else System.out.println("test false" + "\n");
     }
 
-    public static void testCancelTicket(){
+    public static void testCancelTicket(ClientController clientController){
         System.out.println("Cancellation test");
-        ClientController clientController = new ClientController(new AppDataContainer());
         if (clientController.cancelTicket(0)){
             System.out.println("test passed" +"\n");
         } else System.out.println("test false" + "\n");
+    }
+
+    public static void testTakeProduct(ClientController clientController){
+        System.out.println("TakeProduct test");
+        if (clientController.takeProduct(0) != null){
+            System.out.println("test passed" +  "\n");
+        } else System.out.println("test failed" + "\n");
+
     }
 }
