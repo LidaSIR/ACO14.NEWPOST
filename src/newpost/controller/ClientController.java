@@ -40,7 +40,7 @@ public class ClientController implements IClientController {
     @Override
     public PostTicket showTicketById(String ticketId) {
         for(PostTicket postTicket : appDataContainer.getTickets()) {
-            if(postTicket.getId().equals(postTicket.getId())){
+            if(postTicket.getId().equals(String.valueOf(ticketId))){
                 return postTicket;
             }
         }
