@@ -18,11 +18,11 @@ public class TestClientController {
     }
 
     private static void testMakeOrder(ClientController clientController){
-        System.out.println("MakeOrder test");
+        System.out.println("MakeOrder test:");
         Size size = new Size(1,1,1,1);
-        Passport passport = new Passport("Client1", "CM346452");
-        Client client = new Client("+30502343433", passport);
-        int price = 5;
+        Passport passport = new Passport("Client Name", "CM346452");
+        Client client = new Client("380502343433", passport);
+        int price = 500;
         Product product = new Product("Monitor",size,price,client);
         Address toAddress = new Address("Kiev", "Khreshatyk", "5");
 
@@ -35,7 +35,7 @@ public class TestClientController {
     }
 
     public static void testShowByProductId(ClientController clientController){
-        System.out.println("ShowByProductId test");
+        System.out.println("ShowByProductId test:");
 //        ClientController clientController = new ClientController(new AppDataContainer());
 
         if (clientController.showProductById(0) != null){
