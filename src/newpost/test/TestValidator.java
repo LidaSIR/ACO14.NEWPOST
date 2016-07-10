@@ -13,5 +13,9 @@ public class TestValidator {
         Passport passport = new Passport("Serhii Bil", "23423");
         //some line3
         //System.out.println(adress1.toString(),  );
+        //line1
+        //line2
+        //line3
+        
     }
 }
