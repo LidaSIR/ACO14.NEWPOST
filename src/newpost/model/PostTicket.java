@@ -5,8 +5,9 @@ package newpost.model;
  */
 public class PostTicket {
 
-    private final String id;
     private static int nextId = 0;
+
+    private final String id;
 
     private Client client;
     private Product[] products;

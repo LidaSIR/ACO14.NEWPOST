@@ -11,6 +11,8 @@ import java.util.GregorianCalendar;
  */
 public class ClientController implements IClientController {
 
+    public static final int DAYS_IN_ROAD = 2;
+
     private AppDataContainer appDataContainer;
 
     public ClientController(AppDataContainer appDataContainer) {
@@ -26,22 +28,30 @@ public class ClientController implements IClientController {
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 
         MyDate estimationArrivalDate = currentTime;
-        estimationArrivalDate.setDay(currentTime.getDay()+2);
+        estimationArrivalDate.setDay(currentTime.getDay()+ DAYS_IN_ROAD);
 
         Product sendProduct = new Product(product.getName(), product.getSize(), product.getPrice(), client);
         Product[] sendProductArr = {sendProduct};
 
-        PostTicket postTicket = new PostTicket(client, sendProductArr, new Address("Kiyv","Lesi","22"), sendToAdress,
+        return new PostTicket(client, sendProductArr, new Address("Kiyv","Lesi","22"), sendToAdress,
                 currentTime, estimationArrivalDate);
-
-        return postTicket;
     }
 
     @Override
-    public Product showProductById(int productId) {
+    public PostTicket showTicketById(String ticketId) {
+        for(PostTicket postTicket : appDataContainer.getTickets()) {
+            if(postTicket.getId().equals(postTicket.getId())){
+                return postTicket;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Product showProductById(int ticketId) {
 
         for(PostTicket postTicket : appDataContainer.getTickets()) {
-            if(postTicket.getId().equalsIgnoreCase(postTicket.getId())){
+            if(postTicket.getId().equals(String.valueOf(ticketId))){
                 return postTicket.getProducts()[0];
             }
         }
@@ -53,7 +63,7 @@ public class ClientController implements IClientController {
     public boolean cancelTicket(int ticketId) {
 
         for(PostTicket postTicket : appDataContainer.getTickets()) {
-            if(postTicket.getId().equalsIgnoreCase(postTicket.getId())){
+            if(postTicket.getId().equals(String.valueOf(ticketId))){
                 postTicket.setStatus(TicketStatus.CANCELED);
                 return true;
             }
@@ -65,7 +75,7 @@ public class ClientController implements IClientController {
     @Override
     public Product takeProduct(int ticketId) {
         for(PostTicket postTicket : appDataContainer.getTickets()) {
-            if(postTicket.getId().equalsIgnoreCase(postTicket.getId())){
+            if(postTicket.getId().equals(String.valueOf(ticketId))){
                 if(postTicket.getStatus()==TicketStatus.DONE) {
                     return postTicket.getProducts()[0];
                 }

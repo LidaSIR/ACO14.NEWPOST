@@ -21,10 +21,10 @@ public class ManagerController {
         return null;
     }
 
-    public PostTicket[] flisterTicketsById(String id) {
+    public PostTicket[] filterTicketsById(String id) {
         return null;
     }
-    public PostTicket[] flisterTicketsByClientPhone (String phone) {
+    public PostTicket[] filterTicketsByClientPhone (String phone) {
         return null;
     }
 

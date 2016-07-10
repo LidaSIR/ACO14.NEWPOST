@@ -39,8 +39,8 @@ public class Menu {
         String productId;
         productId = scanner.next();
 
-        clientController.showProductById(Integer.parseInt(productId));
-
+        Product product = clientController.showProductById(Integer.parseInt(productId));
+        System.out.println(product.toString());
     }
 
     private void showCancelTicketMenu() {
@@ -106,8 +106,9 @@ public class Menu {
                                         Integer.parseInt(productPrice),
                                         client);
 
-        clientController.makeOrder(client, addrTo, product);
+        PostTicket postTicket = clientController.makeOrder(client, addrTo, product);
 
+        System.out.println("post ticket id is " + postTicket.getId());
     }
 
 
