@@ -11,6 +11,6 @@ public class TestValidator {
 
         // valid
         Address adress1 = new Address("kiev", "starokievska", "10");
-        System.out.println(adress1.toString(),  );
+       // System.out.println(adress1.toString(),  );
     }
 }
