@@ -40,6 +40,7 @@ public class PostTicket {
         this.to = to;
         this.creationDate = creationDate;
         this.estimationArrivalDate = estimationArrivalDate;
+        this.status = TicketStatus.NEW;
     }
 
     public String getId() {
@@ -109,4 +110,10 @@ public class PostTicket {
     public void setStatus(TicketStatus status) {
         this.status = status;
     }
+
+    public String asString(){
+        return "client's name: " + client.getPassport().getFullname() + "\n" + "passport: " + client.getPassport().getNumber() +
+                "\n" +"client's phone" + client.getPhone()  + "\n" + "product: "  +  products[0].getName();
+    }
+
 }
