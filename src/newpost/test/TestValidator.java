@@ -8,9 +8,9 @@ import newpost.controller.IValidator;
  */
 public class TestValidator {
     public static void main(String[] args) {
-
-        // valid
-        Address adress1 = new Address("kiev", "starokievska", "10");
-        //System.out.println(adress1.toString(),  );
+        //line1
+        //line2
+        //line3
+        
     }
 }
