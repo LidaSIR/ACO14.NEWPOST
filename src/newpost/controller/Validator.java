@@ -37,9 +37,9 @@ public class Validator implements IValidator {
 
         for (int i = 0; i < products.length; i++){
 
-            if (products[i].getName().length()>MIN_PRODUCTNAME_LENGTH
-                    && products[i].getName().length()<MAX_PRODUCTNAME_LENGTH
-                    && validSize(products[i].getSize()) && products[i].getPrice()>=MIN_PRODUCPRICE == false){
+            if (products[i].getName().length() > MIN_PRODUCTNAME_LENGTH
+                    && products[i].getName().length() < MAX_PRODUCTNAME_LENGTH
+                    && validSize(products[i].getSize()) && products[i].getPrice() < MIN_PRODUCPRICE){
                 return false;
             }
         }
