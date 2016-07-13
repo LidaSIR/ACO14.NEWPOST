@@ -6,12 +6,14 @@ import newpost.model.PostTicket;
 import newpost.model.Product;
 import sun.security.krb5.internal.Ticket;
 
+import java.util.Objects;
+
 /**
  * Created by macaque on 09.07.2016.
  */
 public interface IValidator {
-    boolean validation(Address address);
-    boolean validation(Client client);
-    boolean validation(Product product);
-    boolean validation(PostTicket postTicket);
+    ResultValidator validation(Address address);
+    ResultValidator validation(Client client);
+    ResultValidator validation(Product product);
+    ResultValidator validation(PostTicket postTicket);
 }
