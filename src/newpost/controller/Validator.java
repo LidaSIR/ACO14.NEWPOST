@@ -115,7 +115,7 @@ public class Validator implements IValidator {
         String[] wordArray = str.split(" ");
         for (int i = 0; i < wordArray.length; i++) {
             for (int j = 0; j < wordArray[i].length(); j++ ) {
-                if (!Character.isAlphabetic(str.charAt(j))) {
+                if (!Character.isAlphabetic(wordArray[i].charAt(j))) {
                     return false;
                 }
             }

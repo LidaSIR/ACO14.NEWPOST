@@ -14,21 +14,52 @@ public class TestValidator {
 
         Validator validator = new Validator();
 
-        Address address = new Address("kiev","","10");
-
-        System.out.println(validator.validation(address).getTextErr());
-
-
-
-        Passport passport = new Passport("rebus rebus","re123123");
-        Client client = new Client("0951231232",passport);
-
-        System.out.println(validator.validation(client).getTextErr());
-
-        Size size = new Size(2,2,2,1);
-        Product product = new Product("phone", size, -40, client);
-
-        System.out.println(validator.validation(product).getTextErr());
+        testPositiveValidateAdress(validator);
+        testPositiveValidateClient(validator);
+        testPositiveValidateProducte(validator);
 
     }
+
+    public static void testPositiveValidateAdress(Validator validator) {
+
+        Address address = new Address("kiev", "starokievska", "10");
+
+        System.out.println("positive test address");
+        System.out.println(String.format("Address:\n City: %s \t Street: %s \t houseNumber: %s",
+                address.getCity(), address.getStreet(), address.getHouseNum()));
+
+        if (validator.validation(address).getErr()) {
+            System.out.println("test Positive Validate Adress - pass\n");
+        } else System.out.println("test Positive Validate Adress - fail\n");
+    }
+
+    public static void testPositiveValidateClient(Validator validator) {
+
+        Passport passport = new Passport("Petya Vasechkin", "as123456");
+        Client client = new Client("0951234567", passport);
+
+        System.out.println("positive test client");
+        System.out.println(client.toString());
+
+        if (validator.validation(client).getErr()) {
+            System.out.println("test Positive Validate Client - pass\n");
+        } else System.out.println("test Positive Validate Client - fail\n");
+    }
+
+    public static void testPositiveValidateProducte(Validator validator) {
+
+        Passport passport = new Passport("Petya Vasechkin", "as123456");
+        Client client = new Client("0951234567", passport);
+        Size size = new Size(1,2,3,4);
+        Product product = new Product("iPhone 7",size, 50, client);
+
+        System.out.println("positive test Product");
+        System.out.println(product.toString());
+
+        if (validator.validation(product).getErr()){
+            System.out.println("test positive Validate Product - pass\n");
+        } else System.out.println("test Positive Validate Product - fail\n");
+    }
+
+
 }
