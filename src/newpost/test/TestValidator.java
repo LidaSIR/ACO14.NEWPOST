@@ -2,9 +2,7 @@ package newpost.test;
 
 
 import newpost.controller.Validator;
-import newpost.model.Address;
-import newpost.model.Client;
-import newpost.model.Passport;
+import newpost.model.*;
 
 
 /**
@@ -26,6 +24,11 @@ public class TestValidator {
         Client client = new Client("0951231232",passport);
 
         System.out.println(validator.validation(client).getTextErr());
+
+        Size size = new Size(2,2,2,1);
+        Product product = new Product("phone", size, -40, client);
+
+        System.out.println(validator.validation(product).getTextErr());
 
     }
 }

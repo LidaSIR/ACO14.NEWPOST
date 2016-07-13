@@ -14,6 +14,7 @@ public class Validator implements IValidator {
     public static final int MIN_PRODUCT_NAME_LENGTH = 2;
     public static final int MAX_PRODUCT_NAME_LENGTH = 30;
     public static final int MIN_PRODUCT_PRICE = 0;
+    public static final int MIN_PRODUCT_SIZE = 0;
     public static final int MIN_PHONE_LENGTH = 9;
     public static final int MAX_PHONE_LENGTH = 12;
 
@@ -48,14 +49,30 @@ public class Validator implements IValidator {
 
     @Override
     public ResultValidator validation(Product product) {
-        ResultValidator resultValidator = new ResultValidator();
+
+        resultValidator.setErr(isNameLength(MIN_PRODUCT_NAME_LENGTH, MAX_PRODUCT_NAME_LENGTH, product.getName())
+                && product.getPrice() >= MIN_PRODUCT_PRICE && isSize(product.getSize()));
+
+        resultValidator.setTextErr(String.format("Product: %b \n \t name - %b, \n \t prise - %b, \n \t size - %b",
+                resultValidator.getErr(), isNameLength(MIN_PRODUCT_NAME_LENGTH, MAX_PRODUCT_NAME_LENGTH, product.getName()),
+                product.getPrice() >= MIN_PRODUCT_PRICE, isSize(product.getSize())));
+
         return resultValidator;
     }
 
     @Override
     public ResultValidator validation(PostTicket postTicket) {
-        ResultValidator resultValidator = new ResultValidator();
+
         return resultValidator;
+    }
+
+    private boolean isNameLength(int min, int max, String name){
+        return name.length() >= min && name.length() <= max;
+    }
+
+    private boolean isSize(Size size){
+        return size.getHeight() > MIN_PRODUCT_SIZE && size.getLength() > MIN_PRODUCT_SIZE
+                && size.getWeight() > MIN_PRODUCT_SIZE && size.getWidth() > MIN_PRODUCT_SIZE;
     }
 
     private boolean isPassport (Passport passport){
