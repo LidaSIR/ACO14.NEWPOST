@@ -21,6 +21,7 @@ public class ValidationControllerProxy implements IClientController {
 
     @Override
     public PostTicket makeOrder(Client client, Address sendToAdress, Product product) {
+
         if (validator.validation(client).getErr() && validator.validation(sendToAdress).getErr()
                 && validator.validation(product).getErr()){
             return controller.makeOrder(client, sendToAdress, product);

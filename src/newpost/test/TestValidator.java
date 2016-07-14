@@ -26,7 +26,66 @@ public class TestValidator {
         testNegativeValidateClientBadPassportNum(validator);
         testNegativeValidateClientBadPhone(validator);
 
+        testNegativeValidateProductBadSize(validator);
+        testNegativeValidateProductBadName(validator);
+        testNegativeValidateProductBadPrise(validator);
+        testNegativeValidateProductBadClient(validator);
+    }
 
+    // test negative product bad client
+    public static void testNegativeValidateProductBadClient(Validator validator) {
+
+        Passport passport = new Passport("Petya12 Vasechkin", "as123456");
+        Client client = new Client("0951234567", passport);
+        Size size = new Size(1,2,3,4);
+        Product product = new Product("iPhone 7",size, 50, client);
+
+        if (!validator.validation(product).getErr() && validator.validation(product).getTextErr().contains("client - false")){
+            System.out.println("test negative validate Product: bad client - pass");
+            System.out.println(validator.validation(product).getTextErr() + '\n');
+        } else System.out.println("test negative validate Product: bad client - fail");
+    }
+
+    // test negative product bad prise
+    public static void testNegativeValidateProductBadPrise(Validator validator) {
+
+        Passport passport = new Passport("Petya Vasechkin", "as123456");
+        Client client = new Client("0951234567", passport);
+        Size size = new Size(1,2,3,4);
+        Product product = new Product("iPhone 7",size, -50, client);
+
+        if (!validator.validation(product).getErr() && validator.validation(product).getTextErr().contains("prise - false")){
+            System.out.println("test negative validate Product: bad prise - pass");
+            System.out.println(validator.validation(product).getTextErr() + '\n');
+        } else System.out.println("test negative validate Product: bad prise - fail");
+    }
+
+    // test negative product bad name
+    public static void testNegativeValidateProductBadName(Validator validator) {
+
+        Passport passport = new Passport("Petya Vasechkin", "as123456");
+        Client client = new Client("0951234567", passport);
+        Size size = new Size(1,2,3,4);
+        Product product = new Product("",size, 50, client);
+
+        if (!validator.validation(product).getErr() && validator.validation(product).getTextErr().contains("name - false")){
+            System.out.println("test negative validate Product: bad name - pass");
+            System.out.println(validator.validation(product).getTextErr() + '\n');
+        } else System.out.println("test negative validate Product: bad name - fail");
+    }
+
+    // test negative product bad size
+    public static void testNegativeValidateProductBadSize(Validator validator) {
+
+        Passport passport = new Passport("Petya Vasechkin", "as123456");
+        Client client = new Client("0951234567", passport);
+        Size size = new Size(1,2,-3,4);
+        Product product = new Product("iPhone 7",size, 50, client);
+
+        if (!validator.validation(product).getErr() && validator.validation(product).getTextErr().contains("size - false")){
+            System.out.println("test negative validate Product: bad size - pass");
+            System.out.println(validator.validation(product).getTextErr() + '\n');
+        } else System.out.println("test negative validate Product: bad size - fail");
     }
 
     // test negative bad passport number
