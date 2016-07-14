@@ -1,6 +1,7 @@
 package newpost.test;
 
 
+
 import newpost.controller.Validator;
 import newpost.model.*;
 
@@ -17,6 +18,7 @@ public class TestValidator {
         testPositiveValidateAdress(validator);
         testPositiveValidateClient(validator);
         testPositiveValidateProducte(validator);
+        testPositiveValidatePostTicket(validator);
 
         testNegativeValidateAdressBadCity(validator);
         testNegativeValidateAdressBadStreet(validator);
@@ -30,6 +32,156 @@ public class TestValidator {
         testNegativeValidateProductBadName(validator);
         testNegativeValidateProductBadPrise(validator);
         testNegativeValidateProductBadClient(validator);
+
+        testNegativeValidatePostTicketBadTo(validator);
+        testNegativeValidatePostTicketBadFrom(validator);
+        testNegativeValidatePostTicketBadProduct(validator);
+        testNegativeValidatePostTicketBadClient(validator);
+        testNegativeValidatePostTicketBadProducts(validator);
+
+    }
+
+    // test negative postTicket bad client
+    public static void testNegativeValidatePostTicketBadClient(Validator validator) {
+
+        Address from = new Address("kiev", "starokievskaya", "10");
+
+        Address to = new Address("poltava", "stepnaya", "12");
+
+        Passport passport = new Passport("Petya12 Vasechkin", "as123456");
+        Client client = new Client("0951234567", passport);
+
+        Size size = new Size(1, 2, 3, 4);
+        Product product1 = new Product("iPhone 7", size, 50, client);
+        Product product2 = new Product("iPhone 6", size, 40, client);
+        Product product3 = new Product("iPhone 5", size, 30, client);
+        Product[] products = {product1, product2, product3};
+
+        MyDate dateStart = new MyDate(2016, 7, 12, 13, 25);
+        MyDate dateEnd = new MyDate(2016, 8, 12, 13, 30);
+
+        PostTicket postTicket = new PostTicket(client, products, from, to, dateStart, dateEnd);
+
+        if (!validator.validation(postTicket).getErr()
+                && validator.validation(postTicket).getTextErr().contains("fullName - false"))
+        {
+            System.out.println("test negative validate PostTicket: bad client - pass");
+            //System.out.println(validator.validation(postTicket).getTextErr() + '\n');
+        } else System.out.println("test negative validate PostTicket: bad client - fail");
+    }
+
+    // test negative postTicket empty products[]
+    public static void testNegativeValidatePostTicketBadProducts(Validator validator) {
+
+        Address from = new Address("kiev", "starokievskaya", "10");
+
+        Address to = new Address("poltava", "stepnaya", "12");
+
+        Passport passport = new Passport("Petya Vasechkin", "as123456");
+        Client client = new Client("0951234567", passport);
+
+        Size size = new Size(1, 2, 3, 4);
+        
+        Product[] products = {};
+
+        MyDate dateStart = new MyDate(2016, 7, 12, 13, 25);
+        MyDate dateEnd = new MyDate(2016, 8, 12, 13, 30);
+
+        PostTicket postTicket = new PostTicket(client, products, from, to, dateStart, dateEnd);
+
+        if (!validator.validation(postTicket).getErr()
+                && validator.validation(postTicket).getTextErr().contains("product[] is empty"))
+        {
+            System.out.println("test negative validate PostTicket: bad products[] - pass");
+            //System.out.println(validator.validation(postTicket).getTextErr() + '\n');
+        } else System.out.println("test negative validate PostTicket: bad products[] - fail");
+    }
+
+    // test negative postTicket bad product
+    public static void testNegativeValidatePostTicketBadProduct(Validator validator) {
+
+        Address from = new Address("kiev", "starokievskaya", "10");
+
+        Address to = new Address("poltava", "stepnaya", "12");
+
+        Passport passport = new Passport("Petya Vasechkin", "as123456");
+        Client client = new Client("0951234567", passport);
+
+        Size size = new Size(1, 2, 3, 4);
+        Product product1 = new Product("iPhone 7", size, 50, client);
+        Product product2 = new Product("iPhone 6", size, -40, client);
+        Product product3 = new Product("iPhone 5", size, 30, client);
+        Product[] products = {product1, product2, product3};
+
+        MyDate dateStart = new MyDate(2016, 7, 12, 13, 25);
+        MyDate dateEnd = new MyDate(2016, 8, 12, 13, 30);
+
+        PostTicket postTicket = new PostTicket(client, products, from, to, dateStart, dateEnd);
+
+        if (!validator.validation(postTicket).getErr()
+                && validator.validation(postTicket).getTextErr().contains("prise - false"))
+        {
+            System.out.println("test negative validate PostTicket: bad product - pass");
+            //System.out.println(validator.validation(postTicket).getTextErr() + '\n');
+        } else System.out.println("test negative validate PostTicket: bad product - fail");
+    }
+
+    // test negative postTicket bad from
+    public static void testNegativeValidatePostTicketBadFrom(Validator validator) {
+
+        Address from = new Address("kiev", "", "10");
+
+        Address to = new Address("poltava", "stepnaya", "12");
+
+        Passport passport = new Passport("Petya Vasechkin", "as123456");
+        Client client = new Client("0951234567", passport);
+
+        Size size = new Size(1, 2, 3, 4);
+        Product product1 = new Product("iPhone 7", size, 50, client);
+        Product product2 = new Product("iPhone 6", size, 40, client);
+        Product product3 = new Product("iPhone 5", size, 30, client);
+        Product[] products = {product1, product2, product3};
+
+        MyDate dateStart = new MyDate(2016, 7, 12, 13, 25);
+        MyDate dateEnd = new MyDate(2016, 8, 12, 13, 30);
+
+        PostTicket postTicket = new PostTicket(client, products, from, to, dateStart, dateEnd);
+
+        if (!validator.validation(postTicket).getErr()
+                && validator.validation(postTicket).getTextErr().contains("Street - false"))
+        {
+            System.out.println("test negative validate PostTicket: bad adress from - pass");
+            //System.out.println(validator.validation(postTicket).getTextErr() + '\n');
+        } else System.out.println("test negative validate PostTicket: bad adress from - fail");
+    }
+
+    // test negative postTicket bad to
+    public static void testNegativeValidatePostTicketBadTo(Validator validator) {
+
+        Address from = new Address("kiev", "starokievska", "10");
+
+        Address to = new Address("", "stepnaya", "12");
+
+        Passport passport = new Passport("Petya Vasechkin", "as123456");
+        Client client = new Client("0951234567", passport);
+
+        Size size = new Size(1, 2, 3, 4);
+        Product product1 = new Product("iPhone 7", size, 50, client);
+        Product product2 = new Product("iPhone 6", size, 40, client);
+        Product product3 = new Product("iPhone 5", size, 30, client);
+        Product[] products = {product1, product2, product3};
+
+        MyDate dateStart = new MyDate(2016, 7, 12, 13, 25);
+        MyDate dateEnd = new MyDate(2016, 8, 12, 13, 30);
+
+        PostTicket postTicket = new PostTicket(client, products, from, to, dateStart, dateEnd);
+
+        if (!validator.validation(postTicket).getErr()
+                && validator.validation(postTicket).getTextErr().contains("City - false"))
+        {
+                    System.out.println("test negative validate PostTicket: bad adress to - pass");
+                    //System.out.println(validator.validation(postTicket).getTextErr() + '\n');
+        } else System.out.println("test negative validate PostTicket: bad adress to - fail");
     }
 
     // test negative product bad client
@@ -37,10 +189,10 @@ public class TestValidator {
 
         Passport passport = new Passport("Petya12 Vasechkin", "as123456");
         Client client = new Client("0951234567", passport);
-        Size size = new Size(1,2,3,4);
-        Product product = new Product("iPhone 7",size, 50, client);
+        Size size = new Size(1, 2, 3, 4);
+        Product product = new Product("iPhone 7", size, 50, client);
 
-        if (!validator.validation(product).getErr() && validator.validation(product).getTextErr().contains("client - false")){
+        if (!validator.validation(product).getErr() && validator.validation(product).getTextErr().contains("client - false")) {
             System.out.println("test negative validate Product: bad client - pass");
             System.out.println(validator.validation(product).getTextErr() + '\n');
         } else System.out.println("test negative validate Product: bad client - fail");
@@ -51,10 +203,10 @@ public class TestValidator {
 
         Passport passport = new Passport("Petya Vasechkin", "as123456");
         Client client = new Client("0951234567", passport);
-        Size size = new Size(1,2,3,4);
-        Product product = new Product("iPhone 7",size, -50, client);
+        Size size = new Size(1, 2, 3, 4);
+        Product product = new Product("iPhone 7", size, -50, client);
 
-        if (!validator.validation(product).getErr() && validator.validation(product).getTextErr().contains("prise - false")){
+        if (!validator.validation(product).getErr() && validator.validation(product).getTextErr().contains("prise - false")) {
             System.out.println("test negative validate Product: bad prise - pass");
             System.out.println(validator.validation(product).getTextErr() + '\n');
         } else System.out.println("test negative validate Product: bad prise - fail");
@@ -65,10 +217,10 @@ public class TestValidator {
 
         Passport passport = new Passport("Petya Vasechkin", "as123456");
         Client client = new Client("0951234567", passport);
-        Size size = new Size(1,2,3,4);
-        Product product = new Product("",size, 50, client);
+        Size size = new Size(1, 2, 3, 4);
+        Product product = new Product("", size, 50, client);
 
-        if (!validator.validation(product).getErr() && validator.validation(product).getTextErr().contains("name - false")){
+        if (!validator.validation(product).getErr() && validator.validation(product).getTextErr().contains("name - false")) {
             System.out.println("test negative validate Product: bad name - pass");
             System.out.println(validator.validation(product).getTextErr() + '\n');
         } else System.out.println("test negative validate Product: bad name - fail");
@@ -79,10 +231,10 @@ public class TestValidator {
 
         Passport passport = new Passport("Petya Vasechkin", "as123456");
         Client client = new Client("0951234567", passport);
-        Size size = new Size(1,2,-3,4);
-        Product product = new Product("iPhone 7",size, 50, client);
+        Size size = new Size(1, 2, -3, 4);
+        Product product = new Product("iPhone 7", size, 50, client);
 
-        if (!validator.validation(product).getErr() && validator.validation(product).getTextErr().contains("size - false")){
+        if (!validator.validation(product).getErr() && validator.validation(product).getTextErr().contains("size - false")) {
             System.out.println("test negative validate Product: bad size - pass");
             System.out.println(validator.validation(product).getTextErr() + '\n');
         } else System.out.println("test negative validate Product: bad size - fail");
@@ -122,8 +274,8 @@ public class TestValidator {
 
         if (!validator.validation(client).getErr()
                 && validator.validation(client).getTextErr().contains("phone - false")) {
-                    System.out.println("test negative validate client: bad phone - pass");
-                    System.out.println(validator.validation(client).getTextErr());
+            System.out.println("test negative validate client: bad phone - pass");
+            System.out.println(validator.validation(client).getTextErr());
         } else System.out.println("test negative validate client: bad phone - fail");
     }
 
@@ -158,9 +310,35 @@ public class TestValidator {
 
         if (!validator.validation(address).getErr()
                 && validator.validation(address).getTextErr().contains("HouseNum - false")) {
-                    System.out.println("test negative Validate Adress: bad houseNumber - pass");
-                    System.out.println(validator.validation(address).getTextErr());
+            System.out.println("test negative Validate Adress: bad houseNumber - pass");
+            System.out.println(validator.validation(address).getTextErr());
         } else System.out.println("test negative Validate Adress: bad houseNumber - fail");
+    }
+
+    public static void testPositiveValidatePostTicket(Validator validator) {
+
+        Address from = new Address("kiev", "starokievska", "10");
+
+        Address to = new Address("poltava", "stepnaya", "12");
+
+        Passport passport = new Passport("Petya Vasechkin", "as123456");
+        Client client = new Client("0951234567", passport);
+
+        Size size = new Size(1, 2, 3, 4);
+        Product product1 = new Product("iPhone 7", size, 50, client);
+        Product product2 = new Product("iPhone 6", size, 40, client);
+        Product product3 = new Product("iPhone 5", size, 30, client);
+        Product[] products = {product1, product2, product3};
+
+        MyDate dateStart = new MyDate(2016, 7, 12, 13, 25);
+        MyDate dateEnd = new MyDate(2016, 8, 12, 13, 30);
+
+        PostTicket postTicket = new PostTicket(client, products, from, to, dateStart, dateEnd);
+
+        if (validator.validation(postTicket).getErr()) {
+            System.out.println("test Positive Validate postTicket - pass\n");
+        } else System.out.println("test Positive Validate postTicket - fail\n");
+
     }
 
     public static void testPositiveValidateAdress(Validator validator) {
@@ -186,13 +364,12 @@ public class TestValidator {
 
         Passport passport = new Passport("Petya Vasechkin", "as123456");
         Client client = new Client("0951234567", passport);
-        Size size = new Size(1,2,3,4);
-        Product product = new Product("iPhone 7",size, 50, client);
+        Size size = new Size(1, 2, 3, 4);
+        Product product = new Product("iPhone 7", size, 50, client);
 
-        if (validator.validation(product).getErr()){
+        if (validator.validation(product).getErr()) {
             System.out.println("test positive Validate Product - pass\n");
         } else System.out.println("test Positive Validate Product - fail\n");
     }
-
 
 }

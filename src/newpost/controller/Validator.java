@@ -18,11 +18,11 @@ public class Validator implements IValidator {
     public static final int MIN_PHONE_LENGTH = 9;
     public static final int MAX_PHONE_LENGTH = 12;
 
-    ResultValidator resultValidator = new ResultValidator();
-
 
     @Override
     public ResultValidator validation(Address address) {
+
+        ResultValidator resultValidator = new ResultValidator();
 
         resultValidator.setErr(isTrueStringIsAlfabetic(address.getCity())
             && isTrueStringIsAlfabetic(address.getStreet()) && isTrueStringIsNum(address.getHouseNum()));
@@ -37,6 +37,8 @@ public class Validator implements IValidator {
     @Override
     public ResultValidator validation(Client client) {
 
+        ResultValidator resultValidator = new ResultValidator();
+
         resultValidator.setErr(isPhone(client.getPhone()) && isPassport(client.getPassport()));
 
         resultValidator.setTextErr(String.format("Client: %b\n \t phone - %b,\n \t passport: \n \t\t " +
@@ -50,10 +52,12 @@ public class Validator implements IValidator {
     @Override
     public ResultValidator validation(Product product) {
 
+        ResultValidator resultValidator = new ResultValidator();
+
         resultValidator.setErr(isNameLength(MIN_PRODUCT_NAME_LENGTH, MAX_PRODUCT_NAME_LENGTH, product.getName())
                 && product.getPrice() >= MIN_PRODUCT_PRICE && isSize(product.getSize()));
 
-        resultValidator.setTextErr(String.format("Product: %b \n \t name - %b, \n \t prise - %b, \n \t size - %b",
+        resultValidator.setTextErr(String.format("Product: %b \n \t name - %b, \n \t prise - %b, \n \t size - %b \n",
                 resultValidator.getErr(), isNameLength(MIN_PRODUCT_NAME_LENGTH, MAX_PRODUCT_NAME_LENGTH, product.getName()),
                 product.getPrice() >= MIN_PRODUCT_PRICE, isSize(product.getSize())));
 
@@ -63,6 +67,39 @@ public class Validator implements IValidator {
     @Override
     public ResultValidator validation(PostTicket postTicket) {
 
+        ResultValidator resultValidator = new ResultValidator();
+
+        resultValidator.setErr(validation(postTicket.getClient()).getErr() && validation(postTicket.getFrom()).getErr()
+                && validation(postTicket.getTo()).getErr() && isValidProductArr(postTicket.getProducts()).getErr());
+
+        resultValidator.setTextErr(validation(postTicket.getClient()).getTextErr() + validation(postTicket.getFrom()).getTextErr()
+                + validation(postTicket.getTo()).getTextErr() + isValidProductArr(postTicket.getProducts()).getTextErr());
+
+        return resultValidator;
+    }
+
+    private  ResultValidator isMyDate(MyDate myDate){
+        ResultValidator resultValidator = new ResultValidator();
+
+        return resultValidator;
+    }
+
+    private ResultValidator isValidProductArr(Product[] products){
+
+        ResultValidator resultValidator = new ResultValidator();
+        resultValidator.setTextErr("");
+        resultValidator.setErr(true);
+
+        if(products.length == 0){
+            resultValidator.setErr(false);
+            resultValidator.setTextErr("product[] is empty \n");
+        } else {
+            for (int i = 0; i < products.length; i++){
+                resultValidator.setErr(resultValidator.getErr() && validation(products[i]).getErr());
+                resultValidator.setTextErr(resultValidator.getTextErr() + "product [" + i +"] \n"
+                        + validation(products[i]).getTextErr());
+            }
+        }
         return resultValidator;
     }
 
