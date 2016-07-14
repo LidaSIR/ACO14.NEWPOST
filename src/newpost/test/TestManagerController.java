@@ -21,7 +21,7 @@ public class TestManagerController {
 
         testFilterTicketById(managerController);
 
-        //testShowTicketByClientPhone(managerController);
+        testShowTicketByClientPhone(managerController);
 
 
     }
@@ -140,7 +140,7 @@ public class TestManagerController {
 
         Passport in1 = new Passport("ER546454", "Bob Jason");
         String in2 = "0935551666";
-        Client client = new Client("0935551666", new Passport("ER546454", "ER546454Bob Jason"));
+        Client client = new Client("0935551666", new Passport("ER546454", "Bob Jason"));
 
         Address address = new Address("Kiyv", "Lesi", "2");
 

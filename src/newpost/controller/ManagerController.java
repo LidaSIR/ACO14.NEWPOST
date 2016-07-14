@@ -33,8 +33,12 @@ public class ManagerController implements IManagerController {
         Product sendProduct = new Product(product.getName(), product.getSize(), product.getPrice(), client);
         Product[] sendProductArr = {sendProduct};
 
-        return new PostTicket(client, sendProductArr, addressFrom, sendToAdress,
+        PostTicket postTicket = new PostTicket(client, sendProductArr, addressFrom, sendToAdress,
                 currentTime, estimationArrivalDate);
+
+        appDataContainer.getTickets().add(postTicket);
+
+        return postTicket;
     }
 
     @Override
@@ -50,7 +54,7 @@ public class ManagerController implements IManagerController {
     @Override
     public PostTicket showTicketByClientPhone(String phone) {
         for(PostTicket postTicket : appDataContainer.getTickets()) {
-            if(postTicket.getId().equals(String.valueOf(phone))){
+            if(postTicket.getClient().getPhone().equals(String.valueOf(phone))){
                 return postTicket;
             }
         }

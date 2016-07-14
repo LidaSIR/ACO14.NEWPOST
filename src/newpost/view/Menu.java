@@ -11,7 +11,6 @@ public class Menu {
     private Scanner scanner = new Scanner(System.in);
     private IClientController clientController;
 
-
     public void start(IClientController controller){
         clientController = controller;
 
@@ -26,11 +25,18 @@ public class Menu {
                 showShowInfoMenu();
             } else if(choice == 3){
                 showCancelTicketMenu();
+            } else if(choice == 4){
+                showAllLogs();
             } else if(choice == 0){
                 break;
             }
 
         }
+    }
+
+    private void showAllLogs() {
+        System.out.println("Show all logs: ");
+        LogContainer.showAllLogs();
     }
 
     private void showShowInfoMenu() {
@@ -116,6 +122,7 @@ public class Menu {
         System.out.println("1. Add Ticket");
         System.out.println("2. Show info");
         System.out.println("3. Cancel");
+        System.out.println("4. Show all logs");
         System.out.println("0. Exit");
     }
 }
