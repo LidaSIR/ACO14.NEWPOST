@@ -25,22 +25,24 @@ public class TestValidator {
         testNegativeValidateClientBadFullName(validator);
         testNegativeValidateClientBadPassportNum(validator);
         testNegativeValidateClientBadPhone(validator);
-        
+
 
     }
 
     // test negative bad passport number
     public static void testNegativeValidateClientBadPassportNum(Validator validator) {
 
-        Passport passport = new Passport("Petya Vasechkin", "01123456");
+        Passport passport = new Passport("Petya Vasechkin", "12123456");
         Client client = new Client("951234567", passport);
 
-        System.out.println("negative test client - bad passsport number");
-        System.out.println(client.toString());
+        System.out.println("negative test client - bad passport number \n");
+        System.out.println("test data: \n" + client.toString());
 
         if (!validator.validation(client).getErr()) {
+            System.out.println("result: \n" + validator.validation(client).getTextErr());
+            System.out.println(String.format("textErr must contain this message 'passportNumber - false': %b ",
+                    validator.validation(client).getTextErr().contains("passportNumber - false")));
             System.out.println("test Negative Validate Client - pass\n");
-            System.out.println(validator.validation(client).getTextErr());
         } else System.out.println("test Negative Validate Client - fail\n");
     }
 
@@ -50,27 +52,31 @@ public class TestValidator {
         Passport passport = new Passport("Petya12 Vasechkin", "as123456");
         Client client = new Client("951234567", passport);
 
-        System.out.println("negative test client - bad full name");
-        System.out.println(client.toString());
+        System.out.println("negative test client - bad full name \n");
+        System.out.println("test data: \n" + client.toString());
 
         if (!validator.validation(client).getErr()) {
+            System.out.println("result: \n" + validator.validation(client).getTextErr());
+            System.out.println(String.format("textErr must contain this message 'fullName - false': %b ",
+                    validator.validation(client).getTextErr().contains("fullName - false")));
             System.out.println("test Negative Validate Client - pass\n");
-            System.out.println(validator.validation(client).getTextErr());
         } else System.out.println("test Negative Validate Client - fail\n");
     }
 
-    // test negaative bad phone
+    // test negative bad phone
     public static void testNegativeValidateClientBadPhone(Validator validator) {
 
         Passport passport = new Passport("Petya Vasechkin", "as123456");
         Client client = new Client("0951237", passport);
 
-        System.out.println("negative test client - bad phone");
-        System.out.println(client.toString());
+        System.out.println("negative test client - bad phone \n");
+        System.out.println("test data: \n" + client.toString());
 
         if (!validator.validation(client).getErr()) {
+            System.out.println("result: \n" + validator.validation(client).getTextErr());
+            System.out.println(String.format("textErr must contain this message 'phone - false': %b ",
+                    validator.validation(client).getTextErr().contains("phone - false")));
             System.out.println("test Negative Validate Client - pass\n");
-            System.out.println(validator.validation(client).getTextErr());
         } else System.out.println("test Negative Validate Client - fail\n");
     }
 
