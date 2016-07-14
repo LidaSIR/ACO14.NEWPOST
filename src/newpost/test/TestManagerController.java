@@ -63,7 +63,7 @@ public class TestManagerController {
 
         Product product = new Product("ProductName", new Size(1,1,1,1), 1000, expected);
 
-        PostTicket postTicket = managerController.CreateTicket(expected, address, product);
+        PostTicket postTicket = managerController.createTicket(expected, address, product);
 
         if(!in1.getFullname().equals(postTicket.getClient().getPassport().getFullname())) {
             System.out.println("Not passed");
@@ -123,7 +123,7 @@ public class TestManagerController {
 
         Product product = new Product("ProductName", new Size(1,1,1,1), 1000, client);
 
-        PostTicket postTicketExpected = managerController.CreateTicket(client, address, product);
+        PostTicket postTicketExpected = managerController.createTicket(client, address, product);
 
         PostTicket postTicketActual = managerController.filterTicketById("1");
         if(postTicketActual.getId().equals(postTicketExpected.getId())) {
@@ -146,7 +146,7 @@ public class TestManagerController {
 
         Product product = new Product("ProductName", new Size(1,1,1,1), 1000, client);
 
-        PostTicket postTicketExpected = managerController.CreateTicket(client, address, product);
+        PostTicket postTicketExpected = managerController.createTicket(client, address, product);
 
         PostTicket postTicketActual = managerController.showTicketByClientPhone(in2);
 
