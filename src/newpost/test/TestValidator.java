@@ -22,6 +22,56 @@ public class TestValidator {
         testNegativeValidateAdressBadStreet(validator);
         testNegativeValidateAdressBadHouseNum(validator);
 
+        testNegativeValidateClientBadFullName(validator);
+        testNegativeValidateClientBadPassportNum(validator);
+        testNegativeValidateClientBadPhone(validator);
+        
+
+    }
+
+    // test negative bad passport number
+    public static void testNegativeValidateClientBadPassportNum(Validator validator) {
+
+        Passport passport = new Passport("Petya Vasechkin", "01123456");
+        Client client = new Client("951234567", passport);
+
+        System.out.println("negative test client - bad passsport number");
+        System.out.println(client.toString());
+
+        if (!validator.validation(client).getErr()) {
+            System.out.println("test Negative Validate Client - pass\n");
+            System.out.println(validator.validation(client).getTextErr());
+        } else System.out.println("test Negative Validate Client - fail\n");
+    }
+
+    // test negative bad full name
+    public static void testNegativeValidateClientBadFullName(Validator validator) {
+
+        Passport passport = new Passport("Petya12 Vasechkin", "as123456");
+        Client client = new Client("951234567", passport);
+
+        System.out.println("negative test client - bad full name");
+        System.out.println(client.toString());
+
+        if (!validator.validation(client).getErr()) {
+            System.out.println("test Negative Validate Client - pass\n");
+            System.out.println(validator.validation(client).getTextErr());
+        } else System.out.println("test Negative Validate Client - fail\n");
+    }
+
+    // test negaative bad phone
+    public static void testNegativeValidateClientBadPhone(Validator validator) {
+
+        Passport passport = new Passport("Petya Vasechkin", "as123456");
+        Client client = new Client("0951237", passport);
+
+        System.out.println("negative test client - bad phone");
+        System.out.println(client.toString());
+
+        if (!validator.validation(client).getErr()) {
+            System.out.println("test Negative Validate Client - pass\n");
+            System.out.println(validator.validation(client).getTextErr());
+        } else System.out.println("test Negative Validate Client - fail\n");
     }
 
     // test negative bad city
@@ -105,7 +155,7 @@ public class TestValidator {
         System.out.println(client.toString());
         System.out.println(String.format("product name - %s \t size: %4d %4d %4d %4d \t prise: %6d",
                 product.getName(), product.getSize().getHeight(), product.getSize().getLength(),
-                product.getSize().getHeight(), product.getSize().getWidth(),product.getPrice()));
+                product.getSize().getHeight(), product.getSize().getWidth(), product.getPrice()));
 
         if (validator.validation(product).getErr()){
             System.out.println("test positive Validate Product - pass\n");
