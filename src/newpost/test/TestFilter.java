@@ -22,6 +22,7 @@ public class TestFilter {
         //testSortingByAddress();
         //testSortingByOwnerName();
         testSortingByPrice(appDataContainer);
+        System.out.println();
         testSortingByTicketId(appDataContainer);
 
     }
@@ -87,22 +88,22 @@ public class TestFilter {
     }
 
     public static void testSortingByAddress(AppDataContainer appDataContainer) {
-        appDataContainer = new AppDataContainer();
+
 
         System.out.println("Before sorting by city:\n");
         showTickets(appDataContainer);
 
         appDataContainer.getTickets().sort(new AddressComparator());
 
-        System.out.println("\nAfter sorting by city:\n");
+        System.out.println("After sorting by city:\n");
         showTickets(appDataContainer);
     }
 
 
     public static void testSortingByOwnerName(AppDataContainer appDataContainer) {
-        appDataContainer = new AppDataContainer();
 
-        System.out.println("Before sorting by owner name");
+
+        System.out.println("\nBefore sorting by owner name:\n");
         showClients(appDataContainer);
 
         appDataContainer.getClients().sort(new OwnerNameComparator());
@@ -112,9 +113,9 @@ public class TestFilter {
     }
 
     public static void testSortingByPrice(AppDataContainer appDataContainer) {
-        appDataContainer = new AppDataContainer();
 
-        System.out.println("Before sorting by price");
+
+        System.out.println("Before sorting by price:\n");
         showTickets(appDataContainer);
 
         appDataContainer.getTickets().sort(new PriceComparator());
@@ -126,9 +127,9 @@ public class TestFilter {
 
     private static void testSortingByTicketId(AppDataContainer appDataContainer) {
 
-        appDataContainer = new AppDataContainer();
 
-        System.out.println("Before sorting by id");
+
+        System.out.println("Before sorting by id:\n");
         showTickets(appDataContainer);
 
         appDataContainer.getTickets().sort(new TicketIdComparator());
