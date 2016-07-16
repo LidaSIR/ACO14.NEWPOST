@@ -9,14 +9,14 @@ import java.util.List;
 /**
  * Created by Vladislav on 10.07.2016.
  */
-public class Logging {
+public class LogContainer {
 
     private static List<String> logs;
     private static DateFormat dateFormat;
     private static Calendar cal;
     private static String dateTime;
 
-    {
+    static {
         logs = new ArrayList<>();
         dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         cal = Calendar.getInstance();

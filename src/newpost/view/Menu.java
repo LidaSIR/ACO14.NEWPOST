@@ -4,42 +4,102 @@ import newpost.controller.IClientController;
 import newpost.model.*;
 
 import java.util.Scanner;
-/**
- * Created by Vladislav on 09.07.2016.
- */
+
 public class Menu {
     private Scanner scanner = new Scanner(System.in);
     private IClientController clientController;
 
-    public void start(IClientController controller){
+    public void start(IClientController controller) {
         clientController = controller;
+        chooseUser();
+    }
 
-        while(true){
+
+    private void chooseUser() {
+        System.out.printf("For clients choose: 1\nfor managers choose: 2 \n");
+        int user = scanner.nextInt();
+        switch (user) {
+            case 1:  // client
+                clientEnter();
+                clientMenuRun();
+                break;
+            case 2:  // manager
+                while (true) {
+                    System.out.println("Log in:");
+                    String managerLog = scanner.next();
+                    // Log in validation
+                    managerMenuRun();
+                }
+        }
+    }
+
+    private void managerMenuRun() {
+        while (true) {
             showMainMenu();
 
             int choice = scanner.nextInt();
 
-            if(choice == 1){
+            if (choice == 1) {
                 showAddTicketMenu();
-            } else if(choice == 2){
-                showShowInfoMenu();
-            } else if(choice == 3){
+            } else if (choice == 2) {
+                showInfoMenu();
+            } else if (choice == 3) {
                 showCancelTicketMenu();
-            } else if(choice == 4){
+            } else if (choice == 4) {
                 showAllLogs();
-            } else if(choice == 0){
+            } else if (choice == 0) {
                 break;
             }
+        }
+
+    }
+
+    private void clientMenuRun() {
+        while (true) {
+            showMenuClient();
+
+            int clientChoice = scanner.nextInt();
+
+            if (clientChoice == 1) {
+                showInfoMenu();
+            } else if (clientChoice == 2) {
+                showCancelTicketMenu();
+            } else if (clientChoice == 3) {
+                showPreviousActions();
+            } else if (clientChoice == 0) {
+                break;
+            }
+        }
+
+    }
+
+    private void showPreviousActions() {
+    }
+
+    private void clientEnter() {
+        while (true) {
+//            System.out.println("Input: 1.I am already have account in Art Post ");
+//            System.out.println("Input: 2. I am a new user "); //for receivers
+//            int userAnswer = scanner.nextInt();
+//            if (userAnswer != 1 && userAnswer != 2) System.out.println("Incorrect input");
+//            if (userAnswer == 1) {
+            System.out.println("Enter your login");
+            String userLog = scanner.next();
+            System.out.println("Enter your password");
+            String userPass = scanner.next();
+            break;
+            //validation
+            // if wrong System.out.println("Wrong login or password")
 
         }
     }
 
     private void showAllLogs() {
         System.out.println("Show all logs: ");
-        Logging.showAllLogs();
+        LogContainer.showAllLogs();
     }
 
-    private void showShowInfoMenu() {
+    private void showInfoMenu() {
 
         System.out.println("Show info: input product Id to show ");
         String productId;
@@ -51,7 +111,7 @@ public class Menu {
 
     private void showCancelTicketMenu() {
 
-        System.out.println("Cancel: input product Id to cancel ");
+        System.out.println("Cancel: input product Id to cancel");
         String productId;
         productId = scanner.next();
 
@@ -59,17 +119,11 @@ public class Menu {
 
     }
 
-    private void showAddTicketMenu(){
-
-        System.out.println("Client creation: input Client phone ");
-        String clientPhone;
-        clientPhone = scanner.next();
-        System.out.println("Client creation: input Client full name ");
-        String clientFullName;
-        clientFullName = scanner.next();
-        System.out.println("Client creation: input Client passport number ");
-        String clientPassportNumber;
-        clientPassportNumber = scanner.next();
+    private void showAddTicketMenu() {
+        System.out.println("Create  a client:");
+        String clientPhone = phoneInput();
+        String clientFullName = fullNameInput();
+        String clientPassportNumber = passportInput();
 
         Client client = new Client(clientPhone, new Passport(clientFullName, clientPassportNumber));
 
@@ -85,7 +139,7 @@ public class Menu {
 
         Address addrTo = new Address(addressToCity, addressToStreet, addressToHouseNum);
 
-        System.out.println("Product creation: input product name ");
+        System.out.println("Product creation: input product name(from 2 to 20 symbols) ");
         String productName;
         productName = scanner.next();
         System.out.println("Product creation: input product length ");
@@ -105,24 +159,73 @@ public class Menu {
         productPrice = scanner.next();
 
         Product product = new Product(productName,
-                                        new Size(Integer.parseInt(productLength),
-                                                Integer.parseInt(productWidth),
-                                                Integer.parseInt(productHeight),
-                                                Integer.parseInt(productWeight)),
-                                        Integer.parseInt(productPrice),
-                                        client);
+                new Size(Integer.parseInt(productLength),
+                        Integer.parseInt(productWidth),
+                        Integer.parseInt(productHeight),
+                        Integer.parseInt(productWeight)),
+                Integer.parseInt(productPrice),
+                client);
 
         PostTicket postTicket = clientController.makeOrder(client, addrTo, product);
 
         System.out.println("post ticket id is " + postTicket.getId());
     }
 
+    private String fullNameInput() {
+        String fullName;
+        while (true) {
+            System.out.println("Input  first name and family name ");
+            fullName = scanner.next();
+            if (fullName.isEmpty()) {
+                System.out.println("incorrect data");
+            } else {
+                break;
+            }
+        }
+        return fullName;
+    }
 
-    private void showMainMenu(){
+    private String passportInput() {
+        String passportNumber;
+        while (true) {
+            System.out.println("Input  passport number in format DF908754((without spaces)) ");
+            passportNumber = scanner.next();
+            if ((passportNumber.isEmpty() || passportNumber.length() > 8)) {
+                System.out.println("incorrect data");
+            } else {
+                break;
+            }
+        }
+        return passportNumber;
+    }
+
+    private String phoneInput() {
+        String phone;
+        while (true) {
+            System.out.println("Input  phone in format: +380935075645 (without spaces)");
+            phone = scanner.next();
+            if ((phone.length() > 13) || (!(phone.contains("+380")))) {
+                System.out.println("incorrect data");
+            } else {
+                break;
+            }
+        }
+        return phone;
+    }
+
+
+    private void showMainMenu() {
         System.out.println("1. Add Ticket");
         System.out.println("2. Show info");
         System.out.println("3. Cancel");
         System.out.println("4. Show all logs");
+        System.out.println("0. Exit");
+    }
+
+    private void showMenuClient() {
+        System.out.println("1.Show info");
+        System.out.println("2.Cancel");
+        System.out.println("3.Show previous activity");
         System.out.println("0. Exit");
     }
 }
