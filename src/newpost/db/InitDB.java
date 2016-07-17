@@ -1,21 +1,15 @@
 package newpost.db;
 
 import com.google.gson.Gson;
-import com.sun.deploy.association.utility.AppAssociationReader;
 import newpost.controller.Creator;
-import newpost.model.Client;
-import newpost.model.PostTicket;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.CheckedOutputStream;
 
 /**
- * Created by macaque on 16.07.2016.
+ * Helps init db by test data
+ * Use only once when we need test data
  */
 public class InitDB {
 
