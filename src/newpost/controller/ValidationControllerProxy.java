@@ -20,15 +20,14 @@ public class ValidationControllerProxy implements IClientController {
     }
 
     @Override
-    public PostTicket makeOrder(Client client, Address sendToAdress, Product product) {
+    public PostTicket makeOrder(Client client, Address sendToAddress, Product product) {
+//        if(validator.validation(client)
+//                && validator.validation(sendToAddress)
+//                && validator.validation(product)) {
+//            return controller.makeOrder(client, sendToAddress, product);
+//        }
 
-        if (validator.validation(client).getErr() && validator.validation(sendToAdress).getErr()
-                && validator.validation(product).getErr()){
-            return controller.makeOrder(client, sendToAdress, product);
-        }
-        System.out.println(validator.validation(client).getTextErr());
-        System.out.println(validator.validation(sendToAdress).getTextErr());
-        System.out.println(validator.validation(product).getTextErr());;
+        System.out.println("Error while validation");
 
         return null;
     }

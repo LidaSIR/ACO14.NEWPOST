@@ -43,10 +43,12 @@ public class ManagerController implements IManagerController {
 
     @Override
     public PostTicket filterTicketById(String ticketId) {
+
         for(PostTicket postTicket : appDataContainer.getTickets()) {
-            if(postTicket.getId().equals(String.valueOf(ticketId))){
+            if (postTicket.getId().equals(String.valueOf(ticketId))) {
                 return postTicket;
             }
+
         }
         return null;
     }

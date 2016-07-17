@@ -1,8 +1,6 @@
 package newpost.db;
 
-import newpost.model.Client;
-import newpost.model.Driver;
-import newpost.model.PostTicket;
+import newpost.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +15,16 @@ public class AppDataContainer {
     private List<Client> clients;
     private List<PostTicket> tickets;
     private List<Driver> drivers;
+    private List<Transaction> transactions;
+    private List<Employee> employees;
 
 
     public AppDataContainer() {
         clients = new ArrayList<>();
         tickets = new ArrayList<>();
         drivers = new ArrayList<>();
+        transactions = new ArrayList<>();
+        employees = new ArrayList<>();
     }
 
     public List<Client> getClients() {
@@ -35,5 +37,13 @@ public class AppDataContainer {
 
     public List<Driver> getDrivers() {
         return drivers;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
     }
 }

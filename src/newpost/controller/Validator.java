@@ -16,7 +16,7 @@ public class Validator implements IValidator {
     public static final int MIN_PRODUCT_PRICE = 0;
     public static final int MIN_PRODUCT_SIZE = 0;
     public static final int MIN_PHONE_LENGTH = 9;
-    public static final int MAX_PHONE_LENGTH = 12;
+    public static final int MAX_PHONE_LENGTH = 13; // I change from 12 to 13
 
 
     @Override

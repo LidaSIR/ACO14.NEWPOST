@@ -20,7 +20,7 @@ public class ClientController implements IClientController {
     }
 
     @Override
-    public PostTicket makeOrder(Client client, Address sendToAdress, Product product) {
+    public PostTicket makeOrder(Client client, Address sendToAddress, Product product) {
 
 
         Calendar calendar = GregorianCalendar.getInstance();
@@ -33,7 +33,7 @@ public class ClientController implements IClientController {
         Product sendProduct = new Product(product.getName(), product.getSize(), product.getPrice(), client);
         Product[] sendProductArr = {sendProduct};
 
-        PostTicket postTicket = new PostTicket(client, sendProductArr, new Address("Kiyv","Lesi","22"), sendToAdress,
+        PostTicket postTicket = new PostTicket(client, sendProductArr, new Address("Kiyv","Lesi","22"), sendToAddress,
                 currentTime, estimationArrivalDate);
 
         appDataContainer.getTickets().add(postTicket);

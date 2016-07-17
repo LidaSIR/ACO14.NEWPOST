@@ -15,9 +15,9 @@ public class LoggingClientControllerProxy implements IClientController {
     }
 
     @Override
-    public PostTicket makeOrder(Client client, Address sendToAdress, Product product) {
-        LogContainer.logEvent("Client " + client.getPassport().getFullname() + " have made order to " + sendToAdress.getCity() + " for product " + product.getName());
-        return originalClientController.makeOrder(client, sendToAdress, product);
+    public PostTicket makeOrder(Client client, Address sendToAddress, Product product) {
+        LogContainer.logEvent("Client " + client.getPassport().getFullname() + " have made order to " + sendToAddress.getCity() + " for product " + product.getName());
+        return originalClientController.makeOrder(client, sendToAddress, product);
     }
 
     @Override
