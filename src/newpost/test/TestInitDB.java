@@ -10,7 +10,7 @@ import newpost.db.InitDB;
 public class TestInitDB {
 
     public static void main(String[] args) {
-        String location = "test.txt";
+        String location = "resources/db.json";
         AppDataContainer appDataContainer = new AppDataContainer();
         InitDB.createDB(appDataContainer);
         InitDB.saveDBToFileasJson(appDataContainer, location);
