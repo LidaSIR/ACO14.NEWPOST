@@ -2,9 +2,14 @@ package newpost.controller;
 
 import newpost.db.AppDataContainer;
 import newpost.model.Employee;
+import newpost.model.PostTicket;
+import newpost.model.Report;
+import newpost.model.Transaction;
+
+import java.util.ArrayList;
 
 
-public class DirectorController implements IDirectorController, IEmployeeManagement{
+public class DirectorController implements IEmployeeManagement,IReport{
 
     private AppDataContainer appDataContainer;
 
@@ -29,9 +34,9 @@ public class DirectorController implements IDirectorController, IEmployeeManagem
     public Employee removeStaff(String fullName) {
         for(Employee employee:appDataContainer.getEmployees()){
            if(employee.getFullName().equals(fullName)) {
-
+               appDataContainer.getEmployees().remove(employee);
            }
-           }
+        }
         return null;
     }
 
@@ -45,9 +50,9 @@ public class DirectorController implements IDirectorController, IEmployeeManagem
         return null;
     }
 
-    @Override
+   @Override     //in process
 
-    public Employee[] filterStaffByPosition(String jobTitle) {
+   public Employee[] filterStaffByPosition(String jobTitle) {
 //        Object[] staff = appDataContainer.getEmployees().toArray();
 //        for(int i = 0; i < staff.length; i++){
 //            Employee iterStaff = (Employee)staff[i];
@@ -56,24 +61,25 @@ public class DirectorController implements IDirectorController, IEmployeeManagem
 //                staffByTitle[i] = iterStaff;
 //                return staffByTitle[];
 //            }
-        //  }
-         return new Employee[0];
+//          }
+      return new Employee[0];
+ }
+
+    @Override // in process
+
+    public ArrayList<Employee> showStaffInfo() {
+
+        return null;
     }
+
+
 
     @Override
+    public Report finaleReport(int income, Transaction[] transaction, Employee[] employees, PostTicket[] postTickets) {
 
-    public Employee[] showStaffInfo() {
-        Object[] staff = appDataContainer.getEmployees().toArray();
-        for(int i = 0; i < staff.length; i++){
-            Employee iterStaff = (Employee)staff[i];
-            System.out.println(iterStaff);
-        }
+        Report report = new Report(transaction,postTickets,employees, income);
+        appDataContainer.getReports().add(report);
 
-        return new Employee[0];
-    }
-
-    public void setAppDataContainer(AppDataContainer appDataContainer) {
-        this.appDataContainer = appDataContainer;
-
+        return report;
     }
 }

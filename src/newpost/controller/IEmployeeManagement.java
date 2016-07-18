@@ -2,6 +2,8 @@ package newpost.controller;
 
 import newpost.model.Employee;
 
+import java.util.ArrayList;
+
 /**
  * Created by Lida on 17.07.2016.
  */
@@ -11,5 +13,5 @@ public interface IEmployeeManagement {
      Employee removeStaff(String fullName);
      Employee findStaffByName(String fullName);
      Employee[] filterStaffByPosition(String jobTitle);
-     Employee[] showStaffInfo();
+     ArrayList<Employee> showStaffInfo();
 }

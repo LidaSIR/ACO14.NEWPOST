@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class Transaction {
 
 
-    private final String transactionId;
+    private  String transactionId;
     private static int nextTransactionId = 0;
     private int ourBankAccount;
     private int recipientAccount;
@@ -16,10 +16,12 @@ public class Transaction {
     private String paymentPurpose;
     private LocalDateTime transactionDate;
 
+    public Transaction() {
+    }
 
     public Transaction(int ourBankAccount, int recipientAccount, int transferAmount, String paymentPurpose) {
 
-        this.transactionId = String.valueOf(nextTransactionId++);
+        this.transactionId = Integer.toString(nextTransactionId++);;
         this.ourBankAccount = ourBankAccount;
         this.recipientAccount = recipientAccount;
         this.transferAmount = transferAmount;
@@ -76,12 +78,10 @@ public class Transaction {
     @Override
     public String toString() {
         return "Transaction{" +
-                "transactionId='" + transactionId + '\'' +
-                ", ourBankAccount=" + ourBankAccount +
-                ", recipientAccount=" + recipientAccount +
+                "recipientAccount=" + recipientAccount +
                 ", transferAmount=" + transferAmount +
                 ", paymentPurpose='" + paymentPurpose + '\'' +
-                ", transactionDate=" + transactionDate +
+                ", ourBankAccount=" + ourBankAccount +
                 '}';
     }
 }

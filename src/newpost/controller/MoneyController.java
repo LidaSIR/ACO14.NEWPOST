@@ -1,7 +1,7 @@
 package newpost.controller;
 
 import newpost.db.AppDataContainer;
-import newpost.model.Employee;
+import newpost.model.Salary;
 import newpost.model.Tax;
 import newpost.model.Transaction;
 import java.time.LocalDateTime;
@@ -19,8 +19,12 @@ public class MoneyController implements IMoneyController {
     }
 
     @Override
-    public Transaction paySalary(Employee employee) {
-        return null;
+    public Transaction paySalary(String employeeName, String employeeSurname, int salaryAmount, Transaction transaction) {
+        Salary salary = new Salary(transaction,salaryAmount,employeeName,employeeSurname);
+
+        appDataContainer.getTransactions().add(salary);
+
+        return salary;
     }
 
     @Override
@@ -28,6 +32,9 @@ public class MoneyController implements IMoneyController {
         Transaction taxPayment = new Transaction(transaction.getOurBankAccount(), transaction.getRecipientAccount(),
                 transaction.getTransferAmount(), transaction.getPaymentPurpose());
         Tax tax = new Tax(income,taxPayment);
+
+        appDataContainer.getTransactions().add(tax);
+
         return tax;
     }
 
@@ -42,17 +49,7 @@ public class MoneyController implements IMoneyController {
     }
 
     @Override
-    public Transaction findTransactionByDate(LocalDateTime transactionDate) {
-        for(Transaction transaction: appDataContainer.getTransactions()){
-            if(transaction.getTransactionDate().equals(String.valueOf(transactionDate))){
-                return transaction;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public Transaction findTransactionByID(Transaction transactionId) {
+    public Transaction findTransactionByID(String transactionId) {
         for(Transaction transaction: appDataContainer.getTransactions()) {
             if (transaction.getTransactionId().equals(String.valueOf(transactionId))) {
                 return transaction;

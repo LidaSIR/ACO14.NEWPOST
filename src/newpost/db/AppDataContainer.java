@@ -17,6 +17,7 @@ public class AppDataContainer {
     private List<Driver> drivers;
     private List<Transaction> transactions;
     private List<Employee> employees;
+    private List<Report> reports;
 
 
     public AppDataContainer() {
@@ -25,6 +26,7 @@ public class AppDataContainer {
         drivers = new ArrayList<>();
         transactions = new ArrayList<>();
         employees = new ArrayList<>();
+        reports = new ArrayList<>();
     }
 
     public List<Client> getClients() {
@@ -45,5 +47,13 @@ public class AppDataContainer {
 
     public List<Employee> getEmployees() {
         return employees;
+    }
+
+    public List<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(List<Report> reports) {
+        this.reports = reports;
     }
 }

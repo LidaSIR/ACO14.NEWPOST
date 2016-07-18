@@ -3,7 +3,7 @@ package newpost.model;
 /**
  * Created by Lida on 16.07.2016.
  */
-public class Tax {
+public class Tax extends Transaction {
     public static final int TAX_RATE_PERCENTAGE = 18;
     private int taxRate;
     private int income;
@@ -30,5 +30,14 @@ public class Tax {
 
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
+    }
+
+    @Override
+    public String toString() {
+        return "Tax{" +
+                "taxRate=" + taxRate +
+                ", income=" + income +
+                ", transaction=" + transaction +
+                '}';
     }
 }
