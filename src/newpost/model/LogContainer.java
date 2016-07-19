@@ -1,5 +1,7 @@
 package newpost.model;
 
+import newpost.model.exceptions.LogException;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,9 +29,13 @@ public class LogContainer {
         logs.add(dateTime + " " + event);
     }
 
-    public static void showAllLogs(){
-        for (String str : logs){
-            System.out.println(str);
+    public static void showAllLogs() throws LogException {
+        if (logs.size() > 0) {
+            for (String str : logs) {
+                System.out.println(str);
+            }
+        } else {
+            throw new LogException("There no logs to display.");
         }
     }
 }

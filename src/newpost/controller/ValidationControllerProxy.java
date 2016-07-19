@@ -4,6 +4,7 @@ import newpost.model.Address;
 import newpost.model.Client;
 import newpost.model.PostTicket;
 import newpost.model.Product;
+import newpost.model.exceptions.ValidationException;
 
 /**
  * Created by serhii on 10.07.16.
@@ -20,35 +21,69 @@ public class ValidationControllerProxy implements IClientController {
     }
 
     @Override
-    public PostTicket makeOrder(Client client, Address sendToAddress, Product product) {
-//        if(validator.validation(client)
-//                && validator.validation(sendToAddress)
-//                && validator.validation(product)) {
-//            return controller.makeOrder(client, sendToAddress, product);
-//        }
+    public PostTicket makeOrder(Client client, Address sendToAdress, Product product) throws ValidationException {
 
-        System.out.println("Error while validation");
+        String errString = "";
+        boolean errors;
 
-        return null;
+        if (!validator.validation(client).getErr()) {
+            errString += validator.validation(client).getTextErr();
+        }
+        if (!validator.validation(sendToAdress).getErr()) {
+            if (errString.length() > 0) errString += "\n";
+            errString += validator.validation(sendToAdress).getTextErr();
+        }
+        if (!validator.validation(product).getErr()) {
+            if (errString.length() > 0) errString += "\n";
+            errString += validator.validation(product).getTextErr();
+        }
+
+        if (errString.length() > 0) {
+            throw new ValidationException(errString);
+        }
+
+        return controller.makeOrder(client, sendToAdress, product);
     }
 
     @Override
-    public PostTicket showTicketById(String ticketId) {
-        return null;
+    public PostTicket showTicketById(String ticketId) throws ValidationException {
+        try {
+            int ticketID = Integer.parseInt(ticketId);
+        } catch (NumberFormatException ex){
+            throw new ValidationException("Validation: ticket Id is not numeric.");
+        }
+
+        if (ticketId.length() > 0){
+            return controller.showTicketById(ticketId);
+        } else {
+            throw new ValidationException("Validation: ticket Id is empty");
+        }
     }
 
     @Override
-    public Product showProductById(int ticketId) {
-        return null;
+    public Product showProductById(int ticketId) throws ValidationException {
+        if (ticketId > -1){
+            return controller.showProductById(ticketId);
+        } else {
+            throw new ValidationException("Validation: ticket Id is less then 0");
+        }
     }
 
     @Override
-    public boolean cancelTicket(int ticketId) {
-        return false;
+    public boolean cancelTicket(int ticketId) throws ValidationException {
+        if (ticketId > -1){
+            return controller.cancelTicket(ticketId);
+        } else {
+            throw new ValidationException("Vlidation: ticket Id is empty");
+        }
     }
 
     @Override
-    public Product takeProduct(int ticketId) {
-        return null;
+    public Product takeProduct(int ticketId) throws ValidationException {
+        if (ticketId > -1){
+            return controller.takeProduct(ticketId);
+        } else {
+            throw new ValidationException("Validation: ticket Id is less than 0");
+        }
     }
 }

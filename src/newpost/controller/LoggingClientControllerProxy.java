@@ -1,6 +1,7 @@
 package newpost.controller;
 
 import newpost.model.*;
+import newpost.model.exceptions.ValidationException;
 
 /**
  * Created by macaque on 09.07.2016.
@@ -15,31 +16,31 @@ public class LoggingClientControllerProxy implements IClientController {
     }
 
     @Override
-    public PostTicket makeOrder(Client client, Address sendToAddress, Product product) {
+    public PostTicket makeOrder(Client client, Address sendToAddress, Product product) throws ValidationException {
         LogContainer.logEvent("Client " + client.getPassport().getFullname() + " have made order to " + sendToAddress.getCity() + " for product " + product.getName());
         return originalClientController.makeOrder(client, sendToAddress, product);
     }
 
     @Override
-    public PostTicket showTicketById(String ticketId) {
+    public PostTicket showTicketById(String ticketId) throws ValidationException {
         LogContainer.logEvent("Attempt to show ticket by Id " + ticketId);
         return originalClientController.showTicketById(ticketId);
     }
 
     @Override
-    public Product showProductById(int ticketId) {
+    public Product showProductById(int ticketId) throws ValidationException {
         LogContainer.logEvent("Attempt to show product by Id " + ticketId);
         return originalClientController.showProductById(ticketId);
     }
 
     @Override
-    public boolean cancelTicket(int ticketId) {
+    public boolean cancelTicket(int ticketId) throws ValidationException {
         LogContainer.logEvent("Attempt to cancel ticket by Id " + ticketId);
         return originalClientController.cancelTicket(ticketId);
     }
 
     @Override
-    public Product takeProduct(int ticketId) {
+    public Product takeProduct(int ticketId) throws ValidationException {
         LogContainer.logEvent("Attempt to take ticket by Id " + ticketId);
         return originalClientController.takeProduct(ticketId);
     }

@@ -5,6 +5,9 @@ import newpost.controller.IEmployeeManagement;
 import newpost.controller.IManagerController;
 import newpost.controller.IMoneyController;
 import newpost.model.*;
+import newpost.model.exceptions.LogException;
+import newpost.model.exceptions.ValidationException;
+
 import java.util.Scanner;
 
 public class Menu {
@@ -14,14 +17,15 @@ public class Menu {
     private IEmployeeManagement employeeManagement;
     private IMoneyController moneyController;
 
-    public void start(IClientController controller) {
+    public void start(IClientController controller) throws ValidationException, LogException {
         clientController = controller;
+        scanner.useDelimiter("\\n");
 
         chooseUser();
-         }
+     }
 
 
-    private void chooseUser() {
+    private void chooseUser() throws ValidationException, LogException {
         System.out.printf("For clients choose: 1\nRor manager choose: 2 \nFor director choose 3 ");
         int user = scanner.nextInt();
         switch (user) {
@@ -70,7 +74,7 @@ public class Menu {
         }
     }
 
-    private void managerMenuRun() {
+    private void managerMenuRun() throws ValidationException, LogException {
         while (true) {
             showMainMenuManager();
 
@@ -97,7 +101,7 @@ public class Menu {
 
     }
 
-    private void clientMenuRun() {
+    private void clientMenuRun() throws ValidationException {
         while (true) {
             showMenuClient();
 
@@ -132,7 +136,7 @@ public class Menu {
         System.out.println("Input transfer amount");
         int transferAmount = scanner.nextInt();
         System.out.println("Input payment purpose");
-        String paymentPurpose = scanner.nextLine();
+        String paymentPurpose = scanner.next();
 
         moneyController.makePayment(ourAccount, recipientAccount,transferAmount,paymentPurpose);
         System.out.println("Payment made");
@@ -146,7 +150,7 @@ public class Menu {
         System.out.println("Input transfer amount");
         int transferAmount = scanner.nextInt();
         System.out.println("Input payment purpose");
-        String paymentPurpose = scanner.nextLine();
+        String paymentPurpose = scanner.next();
         System.out.println("Input income");
         int income = scanner.nextInt();
 
@@ -168,7 +172,7 @@ public class Menu {
         System.out.println("Input transfer amount");
         int transferAmount = scanner.nextInt();
         System.out.println("Input payment purpose");
-        String paymentPurpose = scanner.nextLine();
+        String paymentPurpose = scanner.next();
 
         moneyController.paySalary(name,surname,salary,
                 new Transaction(ourAccount,recipientAccount,transferAmount,paymentPurpose));
@@ -219,7 +223,7 @@ public class Menu {
         System.out.printf("Employee added. Employees password %d, login %s",password,login );
     }
 
-    private void showTakeProductMenu() {
+    private void showTakeProductMenu() throws ValidationException {
         System.out.println("Input ticket ID");
         String ticketId;
         ticketId = scanner.next();
@@ -231,7 +235,7 @@ public class Menu {
     private void showGetClientMenu() {
         System.out.println("Input clients phone");
         String phone;
-        phone = scanner.nextLine();
+        phone = scanner.next();
         Client client = managerController.getClient(phone);
         System.out.println(client.toString());
     }
@@ -239,27 +243,33 @@ public class Menu {
     private void showTicketByClientPhoneMenu() {
         System.out.println("Input clients phone");
         String phone;
-        phone = scanner.nextLine();
+        phone = scanner.next();
         PostTicket postTicket = managerController.showTicketByClientPhone(phone);
         System.out.println(postTicket.toString());
     }
 
     private void showAddClientMenu() {
-        System.out.println("Input clients name");
-        String name = scanner.next();
-        System.out.println("Input clients Family name");
-        String surname = scanner.next();
-        String fullName = name + surname;
-        System.out.println("Input passport number");
-        String passportNum = scanner.next();
 
-        Passport passport = new Passport(fullName, passportNum);
+        while (true) {
+            System.out.println("Input clients first name");
+            String name = scanner.next();
+            System.out.println("Input clients second name");
+            String surname = scanner.next();
+            String fullName = name + surname;
+            System.out.println("Input passport number");
+            String passportNum = scanner.next();
+            System.out.println("Input clients phone in format +380938976554");
+            String phone = scanner.next();
 
-        System.out.println("Input clients phone in format +380938976554");
-        String phone = scanner.nextLine();
-
-        Client client = managerController.addClient(passport, phone);
-        System.out.println("Client  added");
+            if (fullName.length() > 0 || passportNum.length() > 0 || phone.length() > 0) {
+                Passport passport = new Passport(fullName, passportNum);
+                Client client = managerController.addClient(passport, phone);
+                System.out.println("Client added");
+                break;
+            } else {
+                System.out.println("Either full name or passport number or phone number is empty.");
+            }
+        }
     }
 
     private void clientEnter() {
@@ -280,34 +290,48 @@ public class Menu {
         }
     }
 
-    private void showAllLogs() {
-        System.out.println("Show all logs: ");
-        LogContainer.showAllLogs();
+    private void showAllLogs() throws LogException {
+        System.out.println("Show all logs:\n");
+        try {
+            LogContainer.showAllLogs();
+        } catch (LogException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
-    private void showInfoMenu() {
+    private void showInfoMenu() throws ValidationException {
 
         System.out.println("Show info: input ticket Id");
         String ticketId;
         ticketId = scanner.next();
 
-        PostTicket postTicket = clientController.showTicketById(String.valueOf(ticketId));
-        System.out.println(postTicket.toString());
+        try {
+            PostTicket postTicket = clientController.showTicketById(String.valueOf(ticketId));
+            System.out.println(postTicket.toString());
+        } catch (ValidationException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
-    private void showCancelTicketMenu() {
+    private void showCancelTicketMenu() throws ValidationException {
 
         System.out.println("Cancel: input product Id to cancel");
         String productId;
         productId = scanner.next();
+        int prodId = Integer.parseInt(productId);
 
-        clientController.cancelTicket(Integer.parseInt(productId));
-        System.out.println("Your order is canceled");
-
+        try{
+            clientController.cancelTicket(prodId);
+            System.out.println("Your order is canceled");
+        } catch (NumberFormatException ex){
+            System.out.println("Inputted product Id is not numeric.");
+        } catch (ValidationException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
     private void showAddTicketMenu() {
-        System.out.println("Create  a client:");
+        System.out.println("Create a client:");
         String clientPhone = phoneInput();
         String clientFullName = fullNameInput();
         String clientPassportNumber = passportInput();
@@ -320,9 +344,18 @@ public class Menu {
         System.out.println("Address destination creation: input street ");
         String addressToStreet;
         addressToStreet = scanner.next();
-        System.out.println("Address destination creation: input house number ");
         String addressToHouseNum;
-        addressToHouseNum = scanner.next();
+        while (true) {
+            System.out.println("Address destination creation: input house number ");
+            addressToHouseNum = scanner.next();
+            int num;
+            try{
+                num = Integer.parseInt(addressToHouseNum);
+                break;
+            } catch (NumberFormatException ex) {
+                System.out.println("Inputted value is not numeric.");
+            }
+        }
 
         Address addrTo = new Address(addressToCity, addressToStreet, addressToHouseNum);
 
@@ -353,18 +386,21 @@ public class Menu {
                 Integer.parseInt(productPrice),
                 client);
 
-        PostTicket postTicket = clientController.makeOrder(client, addrTo, product);
-
-        System.out.println("post ticket id is " + postTicket.getId());
+        try {
+            PostTicket postTicket = clientController.makeOrder(client, addrTo, product);
+            System.out.println("Post ticket id is " + postTicket.getId());
+        } catch (ValidationException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private String fullNameInput() {
         String fullName;
         while (true) {
-            System.out.println("Input  first name and family name ");
-            fullName = scanner.nextLine();
+            System.out.println("Input first name and second name ");
+            fullName = scanner.next();
             if (fullName.isEmpty()) {
-                System.out.println("incorrect data");
+                System.out.println("Incorrect data: inputted value is empty.");
             } else {
                 break;
             }
@@ -377,8 +413,8 @@ public class Menu {
         while (true) {
             System.out.println("Input  passport number in format DF908754((without spaces)) ");
             passportNumber = scanner.next();
-            if ((passportNumber.isEmpty() || passportNumber.length() > 8)) {
-                System.out.println("incorrect data");
+            if ((passportNumber.isEmpty() || passportNumber.length() > 8 || passportNumber.contains(" "))) {
+                System.out.println("Incorrect data: either passport number is empty or length is greater than 8 characters or contains spaces..");
             } else {
                 break;
             }
@@ -389,10 +425,10 @@ public class Menu {
     private String phoneInput() {
         String phone;
         while (true) {
-            System.out.println("Input  phone in format: +380935075645 (without spaces)");
+            System.out.println("Input phone in format: +380935075645 (without spaces)");
             phone = scanner.next();
             if ((phone.length() > 13) || (!(phone.contains("+380")))) {
-                System.out.println("incorrect data");
+                System.out.println("Incorrect data: either number length is greater than 13 characters or number does not contain \"+380\".");
             } else {
                 break;
             }
@@ -405,29 +441,29 @@ public class Menu {
         System.out.println("2. Show info");
         System.out.println("3. Cancel Ticket");
         System.out.println("4. Show All Logs");
-        System.out.println("5.Show Ticket by Clients Number");
+        System.out.println("5. Show Ticket by Clients Number");
         System.out.println("6. Get Client");
         System.out.println("7. Add Client");
         System.out.println("0. Exit");
     }
 
     private void showMenuClient() {
-        System.out.println("1.Add Ticket");
-        System.out.println("2.Show info ");
-        System.out.println("3.Cancel order");
+        System.out.println("1. Add Ticket");
+        System.out.println("2. Show info ");
+        System.out.println("3. Cancel order");
         System.out.println("4. Take product");
         System.out.println("0. Exit");
     }
 
     private void showMainMenuDirector() {
         System.out.println("1. Add an Employee");
-        System.out.println("2.Fire an Employee");
+        System.out.println("2. Fire an Employee");
         System.out.println("3. Find Employee by Name");
         System.out.println("4. Show Staff Info");
-        System.out.println("5.Pay Salary");
+        System.out.println("5. Pay Salary");
         System.out.println("6. Pay tax");
         System.out.println("7. Make Payment");
-        System.out.println("8.Find Transaction by Id");
+        System.out.println("8. Find Transaction by Id");
         System.out.println("0. Exit");
 
     }
