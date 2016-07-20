@@ -119,7 +119,7 @@ public class Validator implements IValidator {
     }
 
     public boolean isPhone(String phone){
-        return phone.length() >= MIN_PHONE_LENGTH && phone.length()<= MAX_PHONE_LENGTH && isTrueStringIsNum(phone);
+        return phone.length() >= MIN_PHONE_LENGTH && phone.length()<= MAX_PHONE_LENGTH && isTrueStringIsNum(phone.substring(1));
     }
 
     private boolean isTrueStringIsAlfabetic(String str){

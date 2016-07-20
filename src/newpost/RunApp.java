@@ -27,6 +27,6 @@ public class RunApp {
         menu.start(
                 new ValidationClientControllerProxy(
                         new LoggingClientControllerProxy(
-                            new ClientController(appDataContainer)), new Validator()));
+                            new ClientController(appDataContainer)), new Validator()), managerController);
     }
 }

@@ -17,8 +17,9 @@ public class Menu {
     private IEmployeeManagement employeeManagement;
     private IMoneyController moneyController;
 
-    public void start(IClientController controller) throws ValidationException, LogException {
+    public void start(IClientController controller, IManagerController managerController) throws ValidationException, LogException {
         clientController = controller;
+        this.managerController = managerController;
         scanner.useDelimiter("\\n");
 
         chooseUser();
@@ -268,14 +269,17 @@ public class Menu {
             String passportNum = scanner.next();
             System.out.println("Input clients phone in format +380938976554");
             String phone = scanner.next();
-
-            if (fullName.length() > 0 || passportNum.length() > 0 || phone.length() > 0) {
-                Passport passport = new Passport(fullName, passportNum);
-                Client client = managerController.addClient(passport, phone);
-                System.out.println("Client added");
-                break;
-            } else {
-                System.out.println("Either full name or passport number or phone number is empty.");
+            try {
+                if ((fullName.length() > 0) && (passportNum.length() > 0) && (phone.length() > 0)) {
+                    Passport passport = new Passport(fullName, passportNum);
+                    Client client = managerController.addClient(passport, phone);
+                    System.out.println("Client added");
+                    break;
+                } else {
+                    System.out.println("Either full name or passport number or phone number is empty.");
+                }
+            } catch (ValidationException ex){
+                System.out.println(ex.getMessage());
             }
         }
     }
