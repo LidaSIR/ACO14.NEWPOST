@@ -26,7 +26,7 @@ public class Menu {
 
 
     private void chooseUser() throws ValidationException, LogException {
-        System.out.printf("For clients choose: 1\nRor manager choose: 2 \nFor director choose 3 ");
+        System.out.printf("For clients choose: 1\nRor manager choose: 2\nFor director choose 3\n");
         int user = scanner.nextInt();
         switch (user) {
             case 1:
@@ -232,15 +232,23 @@ public class Menu {
         System.out.println(product.toString());
     }
 
-    private void showGetClientMenu() {
+    private void showGetClientMenu() throws ValidationException {
         System.out.println("Input clients phone");
         String phone;
         phone = scanner.next();
-        Client client = managerController.getClient(phone);
-        System.out.println(client.toString());
+        try {
+            Client client = managerController.getClient(phone);
+            if (client != null) {
+                System.out.println(client.toString());
+            } else {
+                System.out.println("Client was not found according to inputted phone number.");
+            }
+        } catch (ValidationException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
-    private void showTicketByClientPhoneMenu() {
+    private void showTicketByClientPhoneMenu() throws ValidationException {
         System.out.println("Input clients phone");
         String phone;
         phone = scanner.next();
@@ -248,7 +256,7 @@ public class Menu {
         System.out.println(postTicket.toString());
     }
 
-    private void showAddClientMenu() {
+    private void showAddClientMenu() throws ValidationException {
 
         while (true) {
             System.out.println("Input clients first name");
@@ -307,7 +315,11 @@ public class Menu {
 
         try {
             PostTicket postTicket = clientController.showTicketById(String.valueOf(ticketId));
-            System.out.println(postTicket.toString());
+            if (postTicket != null) {
+                System.out.println(postTicket.toString());
+            } else {
+                System.out.println("No ticket was found according to inputted ticekt Id.");
+            }
         } catch (ValidationException ex){
             System.out.println(ex.getMessage());
         }
@@ -321,10 +333,13 @@ public class Menu {
         int prodId = Integer.parseInt(productId);
 
         try{
-            clientController.cancelTicket(prodId);
-            System.out.println("Your order is canceled");
+            if (clientController.cancelTicket(prodId)) {
+                System.out.println("Your order is canceled");
+            } else {
+                System.out.println("There is no order according to inputted Id.");
+            }
         } catch (NumberFormatException ex){
-            System.out.println("Inputted product Id is not numeric.");
+            System.out.println("Inputted order Id is not numeric.");
         } catch (ValidationException ex){
             System.out.println(ex.getMessage());
         }
@@ -411,9 +426,9 @@ public class Menu {
     private String passportInput() {
         String passportNumber;
         while (true) {
-            System.out.println("Input  passport number in format DF908754((without spaces)) ");
+            System.out.println("Input  passport number in format DF908754(without spaces) ");
             passportNumber = scanner.next();
-            if ((passportNumber.isEmpty() || passportNumber.length() > 8 || passportNumber.contains(" "))) {
+            if (passportNumber.isEmpty() || (passportNumber.length() > 8) || passportNumber.contains(" ")) {
                 System.out.println("Incorrect data: either passport number is empty or length is greater than 8 characters or contains spaces..");
             } else {
                 break;

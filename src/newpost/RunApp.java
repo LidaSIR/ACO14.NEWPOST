@@ -2,6 +2,10 @@ package newpost;
 
 import newpost.db.AppDataContainer;
 import newpost.controller.*;
+import newpost.model.exceptions.ControllerException;
+import newpost.model.exceptions.InputDataException;
+import newpost.model.exceptions.LogException;
+import newpost.model.exceptions.ValidationException;
 import newpost.view.Menu;
 
 /**
@@ -10,16 +14,19 @@ import newpost.view.Menu;
  */
 public class RunApp {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ControllerException, InputDataException, ValidationException, LogException {
         AppDataContainer appDataContainer = new AppDataContainer();
 
         DirectorController directorController = new DirectorController(appDataContainer);
-        ManagerController managerController = new ManagerController(appDataContainer);
+
+        IManagerController managerController = new ValidationManagerControllerProxy(
+                                                    new LoggingManagerControllerProxy(
+                                                            new ManagerController(appDataContainer)), new Validator());
 
         Menu menu = new Menu();
         menu.start(
-                new ValidationControllerProxy(
+                new ValidationClientControllerProxy(
                         new LoggingClientControllerProxy(
-                            new ClientController(appDataContainer)),new Validator()));
+                            new ClientController(appDataContainer)), new Validator()));
     }
 }

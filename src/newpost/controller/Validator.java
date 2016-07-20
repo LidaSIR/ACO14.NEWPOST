@@ -1,9 +1,6 @@
 package newpost.controller;
 
 import newpost.model.*;
-import sun.security.krb5.internal.Ticket;
-
-import java.util.Objects;
 
 /**
  * Created by sasha on 09.07.2016.
@@ -25,7 +22,7 @@ public class Validator implements IValidator {
         ResultValidator resultValidator = new ResultValidator();
 
         resultValidator.setErr(isTrueStringIsAlfabetic(address.getCity())
-            && isTrueStringIsAlfabetic(address.getStreet()) && isTrueStringIsNum(address.getHouseNum()));
+                && isTrueStringIsAlfabetic(address.getStreet()) && isTrueStringIsNum(address.getHouseNum()));
 
         resultValidator.setTextErr(String.format("Address: %b \n \t City - %b,\n \t Street - %b,\n \t HouseNum - %b.\n",
                 resultValidator.getErr(), isTrueStringIsAlfabetic(address.getCity()),
@@ -39,7 +36,7 @@ public class Validator implements IValidator {
 
         ResultValidator resultValidator = new ResultValidator();
 
-        resultValidator.setErr(isPhone(client.getPhone()) && isPassport(client.getPassport()));
+        resultValidator.setErr(isPhone(client.getPhone().substring(1)) && isPassport(client.getPassport()));
 
         resultValidator.setTextErr(String.format("Client: %b\n \t phone - %b,\n \t passport: \n \t\t " +
                         "fullName - %b,\n \t\t passportNumber - %b\n", resultValidator.getErr(),
@@ -112,7 +109,7 @@ public class Validator implements IValidator {
                 && size.getWeight() > MIN_PRODUCT_SIZE && size.getWidth() > MIN_PRODUCT_SIZE;
     }
 
-    private boolean isPassport (Passport passport){
+    public boolean isPassport (Passport passport){
         return isTrueStringIsAlfabetic(passport.getFullname()) && isPassportNumber(passport.getNumber());
     }
 
@@ -121,7 +118,7 @@ public class Validator implements IValidator {
                 && isAlfabet(numPassport.substring(0,2)) && isNum(numPassport.substring(2));
     }
 
-    private boolean isPhone(String phone){
+    public boolean isPhone(String phone){
         return phone.length() >= MIN_PHONE_LENGTH && phone.length()<= MAX_PHONE_LENGTH && isTrueStringIsNum(phone);
     }
 
@@ -129,7 +126,7 @@ public class Validator implements IValidator {
         return isNotEmpty(str) && isAlfabet(str);
     }
 
-    private boolean isTrueStringIsNum (String str){
+    private boolean     isTrueStringIsNum (String str){
         return isNotEmpty(str) && isNum(str);
     }
 

@@ -35,7 +35,7 @@ public class LogContainer {
                 System.out.println(str);
             }
         } else {
-            throw new LogException("There no logs to display.");
+            throw new LogException("There are no logs to display.");
         }
     }
 }

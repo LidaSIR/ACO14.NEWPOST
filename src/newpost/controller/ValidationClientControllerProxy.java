@@ -9,13 +9,13 @@ import newpost.model.exceptions.ValidationException;
 /**
  * Created by serhii on 10.07.16.
  */
-public class ValidationControllerProxy implements IClientController {
+public class ValidationClientControllerProxy implements IClientController {
 
     private IClientController controller;
     private IValidator validator;
 
-    public ValidationControllerProxy(IClientController controller,
-                                     IValidator validator) {
+    public ValidationClientControllerProxy(IClientController controller,
+                                           IValidator validator) {
         this.controller = controller;
         this.validator = validator;
     }
@@ -74,7 +74,7 @@ public class ValidationControllerProxy implements IClientController {
         if (ticketId > -1){
             return controller.cancelTicket(ticketId);
         } else {
-            throw new ValidationException("Vlidation: ticket Id is empty");
+            throw new ValidationException("Validation: ticket Id is empty");
         }
     }
 

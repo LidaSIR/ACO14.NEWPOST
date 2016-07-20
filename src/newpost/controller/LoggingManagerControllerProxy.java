@@ -1,0 +1,47 @@
+package newpost.controller;
+
+import com.sun.javafx.binding.Logging;
+import newpost.model.*;
+import newpost.model.exceptions.ValidationException;
+
+/**
+ * Created by Vladislav on 20.07.2016.
+ */
+public class LoggingManagerControllerProxy implements IManagerController {
+
+    private IManagerController managerController;
+
+    public LoggingManagerControllerProxy(IManagerController controller) {
+        managerController = controller;
+    }
+
+    @Override
+    public PostTicket createTicket(Client client, Address sendToAdress, Product product) throws ValidationException {
+        LogContainer.logEvent("Manager: there was an attempt to create ticket with client number " + client.getPhone() + ", destination " + sendToAdress.getCity() + ", product " + product.getName());
+        return managerController.createTicket(client, sendToAdress, product);
+    }
+
+    @Override
+    public PostTicket filterTicketById(String ticketId) throws ValidationException {
+        LogContainer.logEvent("Manager: there was an attempt to filter ticket by Id " + ticketId);
+        return managerController.filterTicketById(ticketId);
+    }
+
+    @Override
+    public PostTicket showTicketByClientPhone(String phone) throws ValidationException {
+        LogContainer.logEvent("Manager: there was an attempt to show ticket by client phone " + phone);
+        return managerController.showTicketByClientPhone(phone);
+    }
+
+    @Override
+    public Client getClient(String phone) throws ValidationException {
+        LogContainer.logEvent("Manager: there was an attempt to get client by phone " + phone);
+        return managerController.getClient(phone);
+    }
+
+    @Override
+    public Client addClient(Passport passport, String phone) throws ValidationException {
+        LogContainer.logEvent("Manager: there was an attempt to add client with passport " + passport.getNumber() + " and phone " + phone);
+        return managerController.addClient(passport, phone);
+    }
+}
