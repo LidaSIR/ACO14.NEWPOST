@@ -1,10 +1,10 @@
 package newpost.controller;
 
 import newpost.db.AppDataContainer;
-import newpost.model.Employee;
-import newpost.model.PostTicket;
-import newpost.model.Report;
-import newpost.model.Transaction;
+import newpost.model.office.Employee;
+import newpost.model.office.PostTicket;
+import newpost.model.money.Report;
+import newpost.model.money.Transaction;
 
 import java.util.ArrayList;
 

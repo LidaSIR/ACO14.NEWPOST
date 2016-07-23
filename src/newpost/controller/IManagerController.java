@@ -1,14 +1,19 @@
 package newpost.controller;
 
-import newpost.model.*;
+import newpost.exceptions.ValidationException;
+import newpost.model.common.Address;
+import newpost.model.common.Passport;
+import newpost.model.common.Product;
+import newpost.model.office.Client;
+import newpost.model.office.PostTicket;
 
 /**
  * Created by macaque on 10.07.2016.
  */
 public interface IManagerController {
-    PostTicket createTicket(Client client, Address sendToAdress, Product product);
-    PostTicket filterTicketById(String ticketId);
-    PostTicket showTicketByClientPhone(String phone);
-    Client getClient(String phone);
-    Client addClient (Passport passport, String phone);
+    PostTicket createTicket(Client client, Address sendToAdress, Product product) throws ValidationException;
+    PostTicket filterTicketById(String ticketId) throws ValidationException;
+    PostTicket showTicketByClientPhone(String phone) throws ValidationException;
+    Client getClient(String phone) throws ValidationException;
+    Client addClient (Passport passport, String phone) throws ValidationException;
 }

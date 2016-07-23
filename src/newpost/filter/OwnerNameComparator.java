@@ -1,6 +1,6 @@
 package newpost.filter;
 
-import newpost.model.Client;
+import newpost.model.office.Client;
 
 import java.util.Comparator;
 

@@ -4,9 +4,17 @@ import newpost.controller.IClientController;
 import newpost.controller.IEmployeeManagement;
 import newpost.controller.IManagerController;
 import newpost.controller.IMoneyController;
-import newpost.model.*;
-import newpost.model.exceptions.LogException;
-import newpost.model.exceptions.ValidationException;
+import newpost.exceptions.LogException;
+import newpost.exceptions.ValidationException;
+import newpost.model.common.Address;
+import newpost.model.common.Passport;
+import newpost.model.common.Product;
+import newpost.model.common.Size;
+import newpost.model.money.Transaction;
+import newpost.model.office.Client;
+import newpost.model.office.Employee;
+import newpost.model.office.PostTicket;
+import newpost.utils.logging.LogContainer;
 
 import java.util.Scanner;
 

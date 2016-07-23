@@ -1,8 +1,6 @@
 package newpost.filter;
 
-import newpost.model.Address;
-import newpost.model.Client;
-import newpost.model.PostTicket;
+import newpost.model.office.PostTicket;
 
 import java.util.Comparator;
 
