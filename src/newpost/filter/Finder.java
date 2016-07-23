@@ -11,9 +11,9 @@ import java.util.List;
  * Created by Serhii Fursenko on 16.07.2016.
  * fyrsenko@gmail.com
  */
-public abstract class Finder {
+public final class Finder {
 
-    public List<PostTicket> findByPrice(AppDataContainer appDataContainer, int price) {
+    public static List<PostTicket> findByPrice(AppDataContainer appDataContainer, int price) {
         List<PostTicket> list = new ArrayList<>();
         for(PostTicket postTicket: appDataContainer.getTickets()) {
             if(postTicket.getPrice()==price) {
@@ -23,7 +23,7 @@ public abstract class Finder {
         return  list;
     }
 
-    public List<PostTicket> findByAddress(AppDataContainer appDataContainer, Address address) {
+    public static List<PostTicket> findByAddress(AppDataContainer appDataContainer, Address address) {
         List<PostTicket> list = new ArrayList<>();
         for(PostTicket postTicket: appDataContainer.getTickets()) {
             if(postTicket.getFrom().getCity().equals(address.getCity()) &&
@@ -35,7 +35,7 @@ public abstract class Finder {
         return  list;
     }
 
-    public List<PostTicket> findByCity(AppDataContainer appDataContainer, String city) {
+    public static List<PostTicket> findByCity(AppDataContainer appDataContainer, String city) {
         List<PostTicket> list = new ArrayList<>();
         for(PostTicket postTicket: appDataContainer.getTickets()) {
             if(postTicket.getFrom().getCity().equals(city)) {
@@ -45,7 +45,7 @@ public abstract class Finder {
         return  list;
     }
 
-    public List<PostTicket> findByOwnerName(AppDataContainer appDataContainer, String name) {
+    public static List<PostTicket> findByOwnerName(AppDataContainer appDataContainer, String name) {
         List<PostTicket> list = new ArrayList<>();
         for(PostTicket postTicket: appDataContainer.getTickets()) {
             if(postTicket.getClient().getPassport().getFullname().equals(name)) {
@@ -55,7 +55,7 @@ public abstract class Finder {
         return  list;
     }
 
-    public PostTicket findById(AppDataContainer appDataContainer, String id) {
+    public static PostTicket findById(AppDataContainer appDataContainer, String id) {
         for(PostTicket postTicket: appDataContainer.getTickets()) {
             if(postTicket.getId().equals(id)) {
                 return postTicket;
