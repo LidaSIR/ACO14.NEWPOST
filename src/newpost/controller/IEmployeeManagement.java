@@ -1,6 +1,6 @@
 package newpost.controller;
 
-import newpost.model.Employee;
+import newpost.model.office.Employee;
 
 import java.util.ArrayList;
 

@@ -1,10 +1,9 @@
 package newpost.controller;
 
 import newpost.db.AppDataContainer;
-import newpost.model.Salary;
-import newpost.model.Tax;
-import newpost.model.Transaction;
-import java.time.LocalDateTime;
+import newpost.model.money.Salary;
+import newpost.model.money.Tax;
+import newpost.model.money.Transaction;
 
 
 /**

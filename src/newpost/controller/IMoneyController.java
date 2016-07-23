@@ -1,10 +1,7 @@
 package newpost.controller;
 
-import newpost.model.Employee;
-import newpost.model.Tax;
-import newpost.model.Transaction;
-
-import java.time.LocalDateTime;
+import newpost.model.money.Tax;
+import newpost.model.money.Transaction;
 
 /**
  * Created by Lida on 16.07.2016.

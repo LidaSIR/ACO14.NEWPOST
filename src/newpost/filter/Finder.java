@@ -1,9 +1,8 @@
 package newpost.filter;
 
 import newpost.db.AppDataContainer;
-import newpost.model.Address;
-import newpost.model.Client;
-import newpost.model.PostTicket;
+import newpost.model.common.Address;
+import newpost.model.office.PostTicket;
 
 import java.util.ArrayList;
 import java.util.List;

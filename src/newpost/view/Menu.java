@@ -4,9 +4,17 @@ import newpost.controller.IClientController;
 import newpost.controller.IEmployeeManagement;
 import newpost.controller.IManagerController;
 import newpost.controller.IMoneyController;
-import newpost.model.*;
-import newpost.model.exceptions.LogException;
-import newpost.model.exceptions.ValidationException;
+import newpost.exceptions.LogException;
+import newpost.exceptions.ValidationException;
+import newpost.model.common.Address;
+import newpost.model.common.Passport;
+import newpost.model.common.Product;
+import newpost.model.common.Size;
+import newpost.model.money.Transaction;
+import newpost.model.office.Client;
+import newpost.model.office.Employee;
+import newpost.model.office.PostTicket;
+import newpost.utils.logging.LogContainer;
 
 import java.util.Scanner;
 
@@ -17,8 +25,9 @@ public class Menu {
     private IEmployeeManagement employeeManagement;
     private IMoneyController moneyController;
 
-    public void start(IClientController controller) throws ValidationException, LogException {
+    public void start(IClientController controller, IManagerController managerController) throws ValidationException, LogException {
         clientController = controller;
+        this.managerController = managerController;
         scanner.useDelimiter("\\n");
 
         chooseUser();
@@ -26,7 +35,7 @@ public class Menu {
 
 
     private void chooseUser() throws ValidationException, LogException {
-        System.out.printf("For clients choose: 1\nRor manager choose: 2 \nFor director choose 3 ");
+        System.out.printf("For clients choose: 1\nRor manager choose: 2\nFor director choose 3\n");
         int user = scanner.nextInt();
         switch (user) {
             case 1:
@@ -231,15 +240,23 @@ public class Menu {
         System.out.println(product.toString());
     }
 
-    private void showGetClientMenu() {
+    private void showGetClientMenu() throws ValidationException {
         System.out.println("Input clients phone");
         String phone;
         phone = scanner.next();
-        Client client = managerController.getClient(phone);
-        System.out.println(client.toString());
+        try {
+            Client client = managerController.getClient(phone);
+            if (client != null) {
+                System.out.println(client.toString());
+            } else {
+                System.out.println("Client was not found according to inputted phone number.");
+            }
+        } catch (ValidationException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
-    private void showTicketByClientPhoneMenu() {
+    private void showTicketByClientPhoneMenu() throws ValidationException {
         System.out.println("Input clients phone");
         String phone;
         phone = scanner.next();
@@ -247,7 +264,7 @@ public class Menu {
         System.out.println(postTicket.toString());
     }
 
-    private void showAddClientMenu() {
+    private void showAddClientMenu() throws ValidationException {
 
         while (true) {
             System.out.println("Input clients first name");
@@ -259,14 +276,17 @@ public class Menu {
             String passportNum = scanner.next();
             System.out.println("Input clients phone in format +380938976554");
             String phone = scanner.next();
-
-            if (fullName.length() > 0 || passportNum.length() > 0 || phone.length() > 0) {
-                Passport passport = new Passport(fullName, passportNum);
-                Client client = managerController.addClient(passport, phone);
-                System.out.println("Client added");
-                break;
-            } else {
-                System.out.println("Either full name or passport number or phone number is empty.");
+            try {
+                if ((fullName.length() > 0) && (passportNum.length() > 0) && (phone.length() > 0)) {
+                    Passport passport = new Passport(fullName, passportNum);
+                    Client client = managerController.addClient(passport, phone);
+                    System.out.println("Client added");
+                    break;
+                } else {
+                    System.out.println("Either full name or passport number or phone number is empty.");
+                }
+            } catch (ValidationException ex){
+                System.out.println(ex.getMessage());
             }
         }
     }
@@ -306,7 +326,11 @@ public class Menu {
 
         try {
             PostTicket postTicket = clientController.showTicketById(String.valueOf(ticketId));
-            System.out.println(postTicket.toString());
+            if (postTicket != null) {
+                System.out.println(postTicket.toString());
+            } else {
+                System.out.println("No ticket was found according to inputted ticekt Id.");
+            }
         } catch (ValidationException ex){
             System.out.println(ex.getMessage());
         }
@@ -320,10 +344,13 @@ public class Menu {
         int prodId = Integer.parseInt(productId);
 
         try{
-            clientController.cancelTicket(prodId);
-            System.out.println("Your order is canceled");
+            if (clientController.cancelTicket(prodId)) {
+                System.out.println("Your order is canceled");
+            } else {
+                System.out.println("There is no order according to inputted Id.");
+            }
         } catch (NumberFormatException ex){
-            System.out.println("Inputted product Id is not numeric.");
+            System.out.println("Inputted order Id is not numeric.");
         } catch (ValidationException ex){
             System.out.println(ex.getMessage());
         }
@@ -410,9 +437,9 @@ public class Menu {
     private String passportInput() {
         String passportNumber;
         while (true) {
-            System.out.println("Input  passport number in format DF908754((without spaces)) ");
+            System.out.println("Input  passport number in format DF908754(without spaces) ");
             passportNumber = scanner.next();
-            if ((passportNumber.isEmpty() || passportNumber.length() > 8 || passportNumber.contains(" "))) {
+            if (passportNumber.isEmpty() || (passportNumber.length() > 8) || passportNumber.contains(" ")) {
                 System.out.println("Incorrect data: either passport number is empty or length is greater than 8 characters or contains spaces..");
             } else {
                 break;

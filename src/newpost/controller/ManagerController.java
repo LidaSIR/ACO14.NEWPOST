@@ -2,7 +2,12 @@ package newpost.controller;
 
 
 import newpost.db.AppDataContainer;
-import newpost.model.*;
+import newpost.model.common.Address;
+import newpost.model.common.MyDate;
+import newpost.model.common.Passport;
+import newpost.model.common.Product;
+import newpost.model.office.Client;
+import newpost.model.office.PostTicket;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -16,7 +21,7 @@ public class ManagerController implements IManagerController {
     public static final int DAYS_IN_ROAD = 2;
 
     private AppDataContainer appDataContainer;
-    private Address addressFrom = Creator.addressCreator();
+    private Address addressFrom = DataInitFactory.createAddress();
     public ManagerController(AppDataContainer appDataContainer) {
         this.appDataContainer = appDataContainer;
     }

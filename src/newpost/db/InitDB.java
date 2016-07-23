@@ -1,7 +1,7 @@
 package newpost.db;
 
 import com.google.gson.Gson;
-import newpost.controller.Creator;
+import newpost.controller.DataInitFactory;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,10 +20,10 @@ public class InitDB {
     public static void createDB(AppDataContainer appDataContainer){
 
         for (int i = 0; i < COUNT; i++) {
-            appDataContainer.getClients().add(Creator.clientCreator());
-            appDataContainer.getTickets().add(Creator.ticketCreator(
+            appDataContainer.getClients().add(DataInitFactory.clientCreator());
+            appDataContainer.getTickets().add(DataInitFactory.ticketCreator(
                     appDataContainer.getClients().get(
-                            (int)(Math.random()*appDataContainer.getClients().size()))));
+                            (int) (Math.random() * appDataContainer.getClients().size()))));
         }
     }
 
