@@ -19,11 +19,12 @@ import newpost.utils.logging.LogContainer;
 import java.util.Scanner;
 
 public class Menu {
-    private Scanner scanner = new Scanner(System.in);
-    private IClientController clientController;
-    private IManagerController managerController;
-    private IEmployeeManagement employeeManagement;
-    private IMoneyController moneyController;
+    protected final MenuManager menuManager = new MenuManager(this);
+    protected Scanner scanner = new Scanner(System.in);
+    protected IClientController clientController;
+    protected IManagerController managerController;
+    protected IEmployeeManagement employeeManagement;
+    protected IMoneyController moneyController;
 
     public void start(IClientController controller, IManagerController managerController) throws ValidationException, LogException {
         clientController = controller;
@@ -34,7 +35,7 @@ public class Menu {
      }
 
 
-    private void chooseUser() throws ValidationException, LogException {
+    protected void chooseUser() throws ValidationException, LogException {
         System.out.printf("For clients choose: 1\nRor manager choose: 2\nFor director choose 3\n");
         int user = scanner.nextInt();
         switch (user) {
@@ -47,7 +48,7 @@ public class Menu {
                     System.out.println("Log in:");
                     String managerLog = scanner.next();
                     // Log in validation
-                    managerMenuRun();
+                    menuManager.managerMenuRun();
                 }
             case 3:
                 System.out.println("Log in:");
@@ -57,7 +58,7 @@ public class Menu {
         }
     }
 
-    private void directorMenuRun() {
+    protected void directorMenuRun() {
         while (true) {
             showMainMenuDirector();
             int choice = scanner.nextInt();
@@ -68,7 +69,7 @@ public class Menu {
             } else if (choice == 3) {
                 showFindStaffByNameMenu();
             } else if (choice == 4) {
-                showStaffInfo();      // in process
+                showStaffInfo();
             } else if (choice == 5) {
                 showPaySalaryMenu();
             } else if (choice == 6) {
@@ -83,34 +84,12 @@ public class Menu {
         }
     }
 
-    private void managerMenuRun() throws ValidationException, LogException {
-        while (true) {
-            showMainMenuManager();
+    protected void managerMenuRun() throws ValidationException, LogException {
 
-            int choice = scanner.nextInt();
-
-            if (choice == 1) {
-                showAddTicketMenu();
-            } else if (choice == 2) {
-                showInfoMenu();
-            } else if (choice == 3) {
-                showCancelTicketMenu();
-            } else if (choice == 4) {
-                showAllLogs();
-            } else if (choice == 5) {
-                showTicketByClientPhoneMenu();
-            } else if (choice == 6) {
-                showGetClientMenu();
-            } else if (choice == 7) {
-                showAddClientMenu();
-            } else if (choice == 0) {
-                break;
-            }
-        }
-
+        menuManager.managerMenuRun();
     }
 
-    private void clientMenuRun() throws ValidationException {
+    protected void clientMenuRun() throws ValidationException {
         while (true) {
             showMenuClient();
 
@@ -129,7 +108,7 @@ public class Menu {
             }
         }
     }
-    private void showFindTransactionByIdMenu() {
+    protected void showFindTransactionByIdMenu() {
         System.out.println("Input transaction Id");
         String id = scanner.next();
         Transaction transaction = moneyController.findTransactionByID(id);
@@ -137,7 +116,7 @@ public class Menu {
 
     }
 
-    private void showMakePaymentMenu() {
+    protected void showMakePaymentMenu() {
         System.out.println("Input ART-Post bank account");
         int ourAccount = scanner.nextInt();
         System.out.println("Input recipient bank account");
@@ -151,7 +130,7 @@ public class Menu {
         System.out.println("Payment made");
     }
 
-    private void showPayTaxMenu() {
+    protected void showPayTaxMenu() {
         System.out.println("Input ART-Post bank account");
         int ourAccount = scanner.nextInt();
         System.out.println("Input recipient bank account");
@@ -167,7 +146,7 @@ public class Menu {
         System.out.println("Tax paid");
     }
 
-    private void showPaySalaryMenu() {
+    protected void showPaySalaryMenu() {
         System.out.println("Input employees name");
         String name = scanner.next();
         System.out.println("Input employees surname");
@@ -187,12 +166,11 @@ public class Menu {
                 new Transaction(ourAccount,recipientAccount,transferAmount,paymentPurpose));
     }
 
-    // TODO: 18.07.2016
-    private void showStaffInfo() {
+    protected void showStaffInfo() {
         employeeManagement.showStaffInfo();
     }
 
-    private void showFindStaffByNameMenu() {
+    protected void showFindStaffByNameMenu() {
         System.out.println("Input employees name");
         String name = scanner.next();
         System.out.println("Input employees surname");
@@ -203,7 +181,7 @@ public class Menu {
         System.out.println(employee.toString());
     }
 
-    private void showRemoveStaffMenu() {
+    protected void showRemoveStaffMenu() {
         System.out.println("Input employees name");
         String name = scanner.next();
         System.out.println("Input employees surname");
@@ -213,7 +191,7 @@ public class Menu {
         employeeManagement.removeStaff(fullName);
         System.out.println("Employee removed");
     }
-    private void showAddStaffMenu() {
+    protected void showAddStaffMenu() {
         System.out.println("Input job title");
         String jobTitle = scanner.next();
         System.out.println("Input employees name");
@@ -232,7 +210,7 @@ public class Menu {
         System.out.printf("Employee added. Employees password %d, login %s",password,login );
     }
 
-    private void showTakeProductMenu() throws ValidationException {
+    protected void showTakeProductMenu() throws ValidationException {
         System.out.println("Input ticket ID");
         String ticketId;
         ticketId = scanner.next();
@@ -241,7 +219,7 @@ public class Menu {
         System.out.println(product.toString());
     }
 
-    private void showGetClientMenu() throws ValidationException {
+    protected void showGetClientMenu() throws ValidationException {
         System.out.println("Input clients phone");
         String phone;
         phone = scanner.next();
@@ -257,7 +235,7 @@ public class Menu {
         }
     }
 
-    private void showTicketByClientPhoneMenu() throws ValidationException {
+    protected void showTicketByClientPhoneMenu() throws ValidationException {
         System.out.println("Input clients phone");
         String phone;
         phone = scanner.next();
@@ -265,7 +243,7 @@ public class Menu {
         System.out.println(postTicket.toString());
     }
 
-    private void showAddClientMenu() throws ValidationException {
+    protected void showAddClientMenu() throws ValidationException {
 
         while (true) {
             System.out.println("Input clients first name");
@@ -292,7 +270,7 @@ public class Menu {
         }
     }
 
-    private void clientEnter() {
+    protected void clientEnter() {
         while (true) {
 //            System.out.println("Input: 1.I am already have account in Art Post ");
 //            System.out.println("Input: 2. I am a new user "); //for receivers
@@ -310,7 +288,7 @@ public class Menu {
         }
     }
 
-    private void showAllLogs() throws LogException {
+    protected void showAllLogs() throws LogException {
         System.out.println("Show all logs:\n");
         try {
             LogContainer.showAllLogs();
@@ -319,7 +297,7 @@ public class Menu {
         }
     }
 
-    private void showInfoMenu() throws ValidationException {
+    protected void showInfoMenu() throws ValidationException {
 
         System.out.println("Show info: input ticket Id");
         String ticketId;
@@ -337,7 +315,7 @@ public class Menu {
         }
     }
 
-    private void showCancelTicketMenu() throws ValidationException {
+    protected void showCancelTicketMenu() throws ValidationException {
 
         System.out.println("Cancel: input product Id to cancel");
         String productId;
@@ -357,7 +335,7 @@ public class Menu {
         }
     }
 
-    private void showAddTicketMenu() {
+    protected void showAddTicketMenu() {
         System.out.println("Create a client:");
         String clientPhone = phoneInput();
         String clientFullName = fullNameInput();
@@ -421,7 +399,7 @@ public class Menu {
         }
     }
 
-    private String fullNameInput() {
+    protected String fullNameInput() {
         String fullName;
         while (true) {
             System.out.println("Input first name and second name ");
@@ -435,7 +413,7 @@ public class Menu {
         return fullName;
     }
 
-    private String passportInput() {
+    protected String passportInput() {
         String passportNumber;
         while (true) {
             System.out.println("Input  passport number in format DF908754(without spaces) ");
@@ -449,7 +427,7 @@ public class Menu {
         return passportNumber;
     }
 
-    private String phoneInput() {
+    protected String phoneInput() {
         String phone;
         while (true) {
             System.out.println("Input phone in format: +380935075645 (without spaces)");
@@ -463,7 +441,7 @@ public class Menu {
         return phone;
     }
 
-    private void showMainMenuManager() {
+    protected void showMainMenuManager() {
         System.out.println("1. Add Ticket");
         System.out.println("2. Show info");
         System.out.println("3. Cancel Ticket");
@@ -474,7 +452,7 @@ public class Menu {
         System.out.println("0. Exit");
     }
 
-    private void showMenuClient() {
+    protected void showMenuClient() {
         System.out.println("1. Add Ticket");
         System.out.println("2. Show info ");
         System.out.println("3. Cancel order");
@@ -482,7 +460,7 @@ public class Menu {
         System.out.println("0. Exit");
     }
 
-    private void showMainMenuDirector() {
+    protected void showMainMenuDirector() {
         System.out.println("1. Add an Employee");
         System.out.println("2. Fire an Employee");
         System.out.println("3. Find Employee by Name");
@@ -493,5 +471,9 @@ public class Menu {
         System.out.println("8. Find Transaction by Id");
         System.out.println("0. Exit");
 
+    }
+
+    public Scanner getScanner() {
+        return scanner;
     }
 }
