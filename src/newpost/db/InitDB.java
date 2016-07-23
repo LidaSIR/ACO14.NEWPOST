@@ -3,9 +3,7 @@ package newpost.db;
 import com.google.gson.Gson;
 import newpost.controller.Creator;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 /**
  * Helps init db by test data
@@ -17,7 +15,7 @@ public class InitDB {
     static final int COUNT = 10;
 
 
-    public static void createDB(AppDataContainer appDataContainer){
+    public static void initDB(AppDataContainer appDataContainer){
 
         for (int i = 0; i < COUNT; i++) {
             appDataContainer.getClients().add(Creator.clientCreator());
@@ -27,12 +25,12 @@ public class InitDB {
         }
     }
 
-    public static void saveDBToFileasJson(AppDataContainer appDataContainer, String location){
+    public static void saveDBToFileAsJson(AppDataContainer appDataContainer, String location){
         Gson gson = new Gson();
         String resJson = gson.toJson(appDataContainer);
         try {
-            PrintWriter printWriter = new PrintWriter(new FileWriter(location));
-            printWriter.println(resJson);
+            PrintWriter printWriter = new PrintWriter(new FileWriter(location),true);
+            printWriter.println(resJson +  "\n");
             System.out.println("write was ok");
             printWriter.flush();
         } catch (IOException e) {
@@ -41,8 +39,25 @@ public class InitDB {
 
     }
 
-    public void loadDB(){
+    public static String loadDB(String location) throws IOException {
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(location));
+            return bufferedReader.readLine();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+        return null;
+    }
 
+    public static AppDataContainer loadDBAsJson(String location) throws IOException {
+        Gson gson = new Gson();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(location));
+            return gson.fromJson(bufferedReader.readLine(), AppDataContainer.class);
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+        return null;
     }
 
 
