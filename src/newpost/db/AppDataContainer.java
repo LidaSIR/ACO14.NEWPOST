@@ -1,6 +1,11 @@
 package newpost.db;
 
-import newpost.model.*;
+import newpost.model.money.Report;
+import newpost.model.money.Transaction;
+import newpost.model.office.Client;
+import newpost.model.office.Driver;
+import newpost.model.office.Employee;
+import newpost.model.office.PostTicket;
 
 import java.util.ArrayList;
 import java.util.List;

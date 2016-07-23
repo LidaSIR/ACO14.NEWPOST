@@ -1,11 +1,16 @@
 package newpost;
 
+import newpost.controller.proxy.LoggingClientControllerProxy;
+import newpost.controller.proxy.LoggingManagerControllerProxy;
 import newpost.db.AppDataContainer;
 import newpost.controller.*;
-import newpost.model.exceptions.ControllerException;
-import newpost.model.exceptions.InputDataException;
-import newpost.model.exceptions.LogException;
-import newpost.model.exceptions.ValidationException;
+import newpost.exceptions.ControllerException;
+import newpost.exceptions.InputDataException;
+import newpost.exceptions.LogException;
+import newpost.exceptions.ValidationException;
+import newpost.validator.ValidationClientControllerProxy;
+import newpost.validator.ValidationManagerControllerProxy;
+import newpost.validator.Validator;
 import newpost.view.Menu;
 
 /**
