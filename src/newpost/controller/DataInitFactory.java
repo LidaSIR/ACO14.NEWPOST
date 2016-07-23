@@ -12,6 +12,9 @@ import java.util.GregorianCalendar;
  */
 public class DataInitFactory {
 
+    public static final int MIN_PASSPORT_NUMBER = 100000;
+    public static final int RAND_PASSPORT_NUMBER = 800000;
+    public static final int RAND_HOUSE_NUM = 55;
     private static int userNumber;
 
     public static Address createAddress() {
@@ -21,22 +24,21 @@ public class DataInitFactory {
 
         String randCity = city[(int) (Math.random() * city.length)];
         String randStreet = street[(int) (Math.random() * city.length)];
-        String randHouseNum = String.valueOf((int) (Math.random() * 55));
+        String randHouseNum = String.valueOf((int) (Math.random() * RAND_HOUSE_NUM));
 
         return new Address(randCity, randStreet, randHouseNum);
     }
 
     public static Passport passportCreator() {
         userNumber++;
-        int passNumber = (int) (100000 + Math.random() * 800000);
-        return new Passport("User #" + userNumber, "CM323453");
+        int passNumber = (int) (MIN_PASSPORT_NUMBER + Math.random() * RAND_PASSPORT_NUMBER);
+        return new Passport("User #" + userNumber, "CM" + String.valueOf(passNumber));
 
     }
 
     public static Client clientCreator() {
 
-
-        return new Client("+34342434234", passportCreator());
+        return new Client("+380501535433", passportCreator());
     }
 
     public static Product[] productsCreator() {
