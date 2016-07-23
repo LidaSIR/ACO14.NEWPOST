@@ -11,9 +11,9 @@ import java.util.List;
  * Created by Serhii Fursenko on 16.07.2016.
  * fyrsenko@gmail.com
  */
-public abstract class Finder {
+public final class Finder {
 
-    public List<PostTicket> findByPrice(AppDataContainer appDataContainer, int price) {
+    public   List<PostTicket> findByPrice(AppDataContainer appDataContainer, int price) {
         List<PostTicket> list = new ArrayList<>();
         for(PostTicket postTicket: appDataContainer.getTickets()) {
             if(postTicket.getPrice()==price) {
