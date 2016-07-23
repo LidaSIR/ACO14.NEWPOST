@@ -2,6 +2,8 @@ package newpost.test.utils;
 
 import newpost.db.AppDataContainer;
 import newpost.db.InitDB;
+import newpost.utils.logging.LogContainer;
+import sun.rmi.runtime.Log;
 
 import java.io.IOException;
 
@@ -14,7 +16,11 @@ public class TestInitDB {
         String location = "resources/db.json";
         AppDataContainer appDataContainer = new AppDataContainer();
         InitDB.initDB(appDataContainer);
-        InitDB.saveDBToFileAsJson(appDataContainer, location);
+        InitDB.saveDBToFileAsJson(appDataContainer);
+        String logs = "olololo";
+        //InitDB.saveLogsToFile(logs);
+      //  LogContainer logContainer = new LogContainer();
+        LogContainer.logEvent(logs);
 
         try {
             String res = InitDB.loadDB(location);

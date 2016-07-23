@@ -1,5 +1,6 @@
 package newpost.utils.logging;
 
+import newpost.db.InitDB;
 import newpost.exceptions.LogException;
 
 import java.text.DateFormat;
@@ -24,6 +25,7 @@ public class LogContainer {
     public static void logEvent(String event) {
         dateTime = dateFormat.format(cal.getTime());
         logs.add(dateTime + " " + event);
+        InitDB.saveLogsToFile(String.valueOf(dateTime) + " " + event);
     }
 
     public static void showAllLogs() throws LogException {
