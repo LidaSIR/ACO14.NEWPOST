@@ -59,7 +59,7 @@ public class Menu {
             } else if (choice == 3) {
                 showFindStaffByNameMenu();
             } else if (choice == 4) {
-                showStaffInfo();      // in process
+                showStaffInfo();
             } else if (choice == 5) {
                 showPaySalaryMenu();
             } else if (choice == 6) {
@@ -178,7 +178,6 @@ public class Menu {
                 new Transaction(ourAccount,recipientAccount,transferAmount,paymentPurpose));
     }
 
-    // TODO: 18.07.2016
     private void showStaffInfo() {
         employeeManagement.showStaffInfo();
     }
