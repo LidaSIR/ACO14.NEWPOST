@@ -37,6 +37,10 @@ public class ClientController implements IClientController {
         Product sendProduct = new Product(product.getName(), product.getSize(), product.getPrice(), client);
         Product[] sendProductArr = {sendProduct};
 
+
+
+
+
         PostTicket postTicket = new PostTicket(client, sendProductArr, new Address("Kiyv","Lesi","22"), sendToAddress,
                 currentTime, currentTime);
 
