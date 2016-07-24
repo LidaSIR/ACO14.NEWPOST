@@ -20,8 +20,8 @@ public class ManagerController implements IManagerController {
 
     public static final int DAYS_IN_ROAD = 2;
 
-    private AppDataContainer appDataContainer;
-    private Address addressFrom = DataInitFactory.createAddress();
+    protected AppDataContainer appDataContainer;
+    protected Address addressFrom = DataInitFactory.createAddress();
     public ManagerController(AppDataContainer appDataContainer) {
         this.appDataContainer = appDataContainer;
     }

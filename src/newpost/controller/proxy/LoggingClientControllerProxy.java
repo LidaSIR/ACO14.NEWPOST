@@ -13,7 +13,7 @@ import newpost.utils.logging.LogContainer;
  */
 public class LoggingClientControllerProxy implements IClientController {
 
-    private IClientController originalClientController;
+    protected IClientController originalClientController;
 
     public LoggingClientControllerProxy(IClientController clientController) {
         originalClientController = clientController;

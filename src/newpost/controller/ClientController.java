@@ -18,7 +18,7 @@ public class ClientController implements IClientController {
 
     public static final int DAYS_IN_ROAD = 2;
 
-    private AppDataContainer appDataContainer;
+    protected AppDataContainer appDataContainer;
 
     public ClientController(AppDataContainer appDataContainer) {
         this.appDataContainer = appDataContainer;

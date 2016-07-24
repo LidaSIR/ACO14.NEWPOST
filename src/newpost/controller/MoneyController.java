@@ -11,7 +11,7 @@ import newpost.model.money.Transaction;
  */
 public class MoneyController implements IMoneyController {
     public static final int TAX_RATE_PERCENTAGE = 18;
-    private AppDataContainer appDataContainer;
+    protected AppDataContainer appDataContainer;
 
     public MoneyController (AppDataContainer appDataContainer){
         this.appDataContainer = appDataContainer;

@@ -12,7 +12,7 @@ import java.util.GregorianCalendar;
  */
 public class DataInitFactory {
 
-    private static int userNumber;
+    protected static int userNumber;
 
     public static Address createAddress() {
 

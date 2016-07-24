@@ -14,7 +14,7 @@ import newpost.utils.logging.LogContainer;
  */
 public class LoggingManagerControllerProxy implements IManagerController {
 
-    private IManagerController managerController;
+    protected IManagerController managerController;
 
     public LoggingManagerControllerProxy(IManagerController controller) {
         managerController = controller;

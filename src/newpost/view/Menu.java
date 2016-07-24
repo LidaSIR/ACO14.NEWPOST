@@ -12,7 +12,6 @@ import newpost.model.common.Product;
 import newpost.model.common.Size;
 import newpost.model.money.Transaction;
 import newpost.model.office.Client;
-import newpost.model.office.Employee;
 import newpost.model.office.PostTicket;
 import newpost.utils.logging.LogContainer;
 
@@ -20,7 +19,13 @@ import java.util.Scanner;
 
 public class Menu {
     protected final MenuManager menuManager = new MenuManager(this);
+
+    final MenuDirector menuDirector = new MenuDirector(this);
+
+    private final MenuClient menuClient = new MenuClient(this);
+
     protected Scanner scanner = new Scanner(System.in);
+
     protected IClientController clientController;
     protected IManagerController managerController;
     protected IEmployeeManagement employeeManagement;
@@ -40,8 +45,8 @@ public class Menu {
         int user = scanner.nextInt();
         switch (user) {
             case 1:
-                clientEnter();
-                clientMenuRun();
+                menuClient.clientEnter(this);
+                menuClient.clientMenuRun();
                 break;
             case 2:
                 while (true) {
@@ -54,34 +59,12 @@ public class Menu {
                 System.out.println("Log in:");
                 String directorLog = scanner.next();
                 // Log in validation
-                directorMenuRun();
+                menuDirector.directorMenuRun();
         }
     }
 
     protected void directorMenuRun() {
-        while (true) {
-            showMainMenuDirector();
-            int choice = scanner.nextInt();
-            if (choice == 1) {
-                showAddStaffMenu();
-            } else if (choice == 2) {
-                showRemoveStaffMenu();
-            } else if (choice == 3) {
-                showFindStaffByNameMenu();
-            } else if (choice == 4) {
-                showStaffInfo();
-            } else if (choice == 5) {
-                showPaySalaryMenu();
-            } else if (choice == 6) {
-                showPayTaxMenu();
-            } else if (choice == 7) {
-                showMakePaymentMenu();
-            } else if (choice == 8) {
-                showFindTransactionByIdMenu();  // test failed
-            } else if (choice == 0){
-                break;
-            }
-        }
+        menuDirector.directorMenuRun();
     }
 
     protected void managerMenuRun() throws ValidationException, LogException {
@@ -90,125 +73,11 @@ public class Menu {
     }
 
     protected void clientMenuRun() throws ValidationException {
-        while (true) {
-            showMenuClient();
-
-            int clientChoice = scanner.nextInt();
-
-            if (clientChoice == 1) {
-                showAddTicketMenu();
-            } else if (clientChoice == 2) {
-                showInfoMenu();
-            } else if (clientChoice == 3) {
-                showCancelTicketMenu();
-            } else if (clientChoice == 4) {
-                showTakeProductMenu();
-            } else if (clientChoice == 0) {
-                break;
-            }
-        }
-    }
-    protected void showFindTransactionByIdMenu() {
-        System.out.println("Input transaction Id");
-        String id = scanner.next();
-        Transaction transaction = moneyController.findTransactionByID(id);
-        System.out.println(transaction.toString());
-
+        menuClient.clientMenuRun();
     }
 
-    protected void showMakePaymentMenu() {
-        System.out.println("Input ART-Post bank account");
-        int ourAccount = scanner.nextInt();
-        System.out.println("Input recipient bank account");
-        int recipientAccount = scanner.nextInt();
-        System.out.println("Input transfer amount");
-        int transferAmount = scanner.nextInt();
-        System.out.println("Input payment purpose");
-        String paymentPurpose = scanner.next();
 
-        moneyController.makePayment(ourAccount, recipientAccount,transferAmount,paymentPurpose);
-        System.out.println("Payment made");
-    }
 
-    protected void showPayTaxMenu() {
-        System.out.println("Input ART-Post bank account");
-        int ourAccount = scanner.nextInt();
-        System.out.println("Input recipient bank account");
-        int recipientAccount = scanner.nextInt();
-        System.out.println("Input transfer amount");
-        int transferAmount = scanner.nextInt();
-        System.out.println("Input payment purpose");
-        String paymentPurpose = scanner.next();
-        System.out.println("Input income");
-        int income = scanner.nextInt();
-
-        moneyController.payTax(new Transaction(ourAccount,recipientAccount,transferAmount,paymentPurpose),income);
-        System.out.println("Tax paid");
-    }
-
-    protected void showPaySalaryMenu() {
-        System.out.println("Input employees name");
-        String name = scanner.next();
-        System.out.println("Input employees surname");
-        String surname = scanner.next();
-        System.out.println("Input salary amount");
-        int salary = scanner.nextInt();
-        System.out.println("Input ART-Post bank account");
-        int ourAccount = scanner.nextInt();
-        System.out.println("Input recipient bank account");
-        int recipientAccount = scanner.nextInt();
-        System.out.println("Input transfer amount");
-        int transferAmount = scanner.nextInt();
-        System.out.println("Input payment purpose");
-        String paymentPurpose = scanner.next();
-
-        moneyController.paySalary(name,surname,salary,
-                new Transaction(ourAccount,recipientAccount,transferAmount,paymentPurpose));
-    }
-
-    protected void showStaffInfo() {
-        employeeManagement.showStaffInfo();
-    }
-
-    protected void showFindStaffByNameMenu() {
-        System.out.println("Input employees name");
-        String name = scanner.next();
-        System.out.println("Input employees surname");
-        String surname = scanner.next();
-        String fullName = name + surname;
-
-        Employee employee = employeeManagement.findStaffByName(fullName);
-        System.out.println(employee.toString());
-    }
-
-    protected void showRemoveStaffMenu() {
-        System.out.println("Input employees name");
-        String name = scanner.next();
-        System.out.println("Input employees surname");
-        String surname = scanner.next();
-        String fullName = name + surname;
-
-        employeeManagement.removeStaff(fullName);
-        System.out.println("Employee removed");
-    }
-    protected void showAddStaffMenu() {
-        System.out.println("Input job title");
-        String jobTitle = scanner.next();
-        System.out.println("Input employees name");
-        String name = scanner.next();
-        System.out.println("Input employees surname");
-        String surname = scanner.next();
-        String fullName = name + surname;
-        System.out.println("Input Employees telephone");
-        String phone = scanner.next();
-        System.out.println("Input salary amount");
-        int salary = scanner.nextInt();
-
-        Employee employee = employeeManagement.addStaff(jobTitle,fullName,phone,salary);
-        int password = employee.getPassword();
-        String login = employee.getLogin();
-        System.out.printf("Employee added. Employees password %d, login %s",password,login );
-    }
 
     protected void showTakeProductMenu() throws ValidationException {
         System.out.println("Input ticket ID");
@@ -267,24 +136,6 @@ public class Menu {
             } catch (ValidationException ex){
                 System.out.println(ex.getMessage());
             }
-        }
-    }
-
-    protected void clientEnter() {
-        while (true) {
-//            System.out.println("Input: 1.I am already have account in Art Post ");
-//            System.out.println("Input: 2. I am a new user "); //for receivers
-//            int userAnswer = scanner.nextInt();
-//            if (userAnswer != 1 && userAnswer != 2) System.out.println("Incorrect input");
-//            if (userAnswer == 1) {
-            System.out.println("Enter your login");
-            String userLog = scanner.next();
-            System.out.println("Enter your password");
-            String userPass = scanner.next();
-            break;
-            //validation
-            // if wrong System.out.println("Wrong login or password")
-
         }
     }
 
@@ -450,27 +301,6 @@ public class Menu {
         System.out.println("6. Get Client");
         System.out.println("7. Add Client");
         System.out.println("0. Exit");
-    }
-
-    protected void showMenuClient() {
-        System.out.println("1. Add Ticket");
-        System.out.println("2. Show info ");
-        System.out.println("3. Cancel order");
-        System.out.println("4. Take product");
-        System.out.println("0. Exit");
-    }
-
-    protected void showMainMenuDirector() {
-        System.out.println("1. Add an Employee");
-        System.out.println("2. Fire an Employee");
-        System.out.println("3. Find Employee by Name");
-        System.out.println("4. Show Staff Info");
-        System.out.println("5. Pay Salary");
-        System.out.println("6. Pay tax");
-        System.out.println("7. Make Payment");
-        System.out.println("8. Find Transaction by Id");
-        System.out.println("0. Exit");
-
     }
 
     public Scanner getScanner() {

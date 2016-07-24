@@ -7,11 +7,12 @@ import newpost.model.money.Report;
 import newpost.model.money.Transaction;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class DirectorController implements IEmployeeManagement,IReport{
 
-    private AppDataContainer appDataContainer;
+    protected AppDataContainer appDataContainer;
 
     public DirectorController(AppDataContainer appDataContainer) {
         this.appDataContainer = appDataContainer;
@@ -50,26 +51,27 @@ public class DirectorController implements IEmployeeManagement,IReport{
         return null;
     }
 
-   @Override     //in process
+    @Override
 
-   public Employee[] filterStaffByPosition(String jobTitle) {
-//        Object[] staff = appDataContainer.getEmployees().toArray();
-//        for(int i = 0; i < staff.length; i++){
-//            Employee iterStaff = (Employee)staff[i];
-//            if(iterStaff.getJobTitle().equals(jobTitle)){
-//                Employee[] staffByTitle = new Employee[staff.length];
-//                staffByTitle[i] = iterStaff;
-//                return staffByTitle[];
-//            }
-//          }
-      return new Employee[0];
- }
+    public List<Employee> filterStaffByPosition(String jobTitle) {
+        List<Employee> list = new ArrayList<>();
+        for(Employee employee: appDataContainer.getEmployees()){
+            if(employee.getJobTitle().equals(jobTitle)){
+                list.add(employee);
+            }
+          }
+         return list;
+    }
 
-    @Override // in process
+    @Override
 
-    public ArrayList<Employee> showStaffInfo() {
-
-        return null;
+    public List<Employee> showStaffInfo() {
+        List<Employee> list = new ArrayList<>();
+        for (Employee employee: appDataContainer.getEmployees()){
+            System.out.println(employee.toString());
+            list.add(employee);
+        }
+        return list;
     }
 
 
