@@ -220,7 +220,7 @@ public class Menu {
         System.out.println(product.toString());
     }
 
-    protected void showGetClientMenu() throws ValidationException {
+    public void showGetClientMenu() throws ValidationException {
         System.out.println("Input clients phone");
         String phone;
         phone = scanner.next();
@@ -236,7 +236,7 @@ public class Menu {
         }
     }
 
-    protected void showTicketByClientPhoneMenu() throws ValidationException {
+    public void showTicketByClientPhoneMenu() throws ValidationException {
         System.out.println("Input clients phone");
         String phone;
         phone = scanner.next();
@@ -244,7 +244,7 @@ public class Menu {
         System.out.println(postTicket.toString());
     }
 
-    protected void showAddClientMenu() throws ValidationException {
+    public void showAddClientMenu() throws ValidationException {
 
         while (true) {
             System.out.println("Input clients first name");
@@ -289,7 +289,7 @@ public class Menu {
         }
     }
 
-    protected void showAllLogs() throws LogException {
+    public void showAllLogs() throws LogException {
         System.out.println("Show all logs:\n");
         try {
             LogContainer.showAllLogs();
@@ -298,7 +298,7 @@ public class Menu {
         }
     }
 
-    protected void showInfoMenu() throws ValidationException {
+    public void showInfoMenu() throws ValidationException {
 
         System.out.println("Show info: input ticket Id");
         String ticketId;
@@ -316,7 +316,7 @@ public class Menu {
         }
     }
 
-    protected void showCancelTicketMenu() throws ValidationException {
+    public void showCancelTicketMenu() throws ValidationException {
 
         System.out.println("Cancel: input product Id to cancel");
         String productId;
@@ -336,7 +336,7 @@ public class Menu {
         }
     }
 
-    protected void showAddTicketMenu() {
+    public void showAddTicketMenu() {
         System.out.println("Create a client:");
         String clientPhone = phoneInput();
         String clientFullName = fullNameInput();
@@ -442,7 +442,7 @@ public class Menu {
         return phone;
     }
 
-    protected void showMainMenuManager() {
+    public void showMainMenuManager() {
         System.out.println("1. Add Ticket");
         System.out.println("2. Show info");
         System.out.println("3. Cancel Ticket");
