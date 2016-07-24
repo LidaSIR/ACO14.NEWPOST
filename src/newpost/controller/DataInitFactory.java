@@ -12,7 +12,15 @@ import java.util.GregorianCalendar;
  */
 public class DataInitFactory {
 
-    protected static int userNumber;
+    private static final int MIN_PASSPORT_NUMBER = 100000;
+    private static final int RAND_PASSPORT_NUMBER = 800000;
+    private static final int RAND_HOUSE_NUM = 55;
+    private static final int RAND_SIZE = 100;
+    private static final int RAND_PRICE = 1000;
+    private static final int RAND_TIME_IN_ROAD = 5;
+    public static final int MIN_PHONE_NUMBER = 1000000;
+    public static final int RAND_PHONE_NUMBER = 8000000;
+    private static int userNumber;
 
     public static Address createAddress() {
 
@@ -21,22 +29,23 @@ public class DataInitFactory {
 
         String randCity = city[(int) (Math.random() * city.length)];
         String randStreet = street[(int) (Math.random() * city.length)];
-        String randHouseNum = String.valueOf((int) (Math.random() * 55));
+        String randHouseNum = String.valueOf((int) (Math.random() * RAND_HOUSE_NUM));
 
         return new Address(randCity, randStreet, randHouseNum);
     }
 
     public static Passport passportCreator() {
         userNumber++;
-        int passNumber = (int) (100000 + Math.random() * 800000);
-        return new Passport("User #" + userNumber, "CM323453");
+        int passNumber = (int) (MIN_PASSPORT_NUMBER + Math.random() * RAND_PASSPORT_NUMBER);
+        return new Passport("User #" + userNumber, "CM" + String.valueOf(passNumber));
 
     }
 
     public static Client clientCreator() {
 
 
-        return new Client("+34342434234", passportCreator());
+        double phoneNumber = (double)(MIN_PHONE_NUMBER + Math.random()* RAND_PHONE_NUMBER);
+        return new Client("+38050" + String.valueOf(phoneNumber), passportCreator());
     }
 
     public static Product[] productsCreator() {
@@ -46,15 +55,15 @@ public class DataInitFactory {
         String randProductName = productName[(int) (Math.random() * productName.length)];
 
         // size initialization
-        int length = (int) (Math.random() * 100);
-        int width = (int) (Math.random() * 100);
-        int height = (int) (Math.random() * 100);
-        int weight = (int) (Math.random() * 100);
+        int length = (int) (Math.random() * RAND_SIZE);
+        int width = (int) (Math.random() * RAND_SIZE);
+        int height = (int) (Math.random() * RAND_SIZE);
+        int weight = (int) (Math.random() * RAND_SIZE);
         Size size = new Size(length, width, height, weight);
 
         // price initialization
 
-        int price = (int) (Math.random() * 1000);
+        int price = (int) (Math.random() * RAND_PRICE);
 
         Product product = new Product(randProductName, size, price, clientCreator());
         return new Product[]{product};
@@ -67,7 +76,7 @@ public class DataInitFactory {
         MyDate currentTime = new MyDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 
-        int daysInRoad = (int) (Math.random() * 5);
+        int daysInRoad = (int) (Math.random() * RAND_TIME_IN_ROAD);
 
         currentTime.setDay(currentTime.getDay() + daysInRoad);
 

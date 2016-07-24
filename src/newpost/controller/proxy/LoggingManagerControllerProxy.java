@@ -9,6 +9,8 @@ import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 import newpost.utils.logging.LogContainer;
 
+import java.util.List;
+
 /**
  * Created by Vladislav on 20.07.2016.
  */
@@ -48,5 +50,30 @@ public class LoggingManagerControllerProxy implements IManagerController {
     public Client addClient(Passport passport, String phone) throws ValidationException {
         LogContainer.logEvent("Manager: there was an attempt to add client with passport " + passport.getNumber() + " and phone " + phone);
         return managerController.addClient(passport, phone);
+    }
+
+    @Override
+    public void sortTicketsByAddress() {
+
+    }
+
+    @Override
+    public void sortClientsByName() {
+
+    }
+
+    @Override
+    public void sortTicketsByPrice() {
+
+    }
+
+    @Override
+    public void sortTicketsById() {
+
+    }
+
+    @Override
+    public List findByPrice(int price) {
+        return null;
     }
 }

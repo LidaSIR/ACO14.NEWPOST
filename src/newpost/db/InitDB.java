@@ -2,10 +2,7 @@ package newpost.db;
 
 import com.google.gson.Gson;
 import newpost.controller.DataInitFactory;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 /**
  * Helps init db by test data
@@ -15,9 +12,11 @@ public class InitDB {
 
     //private AppDataContainer appDataContainer;
     static final int COUNT = 10;
+    static final String DB_LOCATION = "resources/db.json";
+    static final String LOG_LOCATION = "logs/logs.txt";
 
 
-    public static void createDB(AppDataContainer appDataContainer){
+    public static void initDB(AppDataContainer appDataContainer){
 
         for (int i = 0; i < COUNT; i++) {
             appDataContainer.getClients().add(DataInitFactory.clientCreator());
@@ -27,22 +26,48 @@ public class InitDB {
         }
     }
 
-    public static void saveDBToFileasJson(AppDataContainer appDataContainer, String location){
+    public static void saveDBToFileAsJson(AppDataContainer appDataContainer){
         Gson gson = new Gson();
         String resJson = gson.toJson(appDataContainer);
         try {
-            PrintWriter printWriter = new PrintWriter(new FileWriter(location));
-            printWriter.println(resJson);
-            System.out.println("write was ok");
+            PrintWriter printWriter = new PrintWriter(new FileWriter(DB_LOCATION),true);
+            printWriter.println(resJson +  "\n");
+            System.out.println("write was successfull");
             printWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    public void loadDB(){
+    public static void saveLogsToFile(String logs){
+        try {
+            PrintWriter printWrite = new PrintWriter(new FileWriter(LOG_LOCATION), true);
+            printWrite.println(logs + "\n");
+            System.out.println("write was successfull");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public static String loadDB(String location) throws IOException {
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(location));
+            return bufferedReader.readLine();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+        throw new IOException();
+    }
+
+    public static AppDataContainer loadDBAsJson(String location) throws IOException {
+        Gson gson = new Gson();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(location));
+            return gson.fromJson(bufferedReader.readLine(), AppDataContainer.class);
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+        throw new IOException();
     }
 
 
