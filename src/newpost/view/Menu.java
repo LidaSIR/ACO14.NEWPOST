@@ -6,6 +6,7 @@ import newpost.controller.IManagerController;
 import newpost.controller.IMoneyController;
 import newpost.exceptions.LogException;
 import newpost.exceptions.ValidationException;
+import newpost.filter.Finder;
 import newpost.model.common.Address;
 import newpost.model.common.Passport;
 import newpost.model.common.Product;
@@ -300,10 +301,13 @@ public class Menu {
         System.out.println("5. Show Ticket by Clients Number");
         System.out.println("6. Get Client");
         System.out.println("7. Add Client");
+        System.out.println("8. Management operations");
         System.out.println("0. Exit");
     }
 
     public Scanner getScanner() {
         return scanner;
     }
+
+
 }

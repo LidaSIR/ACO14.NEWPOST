@@ -2,6 +2,10 @@ package newpost.controller;
 
 
 import newpost.db.AppDataContainer;
+import newpost.filter.AddressComparator;
+import newpost.filter.Finder;
+import newpost.filter.OwnerNameComparator;
+import newpost.filter.PriceComparator;
 import newpost.model.common.Address;
 import newpost.model.common.MyDate;
 import newpost.model.common.Passport;
@@ -87,4 +91,30 @@ public class ManagerController implements IManagerController {
         appDataContainer.getClients().add(client);
         return client;
     }
+
+    public void sortTicketsByAddress() {
+        appDataContainer.getTickets().sort(new AddressComparator());
+    }
+
+    @Override
+    public void sortClientsByName() {
+        appDataContainer.getClients().sort(new OwnerNameComparator());
+    }
+
+    @Override
+    public void sortTicketsByPrice() {
+        appDataContainer.getTickets().sort(new PriceComparator());
+    }
+
+    @Override
+    public void sortTicketsById() {
+        appDataContainer.getTickets().sort(new PriceComparator());
+    }
+
+    @Override
+    public List findByPrice(int price) {
+
+        return Finder.findByPrice(appDataContainer, price);
+    }
+
 }
