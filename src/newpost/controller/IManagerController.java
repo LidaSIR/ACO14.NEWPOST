@@ -7,6 +7,8 @@ import newpost.model.common.Product;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 
+import java.util.List;
+
 /**
  * Created by macaque on 10.07.2016.
  */
@@ -16,4 +18,9 @@ public interface IManagerController {
     PostTicket showTicketByClientPhone(String phone) throws ValidationException;
     Client getClient(String phone) throws ValidationException;
     Client addClient (Passport passport, String phone) throws ValidationException;
+    void sortTicketsByAddress();
+    void sortClientsByName();
+    void sortTicketsByPrice();
+    void sortTicketsById();
+    List findByPrice(int price);
 }
