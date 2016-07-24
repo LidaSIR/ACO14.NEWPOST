@@ -30,8 +30,9 @@ public class InitDB {
         Gson gson = new Gson();
         String resJson = gson.toJson(appDataContainer);
         try {
-            PrintWriter printWriter = new PrintWriter(new FileWriter(DB_LOCATION),true);
+            PrintWriter printWriter = new PrintWriter(new FileWriter(DB_LOCATION,true),true);
             printWriter.println(resJson);
+            printWriter.close();
             System.out.println("write was successfull");
             printWriter.flush();
         } catch (IOException e) {
