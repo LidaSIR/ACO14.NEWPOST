@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class ManagerController implements IManagerController {
 
-    public static final int DAYS_IN_ROAD = 2;
+    // public static final int DAYS_IN_ROAD = 2; -- now calculate dayInRoad
     public static final String COUNTRY = "Ukraine";
     public static final int SPEED = 40;
     public static final int HOUR_IN_DAY = 24;
