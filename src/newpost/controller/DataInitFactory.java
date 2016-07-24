@@ -1,11 +1,15 @@
 package newpost.controller;
 
+import javafx.geometry.Pos;
 import newpost.model.common.*;
 import newpost.model.office.Client;
+import newpost.model.office.PostOffice;
 import newpost.model.office.PostTicket;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * Created by macaque on 10.07.2016.
@@ -34,40 +38,6 @@ public class DataInitFactory {
         return new Address(randCity, randStreet, randHouseNum);
     }
 
-    public static String createFullName() {
-
-
-        String[] name = {"Ivan", "Stepan", "Boris", "Gregory", "Anton", "Nikola"};
-        String[] surname = {"Ivanov", "Stepanov", "Borisov", "Gregoriev", "Antonov", "Tesla"};
-
-        String randName = name[(int) (Math.random() * name.length)];
-        String randSurname = surname[(int) (Math.random() * surname.length)];
-
-        return randName + " " + randSurname;
-    }
-
-    public static String createJobTitle() {
-        String[] jobTitle = {"Manager", "Driver"};
-
-        String randJobTitle = jobTitle[(int) (Math.random() * jobTitle.length)];
-
-        return randJobTitle;
-    }
-
-    public static String createPnoneNumber() {
-        String[] operator = {"+38050", "+38063", "+38067", "+38044", "+38093", "+38099"};
-        String randOper = operator[(int) (Math.random() * operator.length)];
-
-        int phoneNumber = (int) (MIN_PHONE_NUMBER + (Math.random() * RAND_PHONE_NUMBER));
-        return randOper + phoneNumber;
-    }
-
-    public static int createSalary() {
-        int[] salary = {4000, 4500, 5000, 5500, 6000, 9000};
-        int randSalary = salary[(int) (Math.random() * salary.length)];
-        return randSalary;
-    }
-
     public static Passport passportCreator() {
         userNumber++;
         int passNumber = (int) (MIN_PASSPORT_NUMBER + Math.random() * RAND_PASSPORT_NUMBER);
@@ -78,7 +48,7 @@ public class DataInitFactory {
     public static Client clientCreator() {
 
 
-        double phoneNumber = (double) (MIN_PHONE_NUMBER + Math.random() * RAND_PHONE_NUMBER);
+        double phoneNumber = (double)(MIN_PHONE_NUMBER + Math.random()* RAND_PHONE_NUMBER);
         return new Client("+38050" + String.valueOf(phoneNumber), passportCreator());
     }
 
@@ -118,6 +88,25 @@ public class DataInitFactory {
                 createAddress(), currentTime, currentTime);
     }
 
+    public static List<PostOffice> postOffices() {
 
+        List<PostOffice> postOffices = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            //postOffices.add();
+        }
+/*
+        Calendar calendar = GregorianCalendar.getInstance();
+        MyDate currentTime = new MyDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+
+        int daysInRoad = (int) (Math.random() * RAND_TIME_IN_ROAD);
+
+        currentTime.setDay(currentTime.getDay() + daysInRoad);
+
+        return new PostTicket(client, productsCreator(), createAddress(),
+                createAddress(), currentTime, currentTime);*/
+    return null;
+    }
 
 }
