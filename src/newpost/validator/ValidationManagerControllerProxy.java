@@ -8,6 +8,8 @@ import newpost.model.common.Product;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 
+import java.util.List;
+
 /**
  * Created by Vladislav on 19.07.2016.
  */
@@ -97,5 +99,30 @@ public class ValidationManagerControllerProxy implements IManagerController {
         } else {
             return managerController.addClient(passport, phone);
         }
+    }
+
+    @Override
+    public void sortTicketsByAddress() {
+
+    }
+
+    @Override
+    public void sortClientsByName() {
+
+    }
+
+    @Override
+    public void sortTicketsByPrice() {
+
+    }
+
+    @Override
+    public void sortTicketsById() {
+
+    }
+
+    @Override
+    public List<PostTicket> findByPrice(int price) {
+        return null;
     }
 }
