@@ -1,6 +1,9 @@
 package newpost.controller;
 
+import jdk.management.resource.internal.inst.FileOutputStreamRMHooks;
 import newpost.db.AppDataContainer;
+import newpost.model.common.Address;
+import newpost.model.office.PostOffice;
 import newpost.utils.geolocation.MapFramefork.ShowMapMarkerFrame;
 import newpost.utils.geolocation.controller.GoogleMapsAPI;
 import newpost.utils.geolocation.controller.GoogleMapsAPIImpl;
@@ -31,6 +34,11 @@ public class PostController implements IPostController {
         List<Location> locations = new ArrayList();
         locations.add(googleMapsAPI.findLocation("Україна", "Київ", "Бульва Лесі Українки", "5"));
 
+        /*for (PostOffice pst : appDataContainer.getPostOffices()) {
+            Address addr  = pst.getAddress();
+            locations.add(googleMapsAPI.findLocation("Україна", addr.getCity(), addr.getStreet(), addr.getHouseNum()));
+        }
+*/
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
