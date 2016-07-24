@@ -2,10 +2,7 @@ package newpost.db;
 
 import newpost.model.money.Report;
 import newpost.model.money.Transaction;
-import newpost.model.office.Client;
-import newpost.model.office.Driver;
-import newpost.model.office.Employee;
-import newpost.model.office.PostTicket;
+import newpost.model.office.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +21,15 @@ public class AppDataContainer {
     private List<Employee> employees;
     private List<Report> reports;
 
+    public List<PostOffice> getPostOffices() {
+        return postOffices;
+    }
+
+    public void setPostOffices(List<PostOffice> postOffices) {
+        this.postOffices = postOffices;
+    }
+
+    private List<PostOffice> postOffices;
 
     public AppDataContainer() {
         clients = new ArrayList<>();
@@ -32,6 +38,7 @@ public class AppDataContainer {
         transactions = new ArrayList<>();
         employees = new ArrayList<>();
         reports = new ArrayList<>();
+        postOffices = new ArrayList<>();
     }
 
     public List<Client> getClients() {
