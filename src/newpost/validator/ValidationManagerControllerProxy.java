@@ -122,7 +122,7 @@ public class ValidationManagerControllerProxy implements IManagerController {
     }
 
     @Override
-    public List<PostTicket> findByPrice(int price) {
+    public List findByPrice(int price) {
         return null;
     }
 }

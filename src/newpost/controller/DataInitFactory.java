@@ -34,6 +34,40 @@ public class DataInitFactory {
         return new Address(randCity, randStreet, randHouseNum);
     }
 
+    public static String createFullName() {
+
+
+        String[] name = {"Ivan", "Stepan", "Boris", "Gregory", "Anton", "Nikola"};
+        String[] surname = {"Ivanov", "Stepanov", "Borisov", "Gregoriev", "Antonov", "Tesla"};
+
+        String randName = name[(int) (Math.random() * name.length)];
+        String randSurname = surname[(int) (Math.random() * surname.length)];
+
+        return randName + " " + randSurname;
+    }
+
+    public static String createJobTitle() {
+        String[] jobTitle = {"Manager", "Driver"};
+
+        String randJobTitle = jobTitle[(int) (Math.random() * jobTitle.length)];
+
+        return randJobTitle;
+    }
+
+    public static String createPnoneNumber() {
+        String[] operator = {"+38050", "+38063", "+38067", "+38044", "+38093", "+38099"};
+        String randOper = operator[(int) (Math.random() * operator.length)];
+
+        int phoneNumber = (int) (MIN_PHONE_NUMBER + (Math.random() * RAND_PHONE_NUMBER));
+        return randOper + phoneNumber;
+    }
+
+    public static int createSalary() {
+        int[] salary = {4000, 4500, 5000, 5500, 6000, 9000};
+        int randSalary = salary[(int) (Math.random() * salary.length)];
+        return randSalary;
+    }
+
     public static Passport passportCreator() {
         userNumber++;
         int passNumber = (int) (MIN_PASSPORT_NUMBER + Math.random() * RAND_PASSPORT_NUMBER);
@@ -44,7 +78,7 @@ public class DataInitFactory {
     public static Client clientCreator() {
 
 
-        double phoneNumber = (double)(MIN_PHONE_NUMBER + Math.random()* RAND_PHONE_NUMBER);
+        double phoneNumber = (double) (MIN_PHONE_NUMBER + Math.random() * RAND_PHONE_NUMBER);
         return new Client("+38050" + String.valueOf(phoneNumber), passportCreator());
     }
 
@@ -83,4 +117,7 @@ public class DataInitFactory {
         return new PostTicket(client, productsCreator(), createAddress(),
                 createAddress(), currentTime, currentTime);
     }
+
+
+
 }
