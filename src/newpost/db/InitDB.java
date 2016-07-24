@@ -31,7 +31,7 @@ public class InitDB {
         String resJson = gson.toJson(appDataContainer);
         try {
             PrintWriter printWriter = new PrintWriter(new FileWriter(DB_LOCATION),true);
-            printWriter.println(resJson +  "\n");
+            printWriter.println(resJson);
             System.out.println("write was successfull");
             printWriter.flush();
         } catch (IOException e) {
@@ -41,8 +41,9 @@ public class InitDB {
 
     public static void saveLogsToFile(String logs){
         try {
-            PrintWriter printWrite = new PrintWriter(new FileWriter(LOG_LOCATION), true);
-            printWrite.println(logs + "\n");
+            PrintWriter printWrite = new PrintWriter(new FileWriter(LOG_LOCATION, true), true);
+            printWrite.println(logs);
+            printWrite.close();
             System.out.println("write was successfull");
         } catch (IOException e) {
             e.printStackTrace();
