@@ -21,6 +21,7 @@ public class TestInitDB {
         //InitDB.saveLogsToFile(logs);
       //  LogContainer logContainer = new LogContainer();
         LogContainer.logEvent(logs);
+        LogContainer.logEvent(logs);
 
         try {
             String res = InitDB.loadDB(location);
