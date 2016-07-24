@@ -76,4 +76,28 @@ public class LoggingManagerControllerProxy implements IManagerController {
     public List findByPrice(int price) {
         return null;
     }
+
+    public LoggingManagerControllerProxy() {
+        super();
+    }
+
+    @Override
+    public List<PostTicket> findByAddress(Address address) {
+        return null;
+    }
+
+    @Override
+    public List<PostTicket> findByCity(String city) {
+        return null;
+    }
+
+    @Override
+    public List<PostTicket> findByOwnerName(String name) {
+        return null;
+    }
+
+    @Override
+    public PostTicket findById(String id) {
+        return null;
+    }
 }

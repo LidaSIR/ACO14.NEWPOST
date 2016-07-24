@@ -117,4 +117,27 @@ public class ManagerController implements IManagerController {
         return Finder.findByPrice(appDataContainer, price);
     }
 
+    public ManagerController() {
+        super();
+    }
+
+    @Override
+    public List<PostTicket> findByAddress(Address address) {
+        return  Finder.findByAddress(appDataContainer,address);
+    }
+
+    @Override
+    public List<PostTicket> findByCity(String city) {
+        return Finder.findByCity(appDataContainer,city);
+    }
+
+    @Override
+    public List<PostTicket> findByOwnerName(String name) {
+        return Finder.findByOwnerName(appDataContainer,name);
+    }
+
+    @Override
+    public PostTicket findById(String id) {
+        return Finder.findById(appDataContainer, id);
+    }
 }

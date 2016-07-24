@@ -1,10 +1,14 @@
 package newpost.view;
 
+import com.sun.org.apache.xml.internal.dtm.ref.sax2dtm.SAX2RTFDTM;
 import newpost.exceptions.LogException;
 import newpost.exceptions.ValidationException;
 import newpost.filter.Finder;
+import newpost.model.common.Address;
 import newpost.model.office.PostTicket;
 
+import javax.xml.bind.SchemaOutputResolver;
+import javax.xml.soap.SAAJResult;
 import java.util.List;
 
 public class MenuManager  extends Menu {
@@ -116,12 +120,16 @@ public class MenuManager  extends Menu {
                 this.findByPrice();
                 break;
             case 2:
+                this.findByAddress();
                 break;
             case 3:
+                this.findByCity();
                 break;
             case 4:
+                this.findByOwnerName();
                 break;
             case 5:
+                this.findById();
                 break;
             case 0:
                 return;
@@ -133,8 +141,41 @@ public class MenuManager  extends Menu {
         int price = scanner.nextInt();
         scanner.nextLine();
         List<PostTicket> list = managerController.findByPrice(price);
+        System.out.println(list.toString());
 
+    }
+    private void findByAddress (){
+        System.out.println("Input City");
+        String city = scanner.next();
+        System.out.println("Input Street");
+        String street =scanner.next();
+        System.out.println("Input House Number");
+        String houseNum = scanner.next();
 
+        Address address = new Address(city,street,houseNum);
 
+        List<PostTicket> list = managerController.findByAddress(address);
+        System.out.println(list.toString());
+    }
+    private void findByCity(){
+        System.out.println("Input City");
+        String city = scanner.next();
+
+        List<PostTicket> list = managerController.findByCity(city);
+        System.out.println(list.toString());
+    }
+    private void findByOwnerName (){
+        System.out.println("Input Name");
+        String name = scanner.nextLine();
+
+        List<PostTicket> list = managerController.findByOwnerName(name);
+        System.out.println(list.toString());
+    }
+    private void findById(){
+        System.out.println("Input ID");
+        String id = scanner.next();
+
+        PostTicket postTicket = managerController.findById(id);
+        System.out.println(postTicket.toString());
     }
 }

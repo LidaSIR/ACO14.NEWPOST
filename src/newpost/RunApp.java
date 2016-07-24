@@ -20,18 +20,30 @@ import newpost.view.Menu;
 public class RunApp {
 
     public static void main(String[] args) throws ControllerException, InputDataException, ValidationException, LogException {
+
         AppDataContainer appDataContainer = new AppDataContainer();
 
         DirectorController directorController = new DirectorController(appDataContainer);
 
-        IManagerController managerController = new ValidationManagerControllerProxy(
-                                                    new LoggingManagerControllerProxy(
-                                                            new ManagerController(appDataContainer)), new Validator());
+        Validator validator = new Validator();
+
+        ManagerController managerController1 = new ManagerController(appDataContainer);
+
+        LoggingManagerControllerProxy originalController = new LoggingManagerControllerProxy(managerController1);
+
+        IManagerController managerController = new ValidationManagerControllerProxy(originalController, validator);
+
+        ClientController clientController = new ClientController(appDataContainer);
+
+        LoggingClientControllerProxy controller1 = new LoggingClientControllerProxy(clientController);
+
+        ValidationClientControllerProxy controller = new ValidationClientControllerProxy(controller1, validator);
+
+        MoneyController moneyController = new MoneyController(appDataContainer);
+
+
 
         Menu menu = new Menu();
-        menu.start(
-                new ValidationClientControllerProxy(
-                        new LoggingClientControllerProxy(
-                            new ClientController(appDataContainer)), new Validator()), managerController);
+        menu.start(controller, managerController,moneyController,directorController);
     }
 }

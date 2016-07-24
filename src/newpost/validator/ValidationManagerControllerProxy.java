@@ -125,4 +125,28 @@ public class ValidationManagerControllerProxy implements IManagerController {
     public List<PostTicket> findByPrice(int price) {
         return null;
     }
+
+    public ValidationManagerControllerProxy() {
+        super();
+    }
+
+    @Override
+    public List<PostTicket> findByAddress(Address address) {
+        return null;
+    }
+
+    @Override
+    public List<PostTicket> findByCity(String city) {
+        return null;
+    }
+
+    @Override
+    public List<PostTicket> findByOwnerName(String name) {
+        return null;
+    }
+
+    @Override
+    public PostTicket findById(String id) {
+        return null;
+    }
 }

@@ -32,9 +32,13 @@ public class Menu {
     protected IEmployeeManagement employeeManagement;
     protected IMoneyController moneyController;
 
-    public void start(IClientController controller, IManagerController managerController) throws ValidationException, LogException {
+    public void start(IClientController controller, IManagerController managerController,
+                      IMoneyController moneyController, IEmployeeManagement employeeManagement)
+                               throws ValidationException, LogException {
         clientController = controller;
         this.managerController = managerController;
+        this.moneyController = moneyController;
+        this. employeeManagement =employeeManagement;
         scanner.useDelimiter("\\n");
 
         chooseUser();

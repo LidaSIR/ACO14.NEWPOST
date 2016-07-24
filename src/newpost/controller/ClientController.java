@@ -55,7 +55,7 @@ public class ClientController implements IClientController {
         return null;
     }
 
-    @Override
+    @Override     // we don't have Product ID
     public Product showProductById(int ticketId) {
 
         for(PostTicket postTicket : appDataContainer.getTickets()) {

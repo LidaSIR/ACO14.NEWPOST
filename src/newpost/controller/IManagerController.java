@@ -1,5 +1,6 @@
 package newpost.controller;
 
+import newpost.db.AppDataContainer;
 import newpost.exceptions.ValidationException;
 import newpost.model.common.Address;
 import newpost.model.common.Passport;
@@ -23,4 +24,9 @@ public interface IManagerController {
     void sortTicketsByPrice();
     void sortTicketsById();
     List findByPrice(int price);
+    List<PostTicket> findByAddress(Address address);
+    List<PostTicket> findByCity(String city);
+    List<PostTicket> findByOwnerName( String name);
+    PostTicket findById( String id);
+
 }
