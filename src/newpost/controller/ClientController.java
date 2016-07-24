@@ -1,6 +1,5 @@
 package newpost.controller;
 
-import newpost.controller.timeUtil.CalcDayInRoad;
 import newpost.db.AppDataContainer;
 import newpost.model.common.Address;
 import newpost.model.common.MyDate;
@@ -34,7 +33,7 @@ public class ClientController implements IClientController {
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 
         MyDate estimationArrivalDate = currentTime;
-        estimationArrivalDate.setDay(currentTime.getDay()+ CalcDayInRoad.dayInRoad(addressFrom, sendToAdress));
+        estimationArrivalDate.setDay(currentTime.getDay()+DAYS_IN_ROAD);
 
         Product sendProduct = new Product(product.getName(), product.getSize(), product.getPrice(), client);
         Product[] sendProductArr = {sendProduct};
