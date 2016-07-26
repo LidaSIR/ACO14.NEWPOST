@@ -22,8 +22,6 @@ public class PostOffice {
         this.address = address;
     }
 
-
-
     public String getId() {
         return id;
     }

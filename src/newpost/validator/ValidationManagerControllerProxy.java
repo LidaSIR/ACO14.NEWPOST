@@ -1,6 +1,6 @@
 package newpost.validator;
 
-import newpost.controller.IManagerController;
+import newpost.controller.interfaces.IManagerController;
 import newpost.exceptions.ValidationException;
 import newpost.model.common.Address;
 import newpost.model.common.Passport;
@@ -122,7 +122,31 @@ public class ValidationManagerControllerProxy implements IManagerController {
     }
 
     @Override
-    public List<PostTicket> findByPrice(int price) {
+    public List findByPrice(int price) {
+        return null;
+    }
+
+    public ValidationManagerControllerProxy() {
+        super();
+    }
+
+    @Override
+    public List<PostTicket> findByAddress(Address address) {
+        return null;
+    }
+
+    @Override
+    public List<PostTicket> findByCity(String city) {
+        return null;
+    }
+
+    @Override
+    public List<PostTicket> findByOwnerName(String name) {
+        return null;
+    }
+
+    @Override
+    public PostTicket findById(String id) {
         return null;
     }
 }

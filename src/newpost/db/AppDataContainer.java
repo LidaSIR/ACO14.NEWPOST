@@ -20,15 +20,6 @@ public class AppDataContainer {
     private List<Transaction> transactions;
     private List<Employee> employees;
     private List<Report> reports;
-
-    public List<PostOffice> getPostOffices() {
-        return postOffices;
-    }
-
-    public void setPostOffices(List<PostOffice> postOffices) {
-        this.postOffices = postOffices;
-    }
-
     private List<PostOffice> postOffices;
 
     public AppDataContainer() {
@@ -39,6 +30,14 @@ public class AppDataContainer {
         employees = new ArrayList<>();
         reports = new ArrayList<>();
         postOffices = new ArrayList<>();
+    }
+
+    public List<PostOffice> getPostOffices() {
+        return postOffices;
+    }
+
+    public void setPostOffices(List<PostOffice> postOffices) {
+        this.postOffices = postOffices;
     }
 
     public List<Client> getClients() {

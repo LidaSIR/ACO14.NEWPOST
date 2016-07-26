@@ -2,6 +2,8 @@ package newpost.db;
 
 import com.google.gson.Gson;
 import newpost.controller.DataInitFactory;
+import newpost.model.office.PostOffice;
+
 import java.io.*;
 
 /**
@@ -24,6 +26,7 @@ public class InitDB {
                     appDataContainer.getClients().get(
                             (int) (Math.random() * appDataContainer.getClients().size()))));
         }
+        appDataContainer.setPostOffices(DataInitFactory.postOfficeCreator());
     }
 
     public static void saveDBToFileAsJson(AppDataContainer appDataContainer){
@@ -43,7 +46,6 @@ public class InitDB {
         try {
             PrintWriter printWrite = new PrintWriter(new FileWriter(LOG_LOCATION), true);
             printWrite.println(logs + "\n");
-            System.out.println("write was successfull");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 package newpost.controller;
 
 
+import newpost.controller.interfaces.IManagerController;
 import newpost.db.AppDataContainer;
 import newpost.filter.AddressComparator;
 import newpost.filter.Finder;
@@ -12,7 +13,6 @@ import newpost.model.common.Passport;
 import newpost.model.common.Product;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
-import newpost.controller.timeUtil.*;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -23,11 +23,10 @@ import java.util.List;
  */
 public class ManagerController implements IManagerController {
 
-    // public static final int DAYS_IN_ROAD = 2; -- now calculate dayInRoad
+    public static final int DAYS_IN_ROAD = 2;
 
-
-    private AppDataContainer appDataContainer;
-    private Address addressFrom = DataInitFactory.createAddress();
+    protected AppDataContainer appDataContainer;
+    protected Address addressFrom = DataInitFactory.createAddress();
     public ManagerController(AppDataContainer appDataContainer) {
         this.appDataContainer = appDataContainer;
     }
@@ -39,11 +38,10 @@ public class ManagerController implements IManagerController {
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 
         MyDate estimationArrivalDate = currentTime;
-        estimationArrivalDate.setDay(currentTime.getDay()+ CalcDayInRoad.dayInRoad(addressFrom, sendToAdress));
+        estimationArrivalDate.setDay(currentTime.getDay()+ DAYS_IN_ROAD);
 
         Product sendProduct = new Product(product.getName(), product.getSize(), product.getPrice(), client);
         Product[] sendProductArr = {sendProduct};
-
 
         PostTicket postTicket = new PostTicket(client, sendProductArr, addressFrom, sendToAdress,
                 currentTime, estimationArrivalDate);
@@ -120,4 +118,27 @@ public class ManagerController implements IManagerController {
         return Finder.findByPrice(appDataContainer, price);
     }
 
+    public ManagerController() {
+        super();
+    }
+
+    @Override
+    public List<PostTicket> findByAddress(Address address) {
+        return  Finder.findByAddress(appDataContainer,address);
+    }
+
+    @Override
+    public List<PostTicket> findByCity(String city) {
+        return Finder.findByCity(appDataContainer,city);
+    }
+
+    @Override
+    public List<PostTicket> findByOwnerName(String name) {
+        return Finder.findByOwnerName(appDataContainer,name);
+    }
+
+    @Override
+    public PostTicket findById(String id) {
+        return Finder.findById(appDataContainer, id);
+    }
 }

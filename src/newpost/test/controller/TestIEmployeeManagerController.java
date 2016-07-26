@@ -4,6 +4,9 @@ import newpost.controller.DirectorController;
 import newpost.db.AppDataContainer;
 import newpost.model.office.Employee;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Lida on 18.07.2016.
  */
@@ -13,12 +16,31 @@ public class TestIEmployeeManagerController {
         DirectorController directorController = new DirectorController(new AppDataContainer());
         testAddStaff(directorController);
     }
-//    Employee addStaff(String jobTitle, String fullName, String phone, int salary);
+
 //    Employee removeStaff(String fullName);
 //    Employee findStaffByName(String fullName);
-//    Employee[] filterStaffByPosition(String jobTitle);
-//    Employee[] showStaffInfo();
-   // test will be false, since method each time generates new password for every new employee
+//    List<Employee> showStaffInfo();
+
+    public static void testRemoveStaff(DirectorController directorController){
+        Employee employee = new Employee("Admin","Ann Smitt","+380935689878",8000);
+
+    }
+    public static void testFilterStaffByPosition(DirectorController directorController){
+        Employee employee = new Employee("Admin","Rita Smitt","+380935686878",8000);
+        Employee employee1 = new Employee("Admin","Den Atryr","+380978989825",7000);
+        List<Employee> expected = new ArrayList();
+        expected.add(employee);
+        expected.add(employee1);
+
+        List<Employee>actual = directorController.filterStaffByPosition("Admin");
+        System.out.printf("%s, Filter Staff by Position \nexpected %s,  %s\nactual %s\n",
+                expected.toString().equals(actual.toString()), expected, actual);
+        System.out.println();
+
+    }
+
+
+    // test will be false, since method each time generates new password for every new employee
     public static void testAddStaff (DirectorController directorController){
         String jobTitle = "Admin";
         String fullName = "Ann Smitt";

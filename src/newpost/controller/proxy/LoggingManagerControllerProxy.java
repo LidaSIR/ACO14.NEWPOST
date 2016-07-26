@@ -1,6 +1,6 @@
 package newpost.controller.proxy;
 
-import newpost.controller.IManagerController;
+import newpost.controller.interfaces.IManagerController;
 import newpost.exceptions.ValidationException;
 import newpost.model.common.Address;
 import newpost.model.common.Passport;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class LoggingManagerControllerProxy implements IManagerController {
 
-    private IManagerController managerController;
+    protected IManagerController managerController;
 
     public LoggingManagerControllerProxy(IManagerController controller) {
         managerController = controller;
@@ -74,6 +74,30 @@ public class LoggingManagerControllerProxy implements IManagerController {
 
     @Override
     public List findByPrice(int price) {
+        return null;
+    }
+
+    public LoggingManagerControllerProxy() {
+        super();
+    }
+
+    @Override
+    public List<PostTicket> findByAddress(Address address) {
+        return null;
+    }
+
+    @Override
+    public List<PostTicket> findByCity(String city) {
+        return null;
+    }
+
+    @Override
+    public List<PostTicket> findByOwnerName(String name) {
+        return null;
+    }
+
+    @Override
+    public PostTicket findById(String id) {
         return null;
     }
 }

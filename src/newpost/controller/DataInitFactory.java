@@ -28,14 +28,48 @@ public class DataInitFactory {
 
     public static Address createAddress() {
 
-        String[] city = {"Kiyv", "Kharkiv", "Fastiv", "Rivne"};
-        String[] street = {"Persha Str", "Druga Str", "Tretya Str", "Chet Str"};
+        String[] city = {"Kiyv", "Kharkiv", "Fastiv", "Rivne", "Lviv", "Odesa", "Sumy"};
+        String[] street = {"Persha Str", "Druga Str", "Tretya Str", "Chet Str", "Myru Str", "Peremogy Str", "Sadova Str"};
 
         String randCity = city[(int) (Math.random() * city.length)];
         String randStreet = street[(int) (Math.random() * city.length)];
         String randHouseNum = String.valueOf((int) (Math.random() * RAND_HOUSE_NUM));
 
         return new Address(randCity, randStreet, randHouseNum);
+    }
+
+    public static String createFullName() {
+
+
+        String[] name = {"Ivan", "Stepan", "Boris", "Gregory", "Anton", "Nikola"};
+        String[] surname = {"Ivanov", "Stepanov", "Borisov", "Gregoriev", "Antonov", "Tesla"};
+
+        String randName = name[(int) (Math.random() * name.length)];
+        String randSurname = surname[(int) (Math.random() * surname.length)];
+
+        return randName + " " + randSurname;
+    }
+
+    public static String createJobTitle() {
+        String[] jobTitle = {"Manager", "Driver"};
+
+        String randJobTitle = jobTitle[(int) (Math.random() * jobTitle.length)];
+
+        return randJobTitle;
+    }
+
+    public static String createPnoneNumber() {
+        String[] operator = {"+38050", "+38063", "+38067", "+38044", "+38093", "+38099"};
+        String randOper = operator[(int) (Math.random() * operator.length)];
+
+        int phoneNumber = (int) (MIN_PHONE_NUMBER + (Math.random() * RAND_PHONE_NUMBER));
+        return randOper + phoneNumber;
+    }
+
+    public static int createSalary() {
+        int[] salary = {4000, 4500, 5000, 5500, 6000, 9000};
+        int randSalary = salary[(int) (Math.random() * salary.length)];
+        return randSalary;
     }
 
     public static Passport passportCreator() {
@@ -88,13 +122,19 @@ public class DataInitFactory {
                 createAddress(), currentTime, currentTime);
     }
 
-    public static List<PostOffice> postOffices() {
+    public static List<PostOffice> postOfficeCreator() {
 
-        List<PostOffice> postOffices = new ArrayList<>();
+        List<PostOffice> list = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
-            //postOffices.add();
-        }
+        list.add(new PostOffice(new Address("Львів", "Вулиця Степана Бандери", "15")));
+        list.add(new PostOffice(new Address("Рівне", "Вулиця Соборна", "8")));
+        list.add(new PostOffice(new Address("Фастів", "Вулиця Ковпака", "12")));
+        list.add(new PostOffice(new Address("Одеса", "Проспект Гагаріна", "8")));
+        list.add(new PostOffice(new Address("Луцьк", "Вулиця Коперника", "9")));
+        list.add(new PostOffice(new Address("Суми", "Вулиця Черепіна", "4")));
+        list.add(new PostOffice(new Address("Харків", "Салтівське шосе", "7")));
+
+        return list;
 /*
         Calendar calendar = GregorianCalendar.getInstance();
         MyDate currentTime = new MyDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
@@ -106,7 +146,6 @@ public class DataInitFactory {
 
         return new PostTicket(client, productsCreator(), createAddress(),
                 createAddress(), currentTime, currentTime);*/
-    return null;
     }
 
 }
