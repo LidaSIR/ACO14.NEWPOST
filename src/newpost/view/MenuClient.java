@@ -3,26 +3,24 @@ package newpost.view;
 import newpost.exceptions.ValidationException;
 
 public class MenuClient extends Menu {
-    private final Menu menu;
 
-    public MenuClient(Menu menu) {
-        this.menu = menu;
+    public MenuClient() {
     }
 
     protected void clientMenuRun() throws ValidationException {
         while (true) {
             showMenuClient();
 
-            int clientChoice = menu.getScanner().nextInt();
+            int clientChoice = getScanner().nextInt();
 
             if (clientChoice == 1) {
-                menu.showAddTicketMenu();
+                showAddTicketMenu();
             } else if (clientChoice == 2) {
-                menu.showInfoMenu();
+                showInfoMenu();
             } else if (clientChoice == 3) {
-                menu.showCancelTicketMenu();
+                showCancelTicketMenu();
             } else if (clientChoice == 4) {
-                menu.showTakeProductMenu();
+                showTakeProductMenu();
             } else if (clientChoice == 0) {
                 break;
             }

@@ -4,22 +4,20 @@ import newpost.model.money.Transaction;
 import newpost.model.office.Employee;
 
 public class MenuDirector extends Menu{
-    private final Menu menu;
 
-    public MenuDirector(Menu menu) {
-        this.menu = menu;
+    public MenuDirector() {
     }
 
     protected void directorMenuRun() {
         while (true) {
                showMainMenuDirector();
-            int choice = menu.getScanner().nextInt();
+            int choice = getScanner().nextInt();
             if (choice == 1) {
-               showAddStaffMenu(menu);
+               showAddStaffMenu();
             } else if (choice == 2) {
-               showRemoveStaffMenu(menu);
+               showRemoveStaffMenu();
             } else if (choice == 3) {
-                showFindStaffByNameMenu(menu);
+                showFindStaffByNameMenu();
             } else if (choice == 4) {
                 showStaffInfo();
             } else if (choice == 5) {
@@ -29,7 +27,7 @@ public class MenuDirector extends Menu{
             } else if (choice == 7) {
                showMakePaymentMenu();
             } else if (choice == 8) {
-               showFindTransactionByIdMenu();  // test failed
+               showFindTransactionByIdMenu();
             } else if (choice == 0) {
                 break;
             }
@@ -49,44 +47,44 @@ public class MenuDirector extends Menu{
 
     }
 
-    protected void showAddStaffMenu(Menu menu) {
+    protected void showAddStaffMenu() {
         System.out.println("Input job title");
-        String jobTitle = menu.scanner.next();
+        String jobTitle = scanner.next();
         System.out.println("Input employees name");
-        String name = menu.scanner.next();
+        String name = scanner.next();
         System.out.println("Input employees surname");
-        String surname = menu.scanner.next();
+        String surname = scanner.next();
         String fullName = name + surname;
         System.out.println("Input Employees telephone");
-        String phone = menu.scanner.next();
+        String phone = scanner.next();
         System.out.println("Input salary amount");
-        int salary = menu.scanner.nextInt();
+        int salary = scanner.nextInt();
 
-        Employee employee = menu.employeeManagement.addStaff(jobTitle,fullName,phone,salary);
+        Employee employee = employeeManagement.addStaff(jobTitle,fullName,phone,salary);
         int password = employee.getPassword();
         String login = employee.getLogin();
         System.out.printf("Employee added. Employees password %d, login %s",password,login );
     }
 
-    protected void showFindStaffByNameMenu(Menu menu) {
+    protected void showFindStaffByNameMenu() {
         System.out.println("Input employees name");
-        String name = menu.scanner.next();
+        String name = scanner.next();
         System.out.println("Input employees surname");
-        String surname = menu.scanner.next();
+        String surname = scanner.next();
         String fullName = name + surname;
 
-        Employee employee = menu.employeeManagement.findStaffByName(fullName);
+        Employee employee = employeeManagement.findStaffByName(fullName);
         System.out.println(employee.toString());
     }
 
-    protected void showRemoveStaffMenu(Menu menu) {
+    protected void showRemoveStaffMenu() {
         System.out.println("Input employees name");
-        String name = menu.scanner.next();
+        String name = scanner.next();
         System.out.println("Input employees surname");
-        String surname = menu.scanner.next();
+        String surname = scanner.next();
         String fullName = name + surname;
 
-        menu.employeeManagement.removeStaff(fullName);
+        employeeManagement.removeStaff(fullName);
         System.out.println("Employee removed");
     }
     protected void showStaffInfo() {

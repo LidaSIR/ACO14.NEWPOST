@@ -1,26 +1,15 @@
 package newpost.view;
 
-import com.sun.org.apache.xml.internal.dtm.ref.sax2dtm.SAX2RTFDTM;
-import newpost.controller.interfaces.IClientController;
-import newpost.controller.interfaces.IManagerController;
 import newpost.exceptions.LogException;
 import newpost.exceptions.ValidationException;
-import newpost.filter.Finder;
 import newpost.model.common.Address;
 import newpost.model.office.PostTicket;
-
-import javax.xml.bind.SchemaOutputResolver;
-import javax.xml.soap.SAAJResult;
 import java.util.List;
 
 
 public class MenuManager  extends Menu {
 
-    protected  Menu menu;
-
-
-    public MenuManager() {
-
+    protected MenuManager() {
     }
 
     protected void managerMenuRun() throws ValidationException, LogException {
@@ -104,6 +93,17 @@ public class MenuManager  extends Menu {
                 return;
         }
 
+    }
+    protected void showMainMenuManager() {
+        System.out.println("1. Add Ticket");
+        System.out.println("2. Show info");
+        System.out.println("3. Cancel Ticket");
+        System.out.println("4. Show All Logs");
+        System.out.println("5. Show Ticket by Clients Number");
+        System.out.println("6. Get Client");
+        System.out.println("7. Add Client");
+        System.out.println("8. Management operations");
+        System.out.println("0. Exit");
     }
 
     private void showFindMenu() {

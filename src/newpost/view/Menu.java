@@ -25,12 +25,6 @@ public class Menu {
     protected IEmployeeManagement employeeManagement;
     protected IMoneyController moneyController;
 
-    // protected  MenuManager menuManager = new MenuManager();
-
-   // protected MenuDirector menuDirector = new MenuDirector(this);
-
-   // private  MenuClient menuClient = new MenuClient(this);
-
     protected Scanner scanner = new Scanner(System.in);
 
     public void start(IClientController controller, IManagerController managerController,
@@ -51,39 +45,28 @@ public class Menu {
         int user = scanner.nextInt();
         switch (user) {
             case 1:
+                MenuClient menuClient = new MenuClient();
                 clientEnter();
-                clientMenuRun();
+                menuClient.clientMenuRun();
                 break;
             case 2:
-                while (true) {
+               while (true) {
                     System.out.println("Log in:");
                     String managerLog = scanner.next();
                     // Log in validation
-                    managerMenuRun();
-                }
+                   MenuManager menuManager = new MenuManager();
+                    menuManager.managerMenuRun();
+                   break;
+               }
             case 3:
                 System.out.println("Log in:");
                 String directorLog = scanner.next();
                 // Log in validation
-                directorMenuRun();
+               MenuDirector menuDirector = new MenuDirector();
+                menuDirector.directorMenuRun();
+                break;
         }
     }
-
-    protected void directorMenuRun() {
-        directorMenuRun();
-    }
-
-    protected void managerMenuRun() throws ValidationException, LogException {
-
-        managerMenuRun();
-    }
-
-    protected void clientMenuRun() throws ValidationException {
-        clientMenuRun();
-    }
-
-
-
 
     protected void showTakeProductMenu() throws ValidationException {
         System.out.println("Input ticket ID");
@@ -294,7 +277,8 @@ public class Menu {
             System.out.println("Input  passport number in format DF908754(without spaces) ");
             passportNumber = scanner.next();
             if (passportNumber.isEmpty() || (passportNumber.length() > 8) || passportNumber.contains(" ")) {
-                System.out.println("Incorrect data: either passport number is empty or length is greater than 8 characters or contains spaces..");
+                System.out.println("Incorrect data: either passport number is empty or length is greater than " +
+                        "8 characters or contains spaces..");
             } else {
                 break;
             }
@@ -308,7 +292,8 @@ public class Menu {
             System.out.println("Input phone in format: +380935075645 (without spaces)");
             phone = scanner.next();
             if ((phone.length() > 13) || (!(phone.contains("+380")))) {
-                System.out.println("Incorrect data: either number length is greater than 13 characters or number does not contain \"+380\".");
+                System.out.println("Incorrect data: either number length is greater than " +
+                        "13 characters or number does not contain \"+380\".");
             } else {
                 break;
             }
@@ -316,21 +301,9 @@ public class Menu {
         return phone;
     }
 
-    protected void showMainMenuManager() {
-        System.out.println("1. Add Ticket");
-        System.out.println("2. Show info");
-        System.out.println("3. Cancel Ticket");
-        System.out.println("4. Show All Logs");
-        System.out.println("5. Show Ticket by Clients Number");
-        System.out.println("6. Get Client");
-        System.out.println("7. Add Client");
-        System.out.println("8. Management operations");
-        System.out.println("0. Exit");
-    }
+
 
     public Scanner getScanner() {
         return scanner;
     }
-
-
 }
