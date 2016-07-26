@@ -1,6 +1,6 @@
 package newpost.controller;
 
-import jdk.management.resource.internal.inst.FileOutputStreamRMHooks;
+import newpost.controller.interfaces.IPostController;
 import newpost.db.AppDataContainer;
 import newpost.model.common.Address;
 import newpost.model.office.PostOffice;
@@ -11,7 +11,6 @@ import newpost.utils.geolocation.controller.Location;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,20 +28,20 @@ public class PostController implements IPostController {
     public void showOfficesOnMap() {
         //todo create class post office and change ticket and db
         GoogleMapsAPI googleMapsAPI = new GoogleMapsAPIImpl();
-        Location myLocation  = googleMapsAPI.findLocation("Україна", "Київ", "Старокиєвська", "10");
+        Location myLocation  = googleMapsAPI.findLocation("Україна", "Київ", "Вулиця Старокиївська", "10");
 
         List<Location> locations = new ArrayList();
-        locations.add(googleMapsAPI.findLocation("Україна", "Київ", "Бульва Лесі Українки", "5"));
 
-        /*for (PostOffice pst : appDataContainer.getPostOffices()) {
-            Address addr  = pst.getAddress();
-            locations.add(googleMapsAPI.findLocation("Україна", addr.getCity(), addr.getStreet(), addr.getHouseNum()));
+        List<PostOffice> postOffices = appDataContainer.getPostOffices();
+
+        for (PostOffice pst: postOffices){
+            Address addr = pst.getAddress();
+            locations.add(googleMapsAPI.findLocation("Ukraine", addr.getCity(), addr.getStreet(), addr.getHouseNum()));
         }
-*/
+
         SwingUtilities.invokeLater(new Runnable() {
             @Override
-            public void run() {
-                new ShowMapMarkerFrame(myLocation, locations);
+            public void run() {new ShowMapMarkerFrame(myLocation, locations);
             }
         });
 

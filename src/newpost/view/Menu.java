@@ -1,12 +1,9 @@
 package newpost.view;
 
-import newpost.controller.IClientController;
-import newpost.controller.IEmployeeManagement;
-import newpost.controller.IManagerController;
-import newpost.controller.IMoneyController;
+import newpost.controller.PostController;
+import newpost.controller.interfaces.*;
 import newpost.exceptions.LogException;
 import newpost.exceptions.ValidationException;
-import newpost.filter.Finder;
 import newpost.model.common.Address;
 import newpost.model.common.Passport;
 import newpost.model.common.Product;
@@ -20,16 +17,18 @@ import newpost.utils.logging.LogContainer;
 import java.util.Scanner;
 
 public class Menu {
-    protected final MenuManager menuManager = new MenuManager(this);
+    //protected final MenuManager menuManager = new MenuManager(this);
     protected Scanner scanner = new Scanner(System.in);
     protected IClientController clientController;
     protected IManagerController managerController;
     protected IEmployeeManagement employeeManagement;
     protected IMoneyController moneyController;
+    protected IPostController postOfficeController;
 
-    public void start(IClientController controller, IManagerController managerController) throws ValidationException, LogException {
+    public void start(IClientController controller, IManagerController managerController, IPostController postOfficeController) throws ValidationException, LogException {
         clientController = controller;
         this.managerController = managerController;
+        this.postOfficeController = postOfficeController;
         scanner.useDelimiter("\\n");
 
         chooseUser();
@@ -37,7 +36,7 @@ public class Menu {
 
 
     protected void chooseUser() throws ValidationException, LogException {
-        System.out.printf("For clients choose: 1\nRor manager choose: 2\nFor director choose 3\n");
+        System.out.printf("For client choose: 1\nFor manager choose: 2\nFor director choose 3\n");
         int user = scanner.nextInt();
         switch (user) {
             case 1:
@@ -49,7 +48,8 @@ public class Menu {
                     System.out.println("Log in:");
                     String managerLog = scanner.next();
                     // Log in validation
-                    menuManager.managerMenuRun();
+                    //menuManager.managerMenuRun();
+
                 }
             case 3:
                 System.out.println("Log in:");
@@ -87,7 +87,7 @@ public class Menu {
 
     protected void managerMenuRun() throws ValidationException, LogException {
 
-        menuManager.managerMenuRun();
+        //menuManager.managerMenuRun();
     }
 
     protected void clientMenuRun() throws ValidationException {
@@ -104,7 +104,9 @@ public class Menu {
                 showCancelTicketMenu();
             } else if (clientChoice == 4) {
                 showTakeProductMenu();
-            } else if (clientChoice == 0) {
+            } else if (clientChoice == 5) {
+                showAllPostOffices();
+            }else if (clientChoice == 0) {
                 break;
             }
         }
@@ -442,6 +444,10 @@ public class Menu {
         return phone;
     }
 
+    public void showAllPostOffices(){
+        postOfficeController.showOfficesOnMap();
+    }
+
     public void showMainMenuManager() {
         System.out.println("1. Add Ticket");
         System.out.println("2. Show info");
@@ -459,6 +465,7 @@ public class Menu {
         System.out.println("2. Show info ");
         System.out.println("3. Cancel order");
         System.out.println("4. Take product");
+        System.out.println("5. Show all post offices");
         System.out.println("0. Exit");
     }
 

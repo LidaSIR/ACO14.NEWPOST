@@ -28,8 +28,8 @@ public class DataInitFactory {
 
     public static Address createAddress() {
 
-        String[] city = {"Kiyv", "Kharkiv", "Fastiv", "Rivne"};
-        String[] street = {"Persha Str", "Druga Str", "Tretya Str", "Chet Str"};
+        String[] city = {"Kiyv", "Kharkiv", "Fastiv", "Rivne", "Lviv", "Odesa", "Sumy"};
+        String[] street = {"Persha Str", "Druga Str", "Tretya Str", "Chet Str", "Myru Str", "Peremogy Str", "Sadova Str"};
 
         String randCity = city[(int) (Math.random() * city.length)];
         String randStreet = street[(int) (Math.random() * city.length)];
@@ -122,13 +122,19 @@ public class DataInitFactory {
                 createAddress(), currentTime, currentTime);
     }
 
-    public static List<PostOffice> postOffices() {
+    public static List<PostOffice> postOfficeCreator() {
 
-        List<PostOffice> postOffices = new ArrayList<>();
+        List<PostOffice> list = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
-            //postOffices.add();
-        }
+        list.add(new PostOffice(new Address("Львів", "Вулиця Степана Бандери", "15")));
+        list.add(new PostOffice(new Address("Рівне", "Вулиця Соборна", "8")));
+        list.add(new PostOffice(new Address("Фастів", "Вулиця Ковпака", "12")));
+        list.add(new PostOffice(new Address("Одеса", "Проспект Гагаріна", "8")));
+        list.add(new PostOffice(new Address("Луцьк", "Вулиця Коперника", "9")));
+        list.add(new PostOffice(new Address("Суми", "Вулиця Черепіна", "4")));
+        list.add(new PostOffice(new Address("Харків", "Салтівське шосе", "7")));
+
+        return list;
 /*
         Calendar calendar = GregorianCalendar.getInstance();
         MyDate currentTime = new MyDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
@@ -140,7 +146,6 @@ public class DataInitFactory {
 
         return new PostTicket(client, productsCreator(), createAddress(),
                 createAddress(), currentTime, currentTime);*/
-    return null;
     }
 
 }

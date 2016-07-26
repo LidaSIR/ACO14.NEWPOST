@@ -1,4 +1,4 @@
-package newpost.controller;
+package newpost.controller.interfaces;
 
 import newpost.exceptions.ValidationException;
 import newpost.model.common.Address;
