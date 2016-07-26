@@ -1,6 +1,8 @@
 package newpost.view;
 
 import com.sun.org.apache.xml.internal.dtm.ref.sax2dtm.SAX2RTFDTM;
+import newpost.controller.interfaces.IClientController;
+import newpost.controller.interfaces.IManagerController;
 import newpost.exceptions.LogException;
 import newpost.exceptions.ValidationException;
 import newpost.filter.Finder;
@@ -11,40 +13,42 @@ import javax.xml.bind.SchemaOutputResolver;
 import javax.xml.soap.SAAJResult;
 import java.util.List;
 
-public class MenuManager  extends Menu {
-    protected final Menu menu;
 
-    public MenuManager(Menu menu) {
-        this.menu = menu;
+public class MenuManager  extends Menu {
+
+    protected  Menu menu;
+
+
+    public MenuManager() {
+
     }
 
     protected void managerMenuRun() throws ValidationException, LogException {
         while (true) {
-            menu.showMainMenuManager();
+            showMainMenuManager();
 
-            int choice = menu.getScanner().nextInt();
+            int choice = super.getScanner().nextInt();
 
             if (choice == 1) {
-                menu.showAddTicketMenu();
+                showAddTicketMenu();
             } else if (choice == 2) {
-                menu.showInfoMenu();
+                showInfoMenu();
             } else if (choice == 3) {
-                menu.showCancelTicketMenu();
+                showCancelTicketMenu();
             } else if (choice == 4) {
-                menu.showAllLogs();
+                showAllLogs();
             } else if (choice == 5) {
-                menu.showTicketByClientPhoneMenu();
+                showTicketByClientPhoneMenu();
             } else if (choice == 6) {
-                menu.showGetClientMenu();
+                showGetClientMenu();
             } else if (choice == 7) {
-                menu.showAddClientMenu();
+                showAddClientMenu();
             } else if(choice == 8) {
                 this.showManagementOperationsMenu();
             } else if (choice == 0) {
                 break;
             }
         }
-
     }
 
     public void showManagementOperationsMenu() {
@@ -66,9 +70,6 @@ public class MenuManager  extends Menu {
             case 0:
                 return;
         }
-
-
-
 
     }
 

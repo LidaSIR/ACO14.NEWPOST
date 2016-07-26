@@ -1,5 +1,7 @@
 package newpost.controller;
 
+import newpost.controller.interfaces.IClientController;
+import newpost.controller.interfaces.IManagerController;
 import newpost.exceptions.ValidationException;
 import newpost.model.common.Address;
 import newpost.model.common.Product;

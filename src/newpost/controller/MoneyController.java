@@ -1,5 +1,6 @@
 package newpost.controller;
 
+import newpost.controller.interfaces.IMoneyController;
 import newpost.db.AppDataContainer;
 import newpost.model.money.Salary;
 import newpost.model.money.Tax;

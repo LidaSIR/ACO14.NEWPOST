@@ -1,5 +1,7 @@
 package newpost.controller;
 
+import newpost.controller.interfaces.IEmployeeManagement;
+import newpost.controller.interfaces.IReport;
 import newpost.db.AppDataContainer;
 import newpost.model.office.Employee;
 import newpost.model.office.PostTicket;
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DirectorController implements IEmployeeManagement,IReport{
+public class DirectorController implements IEmployeeManagement,IReport {
 
     protected AppDataContainer appDataContainer;
 

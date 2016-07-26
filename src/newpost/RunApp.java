@@ -1,5 +1,6 @@
 package newpost;
 
+import newpost.controller.interfaces.IManagerController;
 import newpost.controller.proxy.LoggingClientControllerProxy;
 import newpost.controller.proxy.LoggingManagerControllerProxy;
 import newpost.db.AppDataContainer;

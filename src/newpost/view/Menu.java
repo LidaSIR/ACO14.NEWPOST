@@ -1,17 +1,18 @@
 package newpost.view;
 
-import newpost.controller.IClientController;
-import newpost.controller.IEmployeeManagement;
-import newpost.controller.IManagerController;
-import newpost.controller.IMoneyController;
+
+import newpost.controller.interfaces.IClientController;
+import newpost.controller.interfaces.IEmployeeManagement;
+import newpost.controller.interfaces.IManagerController;
+import newpost.controller.interfaces.IMoneyController;
 import newpost.exceptions.LogException;
 import newpost.exceptions.ValidationException;
-import newpost.filter.Finder;
+
 import newpost.model.common.Address;
 import newpost.model.common.Passport;
 import newpost.model.common.Product;
 import newpost.model.common.Size;
-import newpost.model.money.Transaction;
+
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 import newpost.utils.logging.LogContainer;
@@ -19,18 +20,18 @@ import newpost.utils.logging.LogContainer;
 import java.util.Scanner;
 
 public class Menu {
-    protected final MenuManager menuManager = new MenuManager(this);
-
-    final MenuDirector menuDirector = new MenuDirector(this);
-
-    private final MenuClient menuClient = new MenuClient(this);
-
-    protected Scanner scanner = new Scanner(System.in);
-
     protected IClientController clientController;
     protected IManagerController managerController;
     protected IEmployeeManagement employeeManagement;
     protected IMoneyController moneyController;
+
+    // protected  MenuManager menuManager = new MenuManager();
+
+   // protected MenuDirector menuDirector = new MenuDirector(this);
+
+   // private  MenuClient menuClient = new MenuClient(this);
+
+    protected Scanner scanner = new Scanner(System.in);
 
     public void start(IClientController controller, IManagerController managerController,
                       IMoneyController moneyController, IEmployeeManagement employeeManagement)
@@ -50,35 +51,35 @@ public class Menu {
         int user = scanner.nextInt();
         switch (user) {
             case 1:
-                menuClient.clientEnter(this);
-                menuClient.clientMenuRun();
+                clientEnter();
+                clientMenuRun();
                 break;
             case 2:
                 while (true) {
                     System.out.println("Log in:");
                     String managerLog = scanner.next();
                     // Log in validation
-                    menuManager.managerMenuRun();
+                    managerMenuRun();
                 }
             case 3:
                 System.out.println("Log in:");
                 String directorLog = scanner.next();
                 // Log in validation
-                menuDirector.directorMenuRun();
+                directorMenuRun();
         }
     }
 
     protected void directorMenuRun() {
-        menuDirector.directorMenuRun();
+        directorMenuRun();
     }
 
     protected void managerMenuRun() throws ValidationException, LogException {
 
-        menuManager.managerMenuRun();
+        managerMenuRun();
     }
 
     protected void clientMenuRun() throws ValidationException {
-        menuClient.clientMenuRun();
+        clientMenuRun();
     }
 
 
@@ -254,6 +255,24 @@ public class Menu {
             System.out.println(e.getMessage());
         }
     }
+    protected void clientEnter() {
+        while (true) {
+//            System.out.println("Input: 1.I am already have account in Art Post ");
+//            System.out.println("Input: 2. I am a new user "); //for receivers
+//            int userAnswer = scanner.nextInt();
+//            if (userAnswer != 1 && userAnswer != 2) System.out.println("Incorrect input");
+//            if (userAnswer == 1) {
+            System.out.println("Enter your login");
+            String userLog = scanner.next();
+            System.out.println("Enter your password");
+            String userPass = scanner.next();
+            break;
+            //validation
+            // if wrong System.out.println("Wrong login or password")
+
+        }
+    }
+
 
     protected String fullNameInput() {
         String fullName;

@@ -1,5 +1,6 @@
 package newpost.controller;
 
+import newpost.controller.interfaces.IClientController;
 import newpost.db.AppDataContainer;
 import newpost.model.common.Address;
 import newpost.model.common.MyDate;

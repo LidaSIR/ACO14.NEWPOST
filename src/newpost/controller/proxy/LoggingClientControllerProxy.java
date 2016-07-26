@@ -1,6 +1,6 @@
 package newpost.controller.proxy;
 
-import newpost.controller.IClientController;
+import newpost.controller.interfaces.IClientController;
 import newpost.exceptions.ValidationException;
 import newpost.model.common.Address;
 import newpost.model.common.Product;
