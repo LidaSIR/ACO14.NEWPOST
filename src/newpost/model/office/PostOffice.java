@@ -7,6 +7,8 @@ import newpost.model.common.Address;
  */
 public class PostOffice {
 
+    private static int nextId = 0;
+
     private String id;
     private Address address;
 
@@ -14,6 +16,13 @@ public class PostOffice {
         this.id = id;
         this.address = address;
     }
+
+    public PostOffice(Address address) {
+        this.id = Integer.toString(nextId++);
+        this.address = address;
+    }
+
+
 
     public String getId() {
         return id;

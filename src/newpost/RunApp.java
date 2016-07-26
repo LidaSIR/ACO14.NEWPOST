@@ -13,10 +13,6 @@ import newpost.validator.ValidationManagerControllerProxy;
 import newpost.validator.Validator;
 import newpost.view.Menu;
 
-/**
- * Created by Serhii Fursenko on 08.07.2016.
- * fyrsenko@gmail.com
- */
 public class RunApp {
 
     public static void main(String[] args) throws ControllerException, InputDataException, ValidationException, LogException {
