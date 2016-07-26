@@ -23,7 +23,7 @@ public class Menu {
     protected static IMoneyController moneyController;
     protected static IPostController postController;
 
-    protected Scanner scanner = new Scanner(System.in);
+    protected static Scanner scanner = new Scanner(System.in);
 
     public void start(IClientController controller, IManagerController managerController,
                       IMoneyController moneyController, IEmployeeManagement employeeManagement, IPostController postController)
