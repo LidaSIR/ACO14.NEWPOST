@@ -1,10 +1,12 @@
 package newpost;
 
 import newpost.controller.interfaces.IManagerController;
+import newpost.controller.interfaces.IPostController;
 import newpost.controller.proxy.LoggingClientControllerProxy;
 import newpost.controller.proxy.LoggingManagerControllerProxy;
 import newpost.db.AppDataContainer;
 import newpost.controller.*;
+import newpost.db.InitDB;
 import newpost.exceptions.ControllerException;
 import newpost.exceptions.InputDataException;
 import newpost.exceptions.LogException;
@@ -19,6 +21,7 @@ public class RunApp {
     public static void main(String[] args) throws ControllerException, InputDataException, ValidationException, LogException {
 
         AppDataContainer appDataContainer = new AppDataContainer();
+        InitDB.initDB(appDataContainer);
 
         DirectorController directorController = new DirectorController(appDataContainer);
 
@@ -38,9 +41,9 @@ public class RunApp {
 
         MoneyController moneyController = new MoneyController(appDataContainer);
 
-
+        IPostController postController = new PostController(appDataContainer);
 
         Menu menu = new Menu();
-        menu.start(controller, managerController,moneyController,directorController);
+        menu.start(controller, managerController, moneyController, directorController, postController);
     }
 }
