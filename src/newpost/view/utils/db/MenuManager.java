@@ -8,8 +8,8 @@ import newpost.view.Menu;
 
 import java.util.List;
 
-public class MenuManager  extends Menu {
-    protected final Menu menu;
+public class MenuManager extends Menu {
+    protected Menu menu = null;
 
     public MenuManager(Menu menu) {
         this.menu = menu;
@@ -50,7 +50,7 @@ public class MenuManager  extends Menu {
         System.out.println("2. Sort");
         System.out.println("0. Exit");
 
-        int choice = scanner.nextInt();
+        int choice = 1;//scanner.nextInt();
         scanner.nextLine();
 
         switch (choice) {
@@ -77,23 +77,23 @@ public class MenuManager  extends Menu {
         System.out.println("4. Sort actual tickets by Id");
         System.out.println("0. Exit");
 
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+        int choice = 1;//scanner.nextInt();
+        //scanner.nextLine();
         switch (choice) {
             case 1:
-                managerController.sortTicketsByAddress();
+                //managerController.sortTicketsByAddress();
                 System.out.println("Done");
                 break;
             case 2:
-                managerController.sortClientsByName();
+                //managerController.sortClientsByName();
                 System.out.println("Done");
                 break;
             case 3:
-                managerController.sortTicketsByPrice();
+                //managerController.sortTicketsByPrice();
                 System.out.println("Done");
                 break;
             case 4:
-                managerController.sortTicketsById();
+                //managerController.sortTicketsById();
                 System.out.println("Done");
                 break;
             case 0:
@@ -110,8 +110,8 @@ public class MenuManager  extends Menu {
         System.out.println("5. Find by id");
         System.out.println("0. Exit");
 
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+        int choice = 1;//scanner.nextInt();
+        //scanner.nextLine();
         switch (choice) {
             case 1:
                 this.findByPrice();
@@ -131,9 +131,9 @@ public class MenuManager  extends Menu {
 
     private void findByPrice() {
         System.out.println("Input price");
-        int price = scanner.nextInt();
-        scanner.nextLine();
-        List<PostTicket> list = managerController.findByPrice(price);
+        //int price = scanner.nextInt();
+        //scanner.nextLine();
+        //List<PostTicket> list = managerController.findByPrice(price);
 
 
 

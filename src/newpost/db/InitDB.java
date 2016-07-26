@@ -46,7 +46,6 @@ public class InitDB {
         try {
             PrintWriter printWrite = new PrintWriter(new FileWriter(LOG_LOCATION), true);
             printWrite.println(logs + "\n");
-            System.out.println("write was successfull");
         } catch (IOException e) {
             e.printStackTrace();
         }

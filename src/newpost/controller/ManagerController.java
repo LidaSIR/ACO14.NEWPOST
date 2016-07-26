@@ -1,6 +1,7 @@
 package newpost.controller;
 
 
+import newpost.controller.interfaces.IManagerController;
 import newpost.db.AppDataContainer;
 import newpost.filter.AddressComparator;
 import newpost.filter.Finder;

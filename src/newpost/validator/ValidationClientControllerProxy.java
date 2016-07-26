@@ -1,6 +1,6 @@
 package newpost.validator;
 
-import newpost.controller.IClientController;
+import newpost.controller.interfaces.IClientController;
 import newpost.model.common.Address;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;

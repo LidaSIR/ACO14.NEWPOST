@@ -6,9 +6,11 @@ import newpost.filter.Finder;
 import newpost.model.office.PostTicket;
 
 import java.util.List;
+import java.util.Scanner;
 
-public class MenuManager  extends Menu {
+public class MenuManager {// extends Menu {
     protected final Menu menu;
+    protected Scanner scanner = new Scanner(System.in);
 
     public MenuManager(Menu menu) {
         this.menu = menu;
@@ -80,19 +82,19 @@ public class MenuManager  extends Menu {
         scanner.nextLine();
         switch (choice) {
             case 1:
-                managerController.sortTicketsByAddress();
+                //managerController.sortTicketsByAddress();
                 System.out.println("Done");
                 break;
             case 2:
-                managerController.sortClientsByName();
+                //managerController.sortClientsByName();
                 System.out.println("Done");
                 break;
             case 3:
-                managerController.sortTicketsByPrice();
+                //managerController.sortTicketsByPrice();
                 System.out.println("Done");
                 break;
             case 4:
-                managerController.sortTicketsById();
+                //managerController.sortTicketsById();
                 System.out.println("Done");
                 break;
             case 0:
@@ -132,7 +134,7 @@ public class MenuManager  extends Menu {
         System.out.println("Input price");
         int price = scanner.nextInt();
         scanner.nextLine();
-        List<PostTicket> list = managerController.findByPrice(price);
+        //List<PostTicket> list = managerController.findByPrice(price);
 
 
 
