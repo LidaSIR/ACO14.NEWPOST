@@ -93,7 +93,7 @@ public class Menu {
         }
     }
 
-    protected void showTicketByClientPhoneMenu() throws ValidationException {
+    protected  void showTicketByClientPhoneMenu() throws ValidationException {
         System.out.println("Input clients phone");
         String phone;
         phone = scanner.next();
