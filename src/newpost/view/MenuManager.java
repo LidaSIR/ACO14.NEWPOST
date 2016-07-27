@@ -16,7 +16,7 @@ public class MenuManager  extends Menu {
         while (true) {
             showMainMenuManager();
 
-            int choice = super.getScanner().nextInt();
+            int choice = scanner.nextInt();
 
             if (choice == 1) {
                 showAddTicketMenu();
@@ -47,7 +47,7 @@ public class MenuManager  extends Menu {
         System.out.println("0. Exit");
 
         int choice = scanner.nextInt();
-        scanner.nextLine();
+        scanner.next();
 
         switch (choice) {
             case 1:
@@ -115,7 +115,7 @@ public class MenuManager  extends Menu {
         System.out.println("0. Exit");
 
         int choice = scanner.nextInt();
-        scanner.nextLine();
+        scanner.next();
         switch (choice) {
             case 1:
                 this.findByPrice();
@@ -140,7 +140,7 @@ public class MenuManager  extends Menu {
     private void findByPrice() {
         System.out.println("Input price");
         int price = scanner.nextInt();
-        scanner.nextLine();
+        scanner.next();
         List<PostTicket> list = managerController.findByPrice(price);
         System.out.println(list.toString());
 
@@ -167,7 +167,7 @@ public class MenuManager  extends Menu {
     }
     private void findByOwnerName (){
         System.out.println("Input Name");
-        String name = scanner.nextLine();
+        String name = scanner.next();
 
         List<PostTicket> list = managerController.findByOwnerName(name);
         System.out.println(list.toString());

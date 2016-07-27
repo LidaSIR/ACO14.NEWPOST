@@ -90,8 +90,8 @@ public class ValidationManagerControllerProxy implements IManagerController {
         }
         if (validator.isPassport(passport)) {
         } else {
-            if (err.length() > 0) err += "/n";
-            err += "Phone number is not correct. Please verify.";
+            if (err.length() > 0) err += "\n";
+            err += "Passport number is not correct. Please verify.";
         }
 
         if (err.length() > 0){

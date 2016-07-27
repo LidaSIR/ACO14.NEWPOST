@@ -10,10 +10,27 @@ public class Client {
 
     private String phone;
     private Passport passport;
+    private String mail;
+
 
     public Client(String phone, Passport passport) {
         this.phone = phone;
         this.passport = passport;
+    }
+
+    public Client(String phone, Passport passport, String mail) {
+        this.phone = phone;
+        this.passport = passport;
+        this.mail = mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getMail() {
+
+        return mail;
     }
 
     public String getPhone() {

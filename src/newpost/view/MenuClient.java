@@ -21,6 +21,8 @@ public class MenuClient extends Menu {
                 showCancelTicketMenu();
             } else if (clientChoice == 4) {
                 showTakeProductMenu();
+            } else if (clientChoice == 5) {
+                showAllPostOffices();
             } else if (clientChoice == 0) {
                 break;
             }
@@ -32,6 +34,7 @@ public class MenuClient extends Menu {
         System.out.println("2. Show info ");
         System.out.println("3. Cancel order");
         System.out.println("4. Take product");
+        System.out.println("5. Show all post offices");
         System.out.println("0. Exit");
 
     }
