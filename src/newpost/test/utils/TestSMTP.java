@@ -12,10 +12,6 @@ import javax.mail.MessagingException;
  */
 public class TestSMTP {
 
-    private static String USER_NAME = "lightpostua";  // GMail user name (just the part before "@gmail.com")
-    private static String PASSWORD = "lightpostuaaco14"; // GMail password
-    private static String RECIPIENT = "fyrsenko@gmail.com";
-
     public static void main(String[] args) throws MessagingException {
 
 
