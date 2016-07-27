@@ -13,7 +13,6 @@ public class TestPostController {
     public static void main(String[] args) {
 
         AppDataContainer appDataContainer = new AppDataContainer();
-
         InitDB.initDB(appDataContainer);
 
         IPostController postController = new PostController(appDataContainer);
