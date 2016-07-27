@@ -23,7 +23,7 @@ public class Menu {
     protected static IMoneyController moneyController;
     protected static IPostController postController;
 
-    protected Scanner scanner = new Scanner(System.in);
+    protected static Scanner scanner = new Scanner(System.in);
 
     public void start(IClientController controller, IManagerController managerController,
                       IMoneyController moneyController, IEmployeeManagement employeeManagement, IPostController postController)
@@ -102,29 +102,13 @@ public class Menu {
 
     protected void showAddClientMenu() throws ValidationException {
 
-        while (true) {
-            System.out.println("Input clients first name");
-            String name = scanner.next();
-            System.out.println("Input clients second name");
-            String surname = scanner.next();
-            String fullName = name + surname;
-            System.out.println("Input passport number");
-            String passportNum = scanner.next();
-            System.out.println("Input clients phone in format +380938976554");
-            String phone = scanner.next();
-            try {
-                if ((fullName.length() > 0) && (passportNum.length() > 0) && (phone.length() > 0)) {
-                    Passport passport = new Passport(fullName, passportNum);
-                    Client client = managerController.addClient(passport, phone);
-                    System.out.println("Client added");
-                    break;
-                } else {
-                    System.out.println("Either full name or passport number or phone number is empty.");
-                }
-            } catch (ValidationException ex){
-                System.out.println(ex.getMessage());
-            }
-        }
+            String fullName = fullNameInput();
+            String passportNum = passportInput();
+            String phone = phoneInput();
+
+            Passport passport = new Passport(fullName, passportNum);
+            Client client = managerController.addClient(passport, phone);
+            System.out.println("Client added");
     }
 
     protected void showAllLogs() throws LogException {
@@ -278,7 +262,7 @@ public class Menu {
         while (true) {
             System.out.println("Input  passport number in format DF908754(without spaces) ");
             passportNumber = scanner.next();
-            if (passportNumber.isEmpty() || (passportNumber.length() > 8) || passportNumber.contains(" ")) {
+            if (passportNumber.isEmpty() || (passportNumber.length() != 8) || passportNumber.contains(" ")) {
                 System.out.println("Incorrect data: either passport number is empty or length is greater than " +
                         "8 characters or contains spaces..");
             } else {
