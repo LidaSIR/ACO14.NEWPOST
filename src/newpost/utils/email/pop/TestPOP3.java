@@ -1,3 +1,4 @@
+/*
 package newpost.utils.email.pop;
 
 import java.util.Properties;
@@ -26,31 +27,35 @@ public class TestPOP3 {
             //create the folder object and open it
             Folder emailFolder = store.getFolder("INBOX");
             emailFolder.open(Folder.READ_ONLY);
-            emailFolder.getUnreadMessageCount();
-            emailFolder.getMessages();
 
             // retrieve the messages from the folder in an array and print it
             Message[] messages = emailFolder.getMessages();
-
-
             System.out.println("messages.length---" + messages.length);
 
             for (int i = 0, n = messages.length; i < n; i++) {
                 Message message = messages[i];
-                Flags flags = message.getFlags();
-                Flags.Flag[] systemFlags = flags.getSystemFlags();
-                for (int j = 0; i <systemFlags.length ; i++) {
-                    System.out.println(systemFlags[j].toString());
-                    if (systemFlags[i] == Flags.Flag.SEEN) {
-                        System.out.println("---------------------------------");
-                        System.out.println("Email Number " + (i + 1));
-                        System.out.println("Subject: " + message.getSubject());
-                        System.out.println("From: " + message.getFrom()[0]);
-                        System.out.println("Text: " + message.getContent().toString());
-                    } else System.out.println("this message already seen");
+                System.out.println("---------------------------------");
+                System.out.println("Email Number " + (i + 1));
+                System.out.println("Subject: " + message.getSubject());
+                System.out.println("From: " + message.getFrom()[0]);
+
+                */
+/*String body = "";
+                Object content = message.getContent();
+                if (content instanceof String)
+                {
+                    body = (String)content;
                 }
-                // flags.contains()
-             //   else System.out.println("sorry, there is no new letters");
+                else if (content instanceof Multipart)
+                {
+                    Multipart mp = (Multipart)content;
+                    BodyPart bodyPart = mp.getBodyPart(0);
+                    //bodyPart.toString();
+                    body = bodyPart.getContent().toString();
+                }
+
+                System.out.println("Text: " + body);*//*
+
 
             }
 
@@ -80,3 +85,4 @@ public class TestPOP3 {
 
 
 }
+*/
