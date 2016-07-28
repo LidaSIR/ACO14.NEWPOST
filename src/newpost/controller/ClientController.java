@@ -1,5 +1,6 @@
 package newpost.controller;
 
+import newpost.controller.interfaces.IClientController;
 import newpost.db.AppDataContainer;
 import newpost.model.common.Address;
 import newpost.model.common.MyDate;
@@ -18,7 +19,7 @@ public class ClientController implements IClientController {
 
     public static final int DAYS_IN_ROAD = 2;
 
-    private AppDataContainer appDataContainer;
+    protected AppDataContainer appDataContainer;
 
     public ClientController(AppDataContainer appDataContainer) {
         this.appDataContainer = appDataContainer;
@@ -36,11 +37,6 @@ public class ClientController implements IClientController {
 
         Product sendProduct = new Product(product.getName(), product.getSize(), product.getPrice(), client);
         Product[] sendProductArr = {sendProduct};
-
-
-
-
-
         PostTicket postTicket = new PostTicket(client, sendProductArr, new Address("Kiyv","Lesi","22"), sendToAddress,
                 currentTime, currentTime);
 
@@ -59,7 +55,7 @@ public class ClientController implements IClientController {
         return null;
     }
 
-    @Override
+    @Override     // we don't have Product ID
     public Product showProductById(int ticketId) {
 
         for(PostTicket postTicket : appDataContainer.getTickets()) {

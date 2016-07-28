@@ -1,4 +1,4 @@
-package newpost.controller;
+package newpost.controller.interfaces;
 
 import newpost.model.money.Tax;
 import newpost.model.money.Transaction;

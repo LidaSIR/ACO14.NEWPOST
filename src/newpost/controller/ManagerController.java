@@ -1,6 +1,7 @@
 package newpost.controller;
 
 
+import newpost.controller.interfaces.IManagerController;
 import newpost.db.AppDataContainer;
 import newpost.filter.AddressComparator;
 import newpost.filter.Finder;
@@ -12,9 +13,8 @@ import newpost.model.common.Passport;
 import newpost.model.common.Product;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
-import newpost.utils.geolocation.controller.GoogleMapsAPI;
-import newpost.utils.geolocation.controller.GoogleMapsAPIImpl;
-import newpost.utils.geolocation.controller.Location;
+import newpost.test.utils.TestSMTP;
+import newpost.utils.email.smtp.SMTP;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -25,13 +25,19 @@ import java.util.List;
  */
 public class ManagerController implements IManagerController {
 
-    // public static final int DAYS_IN_ROAD = 2; -- now calculate dayInRoad
-    public static final String COUNTRY = "Ukraine";
-    public static final int SPEED = 40;
-    public static final int HOUR_IN_DAY = 24;
+    public static final int DAYS_IN_ROAD = 2;
+    private final static String MAIL_LOGIN = "lightpostua";
+    private final static String MAIL_PASSWORD = "lightpostuaaco14";
+    private final static String MAIL_SUBJECT = "Hello from ACO14 New Post";
+    private final static String DEFAULT_MESSAGE_TEXT = "Hello dear {name}!!!\n" +
+            "\n" +
+            "Now your order in progress and your ticket number is:\n" +
+            "{ticket}";
 
-    private AppDataContainer appDataContainer;
-    private Address addressFrom = DataInitFactory.createAddress();
+
+
+    protected AppDataContainer appDataContainer;
+    protected Address addressFrom = DataInitFactory.createAddress();
     public ManagerController(AppDataContainer appDataContainer) {
         this.appDataContainer = appDataContainer;
     }
@@ -43,18 +49,34 @@ public class ManagerController implements IManagerController {
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 
         MyDate estimationArrivalDate = currentTime;
-        estimationArrivalDate.setDay(currentTime.getDay()+ dayInRoad(addressFrom, sendToAdress));
+        estimationArrivalDate.setDay(currentTime.getDay()+ DAYS_IN_ROAD);
 
         Product sendProduct = new Product(product.getName(), product.getSize(), product.getPrice(), client);
         Product[] sendProductArr = {sendProduct};
-
 
         PostTicket postTicket = new PostTicket(client, sendProductArr, addressFrom, sendToAdress,
                 currentTime, estimationArrivalDate);
 
         appDataContainer.getTickets().add(postTicket);
 
+        this.sendMail(client, postTicket);
+
         return postTicket;
+    }
+
+    private boolean sendMail(Client client, PostTicket ticket) {
+
+        String mailText = DEFAULT_MESSAGE_TEXT.replace("{name}",client.getPassport().getFullname());
+        mailText = mailText.replace("{ticket}",ticket.getId());
+
+        if(client.getMail()==null) {
+            return false;
+        }
+
+
+        SMTP.sendFromGMail(MAIL_LOGIN, MAIL_PASSWORD, client.getMail(),MAIL_SUBJECT, mailText);
+
+        return true;
     }
 
     @Override
@@ -99,6 +121,13 @@ public class ManagerController implements IManagerController {
         return client;
     }
 
+    public Client addClient(Passport passport, String phone, String mail) {
+        Client client = new Client(phone, passport, mail);
+        appDataContainer.getClients().add(client);
+
+        return client;
+    }
+
     public void sortTicketsByAddress() {
         appDataContainer.getTickets().sort(new AddressComparator());
     }
@@ -124,25 +153,27 @@ public class ManagerController implements IManagerController {
         return Finder.findByPrice(appDataContainer, price);
     }
 
-    private int dayInRoad (Address adressFrom, Address addressTo){
-
-        GoogleMapsAPI googleMapsAPI = new GoogleMapsAPIImpl();
-
-        Location locationStart = googleMapsAPI.findLocation(COUNTRY, addressFrom.getCity(),
-                addressFrom.getStreet(), addressFrom.getHouseNum());
-        Location locationFinish = googleMapsAPI.findLocation(COUNTRY, addressTo.getCity(),
-                addressTo.getStreet(), addressTo.getHouseNum());
-        double distance = googleMapsAPI.getDistance(locationStart,locationFinish);
-
-        // currentTime + distance/60 ;
-        int hourInTravel = (int) ((distance/SPEED));
-        int dayFinish = 0;
-
-        if (hourInTravel % HOUR_IN_DAY != 0) {
-            dayFinish = hourInTravel / HOUR_IN_DAY + 1;
-        } else dayFinish = hourInTravel / HOUR_IN_DAY;
-
-        return dayFinish;
+    public ManagerController() {
+        super();
     }
 
+    @Override
+    public List<PostTicket> findByAddress(Address address) {
+        return  Finder.findByAddress(appDataContainer,address);
+    }
+
+    @Override
+    public List<PostTicket> findByCity(String city) {
+        return Finder.findByCity(appDataContainer,city);
+    }
+
+    @Override
+    public List<PostTicket> findByOwnerName(String name) {
+        return Finder.findByOwnerName(appDataContainer,name);
+    }
+
+    @Override
+    public PostTicket findById(String id) {
+        return Finder.findById(appDataContainer, id);
+    }
 }

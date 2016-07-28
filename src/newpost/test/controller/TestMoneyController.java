@@ -17,7 +17,7 @@ public class TestMoneyController {
         testPayTax(moneyController);
         testMakePayment(moneyController);
         testPaySalary(moneyController);
-       // testFindTransactionByID(moneyController);
+       testFindTransactionByID(moneyController);
 
 
     }
