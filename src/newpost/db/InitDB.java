@@ -25,6 +25,7 @@ public class InitDB {
             appDataContainer.getTickets().add(DataInitFactory.ticketCreator(
                     appDataContainer.getClients().get(
                             (int) (Math.random() * appDataContainer.getClients().size()))));
+            appDataContainer.setPostOffices(DataInitFactory.postOfficeCreator());
         }
     }
 
