@@ -1,13 +1,9 @@
+/*
 package newpost.utils.email.pop;
 
 import java.util.Properties;
 
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
-import javax.mail.Store;
+import javax.mail.*;
 
 public class TestPOP3 {
 
@@ -42,7 +38,24 @@ public class TestPOP3 {
                 System.out.println("Email Number " + (i + 1));
                 System.out.println("Subject: " + message.getSubject());
                 System.out.println("From: " + message.getFrom()[0]);
-                System.out.println("Text: " + message.getContent().toString());
+
+                */
+/*String body = "";
+                Object content = message.getContent();
+                if (content instanceof String)
+                {
+                    body = (String)content;
+                }
+                else if (content instanceof Multipart)
+                {
+                    Multipart mp = (Multipart)content;
+                    BodyPart bodyPart = mp.getBodyPart(0);
+                    //bodyPart.toString();
+                    body = bodyPart.getContent().toString();
+                }
+
+                System.out.println("Text: " + body);*//*
+
 
             }
 
@@ -72,3 +85,4 @@ public class TestPOP3 {
 
 
 }
+*/
