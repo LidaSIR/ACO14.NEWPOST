@@ -38,6 +38,7 @@ public class DirectorController implements IEmployeeManagement,IReport {
         for(Employee employee:appDataContainer.getEmployees()){
            if(employee.getFullName().equals(fullName)) {
                appDataContainer.getEmployees().remove(employee);
+               return employee;
            }
         }
         return null;
