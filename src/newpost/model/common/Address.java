@@ -38,4 +38,13 @@ public class Address {
     public void setHouseNum(String houseNum) {
         this.houseNum = houseNum;
     }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", houseNum='" + houseNum + '\'' +
+                '}';
+    }
 }

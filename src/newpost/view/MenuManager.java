@@ -21,18 +21,16 @@ public class MenuManager  extends Menu {
             if (choice == 1) {
                 showAddTicketMenu();
             } else if (choice == 2) {
-                showInfoMenu();
-            } else if (choice == 3) {
                 showCancelTicketMenu();
-            } else if (choice == 4) {
+            } else if (choice == 3) {
                 showAllLogs();
-            } else if (choice == 5) {
+            } else if (choice == 4) {
                 showTicketByClientPhoneMenu();
-            } else if (choice == 6) {
+            } else if (choice == 5) {
                 showGetClientMenu();
-            } else if (choice == 7) {
+            } else if (choice == 6) {
                 showAddClientMenu();
-            } else if(choice == 8) {
+            } else if(choice == 7) {
                 this.showManagementOperationsMenu();
             } else if (choice == 0) {
                 break;
@@ -96,13 +94,12 @@ public class MenuManager  extends Menu {
     }
     protected void showMainMenuManager() {
         System.out.println("1. Add Ticket");
-        System.out.println("2. Show info");
-        System.out.println("3. Cancel Ticket");
-        System.out.println("4. Show All Logs");
-        System.out.println("5. Show Ticket by Clients Number");
-        System.out.println("6. Get Client");
-        System.out.println("7. Add Client");
-        System.out.println("8. Management operations");
+        System.out.println("2. Cancel Ticket");
+        System.out.println("3. Show All Logs");
+        System.out.println("4. Show Ticket by Clients Number");
+        System.out.println("5. Get Client");
+        System.out.println("6. Add Client");
+        System.out.println("7. Management operations");
         System.out.println("0. Exit");
     }
 

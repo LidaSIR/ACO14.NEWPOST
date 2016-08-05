@@ -15,14 +15,14 @@ import java.util.List;
  */
 public interface IManagerController {
     PostTicket createTicket(Client client, Address sendToAdress, Product product) throws ValidationException;
-    PostTicket filterTicketById(String ticketId) throws ValidationException;
+   // PostTicket filterTicketById(String ticketId) throws ValidationException;
     PostTicket showTicketByClientPhone(String phone) throws ValidationException;
     Client getClient(String phone) throws ValidationException;
     Client addClient (Passport passport, String phone) throws ValidationException;
-    void sortTicketsByAddress();
-    void sortClientsByName();
-    void sortTicketsByPrice();
-    void sortTicketsById();
+    List<PostTicket> sortTicketsByAddress();
+    List<Client>sortClientsByName();
+    List<PostTicket> sortTicketsByPrice();
+    List<PostTicket> sortTicketsById();
     List findByPrice(int price);
     List<PostTicket> findByAddress(Address address);
     List<PostTicket> findByCity(String city);

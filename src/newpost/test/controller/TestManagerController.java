@@ -1,7 +1,9 @@
 package newpost.test.controller;
 
 import newpost.controller.ManagerController;
+import newpost.controller.interfaces.IManagerController;
 import newpost.db.AppDataContainer;
+import newpost.db.InitDB;
 import newpost.model.common.Address;
 import newpost.model.common.Passport;
 import newpost.model.common.Product;
@@ -9,25 +11,35 @@ import newpost.model.common.Size;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 
+import java.util.List;
+
 /**
  * Created by home on 08.07.2016.
  */
 public class TestManagerController {
 
     public static void main(String[] args) {
+        AppDataContainer appDataContainer = new AppDataContainer();
 
-        ManagerController managerController = new ManagerController(new AppDataContainer());
+        InitDB.initDB(appDataContainer);
 
-        testAddClient(managerController);
+        IManagerController managerController = new ManagerController(appDataContainer);
 
-        testGetClient(managerController);
+        testAddClient((ManagerController) managerController);
 
-        testCreateTicket(managerController);
+        testGetClient((ManagerController) managerController);
 
-        testFilterTicketById(managerController);
+        testCreateTicket((ManagerController) managerController);
 
-        testShowTicketByClientPhone(managerController);
+        testShowTicketByClientPhone((ManagerController) managerController);
 
+        testSortTicketsByAddress((ManagerController) managerController);
+
+        testSortClientByName((ManagerController) managerController);
+
+        testSortTicketsByPrice((ManagerController) managerController);
+
+        testSortTicketsById((ManagerController) managerController);
 
     }
 
@@ -40,19 +52,19 @@ public class TestManagerController {
         Client actual = managerController.addClient(in1, in2);
 
         System.out.printf("%s, test add client in1 %s,\nexpected %s,\nactual %s\n",
-                actual.toString().equals(expected.toString()), in1,  expected, actual);
+                actual.toString().equals(expected.toString()), in1, expected, actual);
         System.out.println();
     }
 
     private static void testGetClient(ManagerController managerController) {
 
-        managerController.addClient(new Passport("ER546454", "Bob Jason"),"0935551666");
+        managerController.addClient(new Passport("ER546454", "Bob Jason"), "0935551666");
 
         String in = "0935551666";
         Client expected = new Client("0935551666", new Passport("ER546454", "Bob Jason"));
         Client actual = managerController.getClient(in);
         System.out.printf("%s, test get client in %s,\nexpected %s,\nactual %s\n",
-                actual.toString().equals(expected.toString()), in,  expected, actual);
+                actual.toString().equals(expected.toString()), in, expected, actual);
         System.out.println();
     }
 
@@ -66,46 +78,46 @@ public class TestManagerController {
 
         Address address = new Address("Kiyv", "Lesi", "2");
 
-        Product product = new Product("ProductName", new Size(1,1,1,1), 1000, expected);
+        Product product = new Product("ProductName", new Size(1, 1, 1, 1), 1000, expected);
 
         PostTicket postTicket = managerController.createTicket(expected, address, product);
 
-        if(!in1.getFullname().equals(postTicket.getClient().getPassport().getFullname())) {
+        if (!in1.getFullname().equals(postTicket.getClient().getPassport().getFullname())) {
             System.out.println("Not passed");
             System.out.println();
             return;
         }
-        if(!in1.getNumber().equals(postTicket.getClient().getPassport().getNumber())) {
+        if (!in1.getNumber().equals(postTicket.getClient().getPassport().getNumber())) {
             System.out.println("Not passed");
             System.out.println();
             return;
         }
-        if(!expected.getPhone().equals(postTicket.getClient().getPhone())) {
+        if (!expected.getPhone().equals(postTicket.getClient().getPhone())) {
             System.out.println("Not passed");
             System.out.println();
             return;
         }
-        if(!address.getCity().equals(postTicket.getTo().getCity())) {
+        if (!address.getCity().equals(postTicket.getTo().getCity())) {
             System.out.println("Not passed");
             System.out.println();
             return;
         }
-        if(!address.getStreet().equals(postTicket.getTo().getStreet())) {
+        if (!address.getStreet().equals(postTicket.getTo().getStreet())) {
             System.out.println("Not passed");
             System.out.println();
             return;
         }
-        if(!address.getHouseNum().equals(postTicket.getTo().getHouseNum())) {
+        if (!address.getHouseNum().equals(postTicket.getTo().getHouseNum())) {
             System.out.println("Not passed");
             System.out.println();
             return;
         }
-        if(!product.getName().equals(postTicket.getProducts()[0].getName())) {
+        if (!product.getName().equals(postTicket.getProducts()[0].getName())) {
             System.out.println("Not passed");
             System.out.println();
             return;
         }
-        if(product.getPrice() != (postTicket.getProducts()[0].getPrice())) {
+        if (product.getPrice() != (postTicket.getProducts()[0].getPrice())) {
             System.out.println("Not passed");
             System.out.println();
             return;
@@ -115,32 +127,7 @@ public class TestManagerController {
         System.out.println();
     }
 
-
-    private static void testFilterTicketById(ManagerController managerController){
-
-        System.out.println("Testing FilterTicketById method:");
-
-        Passport in1 = new Passport("ER546454", "Bob Jason");
-        String in2 = "0935551666";
-        Client client = new Client("0935551666", new Passport("ER546454", "Bob Jason"));
-
-        Address address = new Address("Kiyv", "Lesi", "2");
-
-        Product product = new Product("ProductName", new Size(1,1,1,1), 1000, client);
-
-        PostTicket postTicketExpected = managerController.createTicket(client, address, product);
-
-        PostTicket postTicketActual = managerController.filterTicketById("1");
-        if(postTicketActual.getId().equals(postTicketExpected.getId())) {
-            System.out.println("Passed");
-            System.out.println();
-        }else {
-            System.out.println("Not passed");
-            System.out.println();
-        }
-    }
-
-    private static void testShowTicketByClientPhone(ManagerController managerController){
+    private static void testShowTicketByClientPhone(ManagerController managerController) {
         System.out.println("Testing ShowTicketByClientPhone method:");
 
         Passport in1 = new Passport("ER546454", "Bob Jason");
@@ -149,49 +136,49 @@ public class TestManagerController {
 
         Address address = new Address("Kiyv", "Lesi", "2");
 
-        Product product = new Product("ProductName", new Size(1,1,1,1), 1000, client);
+        Product product = new Product("ProductName", new Size(1, 1, 1, 1), 1000, client);
 
         PostTicket postTicketExpected = managerController.createTicket(client, address, product);
 
         PostTicket postTicketActual = managerController.showTicketByClientPhone(in2);
 
 
-        if(!in1.getFullname().equals(postTicketActual.getClient().getPassport().getFullname())) {
+        if (!in1.getFullname().equals(postTicketActual.getClient().getPassport().getFullname())) {
             System.out.println("Not passed");
             System.out.println();
             return;
         }
-        if(!in1.getNumber().equals(postTicketActual.getClient().getPassport().getNumber())) {
+        if (!in1.getNumber().equals(postTicketActual.getClient().getPassport().getNumber())) {
             System.out.println("Not passed");
             System.out.println();
             return;
         }
-        if(!in2.equals(postTicketActual.getClient().getPhone())) {
+        if (!in2.equals(postTicketActual.getClient().getPhone())) {
             System.out.println("Not passed");
             System.out.println();
             return;
         }
-        if(!address.getCity().equals(postTicketActual.getTo().getCity())) {
+        if (!address.getCity().equals(postTicketActual.getTo().getCity())) {
             System.out.println("Not passed");
             System.out.println();
             return;
         }
-        if(!address.getStreet().equals(postTicketActual.getTo().getStreet())) {
+        if (!address.getStreet().equals(postTicketActual.getTo().getStreet())) {
             System.out.println("Not passed");
             System.out.println();
             return;
         }
-        if(!address.getHouseNum().equals(postTicketActual.getTo().getHouseNum())) {
+        if (!address.getHouseNum().equals(postTicketActual.getTo().getHouseNum())) {
             System.out.println("Not passed");
             System.out.println();
             return;
         }
-        if(!product.getName().equals(postTicketActual.getProducts()[0].getName())) {
+        if (!product.getName().equals(postTicketActual.getProducts()[0].getName())) {
             System.out.println("Not passed");
             System.out.println();
             return;
         }
-        if(product.getPrice() != (postTicketActual.getProducts()[0].getPrice())) {
+        if (product.getPrice() != (postTicketActual.getProducts()[0].getPrice())) {
             System.out.println("Not passed");
             System.out.println();
             return;
@@ -201,4 +188,32 @@ public class TestManagerController {
         System.out.println();
     }
 
+    private static void testSortTicketsByAddress(ManagerController managerController) {
+        List<PostTicket> post = managerController.sortTicketsByAddress();
+        for (PostTicket ticket : post) {
+            System.out.println(ticket.getFrom().toString());
+        }
+    }
+
+    private static void testSortClientByName(ManagerController managerController) {
+        List<Client> clients = managerController.sortClientsByName();
+        for (Client client : clients) {
+            System.out.println(client.toString());
+        }
+    }
+
+    private static void testSortTicketsByPrice(ManagerController managerController) {
+        List<PostTicket> tickets = managerController.sortTicketsByPrice();
+        for (PostTicket ticket : tickets) {
+            System.out.println(ticket.getPrice());
+        }
+    }
+
+    private static void testSortTicketsById(ManagerController managerController) {
+        List<PostTicket> tickets = managerController.sortTicketsById();
+        for (PostTicket ticket : tickets) {
+            System.out.println(ticket.getId());
+        }
+    }
 }
+
