@@ -38,7 +38,7 @@ public class MenuManager  extends Menu {
         }
     }
 
-    public void showManagementOperationsMenu() {
+    public void showManagementOperationsMenu() throws ValidationException {
         System.out.println();
         System.out.println("1. Find");
         System.out.println("2. Sort");
@@ -103,7 +103,7 @@ public class MenuManager  extends Menu {
         System.out.println("0. Exit");
     }
 
-    private void showFindMenu() {
+    private void showFindMenu() throws ValidationException {
         System.out.println("1. Find by price");
         System.out.println("2. Find by address");
         System.out.println("3. Find by city");
@@ -169,11 +169,11 @@ public class MenuManager  extends Menu {
         List<PostTicket> list = managerController.findByOwnerName(name);
         System.out.println(list.toString());
     }
-    private void findById(){
+    private void findById() throws ValidationException {
         System.out.println("Input ID");
         String id = scanner.next();
 
-        PostTicket postTicket = managerController.findById(id);
+        PostTicket postTicket = managerController.filterTicketById(id);
         System.out.println(postTicket.toString());
     }
 }

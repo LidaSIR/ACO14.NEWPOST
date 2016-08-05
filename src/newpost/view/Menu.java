@@ -286,9 +286,6 @@ public class Menu {
         return email;
     }
 
-
-
-
     public Scanner getScanner() {
         return scanner;
     }

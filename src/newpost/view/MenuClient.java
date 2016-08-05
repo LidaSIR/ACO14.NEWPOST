@@ -40,11 +40,11 @@ public class MenuClient extends Menu {
 
     }
 
-    private void showFindById(){
+    private void showFindById() throws ValidationException {
         System.out.println("Input ID");
         String id = scanner.next();
 
-        PostTicket postTicket = managerController.findById(id);
+        PostTicket postTicket = managerController.filterTicketById(id);
         System.out.println(postTicket.toString());
     }
 }

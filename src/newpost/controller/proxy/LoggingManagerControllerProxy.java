@@ -28,11 +28,11 @@ public class LoggingManagerControllerProxy implements IManagerController {
         return managerController.createTicket(client, sendToAdress, product);
     }
 
-//    @Override
-//    public PostTicket filterTicketById(String ticketId) throws ValidationException {
-//        LogContainer.logEvent("Manager: there was an attempt to filter ticket by Id " + ticketId);
-//        return managerController.filterTicketById(ticketId);
-//    }
+    @Override
+    public PostTicket filterTicketById(String ticketId) throws ValidationException {
+        LogContainer.logEvent("Manager: there was an attempt to filter ticket by Id " + ticketId);
+        return managerController.filterTicketById(ticketId);
+    }
 
     @Override
     public PostTicket showTicketByClientPhone(String phone) throws ValidationException {
@@ -96,8 +96,4 @@ public class LoggingManagerControllerProxy implements IManagerController {
         return null;
     }
 
-    @Override
-    public PostTicket findById(String id) {
-        return null;
-    }
 }

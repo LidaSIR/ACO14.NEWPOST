@@ -36,20 +36,20 @@ public class ValidationManagerControllerProxy implements IManagerController {
         else throw new ValidationException(err);
     }
 
-//    @Override
-//    public PostTicket filterTicketById(String ticketId) throws ValidationException {
-//        try {
-//            int num = Integer.parseInt(ticketId);
-//            PostTicket pt = managerController.filterTicketById(ticketId);
-//            if (pt != null) {
-//                return pt;
-//            } else {
-//                throw new ValidationException("No ticket was found per inputted Id.");
-//            }
-//        } catch (NumberFormatException ex) {
-//            throw new ValidationException("Inputted ticket Id is not numeric.");
-//        }
-//    }
+    @Override
+    public PostTicket filterTicketById(String ticketId) throws ValidationException {
+        try {
+            int num = Integer.parseInt(ticketId);
+            PostTicket pt = managerController.filterTicketById(ticketId);
+            if (pt != null) {
+                return pt;
+            } else {
+                throw new ValidationException("No ticket was found per inputted Id.");
+            }
+        } catch (NumberFormatException ex) {
+            throw new ValidationException("Inputted ticket Id is not numeric.");
+        }
+    }
 
     @Override
     public PostTicket showTicketByClientPhone(String phone) throws ValidationException {
@@ -145,8 +145,4 @@ public class ValidationManagerControllerProxy implements IManagerController {
         return null;
     }
 
-    @Override
-    public PostTicket findById(String id) {
-        return null;
-    }
 }

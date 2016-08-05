@@ -78,17 +78,17 @@ public class ManagerController implements IManagerController {
         return true;
     }
 
-//    @Override
-//    public PostTicket filterTicketById(String ticketId) {  // same 1
-//
-//        for(PostTicket postTicket : appDataContainer.getTickets()) {
-//            if (postTicket.getId().equals(String.valueOf(ticketId))) {
-//                return postTicket;
-//            }
-//
-//        }
-//        return null;
-//    }
+    @Override
+    public PostTicket filterTicketById(String ticketId) {
+
+        for(PostTicket postTicket : appDataContainer.getTickets()) {
+            if (postTicket.getId().equals(String.valueOf(ticketId))) {
+                return postTicket;
+            }
+
+        }
+        return null;
+    }
 
     @Override
     public PostTicket showTicketByClientPhone(String phone) {
@@ -183,8 +183,4 @@ public class ManagerController implements IManagerController {
         return Finder.findByOwnerName(appDataContainer,name);
     }
 
-    @Override
-    public PostTicket findById(String id) {
-        return Finder.findById(appDataContainer, id);
-    }
 }
