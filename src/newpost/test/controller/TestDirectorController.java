@@ -15,10 +15,12 @@ import java.util.List;
 public class TestDirectorController {
 
     public static void main(String[] args) {
+        int stuffNumber = 50;
+        System.out.println("Stuff = " + stuffNumber + " Persons");
         AppDataContainer appDataContainer = new AppDataContainer();
 
-        List<Employee> employees = appDataContainer.getEmployees();
-        for (int i = 0; i < 100000; i++) {
+      /*  List<Employee> employees = appDataContainer.getEmployees();
+        for (int i = 0; i < 10; i++) {
             String fullName = DataInitFactory.createFullName();
             String jobTitle = DataInitFactory.createJobTitle();
             String phone = DataInitFactory.createPnoneNumber();
@@ -26,9 +28,10 @@ public class TestDirectorController {
 
             Employee e = new Employee(jobTitle, fullName, phone, salary);
             employees.add(e);
-        }
+        }*/
 
         DirectorController directorController = new DirectorController(appDataContainer);
+
 
         // testing Staff Adding Time (in mills)
 
@@ -37,24 +40,22 @@ public class TestDirectorController {
         long addStaffTime = selectTime.count(new Action() {
             @Override
             public void run() {
-                AppDataContainer appDataContainer = new AppDataContainer();
+                /*AppDataContainer appDataContainer = new AppDataContainer();
 
-                List<Employee> employees = appDataContainer.getEmployees();
-                for (int i = 0; i < 1000; i++) {
+                List<Employee> employees = appDataContainer.getEmployees();*/
+                for (int i = 0; i < stuffNumber; i++) {
                     String fullName = DataInitFactory.createFullName();
                     String jobTitle = DataInitFactory.createJobTitle();
                     String phone = DataInitFactory.createPnoneNumber();
                     int salary = DataInitFactory.createSalary();
 
-                    directorController.addStaff(jobTitle,fullName,phone,salary);
+                    directorController.addStaff(jobTitle, fullName, phone, salary);
 
-                    /*Employee e = new Employee(jobTitle, fullName, phone, salary);
-                    employees.add(e);*/
                 }
             }
         });
 
-        System.out.println("AddStaffTime - " + addStaffTime);
+        System.out.println("AddStaffTime - " + addStaffTime + " mills" + "\n");
 
         // testing Staff Removing Time (in mills)
 
@@ -64,25 +65,67 @@ public class TestDirectorController {
         long removeStaffTime = selectTime2.count(new Action() {
             @Override
             public void run() {
-              /*  AppDataContainer appDataContainer = new AppDataContainer();
-
-                List<Employee> employees = appDataContainer.getEmployees();
-                for (int i = 0; i < 1000; i++) {
-                    String fullName = DataInitFactory.createFullName();
-                    String jobTitle = DataInitFactory.createJobTitle();
-                    String phone = DataInitFactory.createPnoneNumber();
-                    int salary = DataInitFactory.createSalary();
-
-                    Employee e = new Employee(jobTitle, fullName, phone, salary);
-                    employees.add(e);
-
-                }*/
-
-                employees.remove("Nikola Tesla");
+                directorController.removeStaff("Ivan Ivanov");
             }
         });
 
-        System.out.println("RemoveStaffTime - " + removeStaffTime);
+        System.out.println("RemoveStaffTime - " + removeStaffTime + " mills" + "\n");
+
+
+        // testing Staff Finding Time by name (in mills)
+
+        TimeCounter selectTime3 = new TimeCounter();
+
+        long findStaffByNameTime = selectTime.count(new Action() {
+            @Override
+            public void run() {
+                directorController.findStaffByName("Nikola Tesla");
+            }
+        });
+
+        System.out.println("findStaffByNameTime - " + findStaffByNameTime + " mills" + "\n");
+
+        Employee find = directorController.findStaffByName("Nikola Tesla");
+        System.out.println(find.toString() + "\n");
+
+
+
+        // testing Staff Filtering Time by Job Title (in mills)
+
+        TimeCounter selectTime4 = new TimeCounter();
+
+        long filterStaffByPositionTime = selectTime.count(new Action() {
+            @Override
+            public void run() {
+                directorController.filterStaffByPosition("Manager");
+            }
+        });
+
+        System.out.println("filterStaffByPositionTime - " + filterStaffByPositionTime + " mills" + "\n");
+
+        List filt = directorController.filterStaffByPosition("Manager");
+        System.out.println(filt.toString() + "\n");
+        System.out.println();
+
+
+        // testing Showing Staff Info Time  (in mills)
+
+        System.out.println("Showing staff " + stuffNumber  + " persons : ");
+        TimeCounter selectTime5 = new TimeCounter();
+
+        long showStaffInfoTime = selectTime.count(new Action() {
+            @Override
+            public void run() {
+                directorController.showStaffInfo();
+            }
+        });
+
+        System.out.println("showStaffInfoTime - " + showStaffInfoTime + " mills" + "\n");
+
+
+
+
+
 
 
         testAddStaff(directorController);
@@ -104,7 +147,6 @@ public class TestDirectorController {
         } else System.out.println("failed");
 
     }
-
 
 
 }
