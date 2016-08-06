@@ -42,8 +42,6 @@ public class TestClientController {
 
     public static void testShowByProductId(ClientController clientController){
         System.out.println("ShowByProductId test:");
-//        ClientController clientController = new ClientController(new AppDataContainer());
-
         if (clientController.showProductById(0) != null){
             System.out.println("test passed" + "\n");
         } else System.out.println("test false" + "\n");
@@ -68,7 +66,6 @@ public class TestClientController {
 
     public static void showTicketById(ClientController clientController){
         System.out.println("showTicketById test:");
-//        ClientController clientController = new ClientController(new AppDataContainer());
         Product product = clientController.takeProduct(0);
         if (clientController.showProductById(0).equals(product)){
             System.out.println("test passed" + "\n");

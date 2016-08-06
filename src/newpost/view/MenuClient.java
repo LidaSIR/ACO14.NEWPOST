@@ -1,6 +1,7 @@
 package newpost.view;
 
 import newpost.exceptions.ValidationException;
+import newpost.model.office.PostTicket;
 
 public class MenuClient extends Menu {
 
@@ -16,7 +17,7 @@ public class MenuClient extends Menu {
             if (clientChoice == 1) {
                 showAddTicketMenu();
             } else if (clientChoice == 2) {
-                showInfoMenu();
+                showFindById();
             } else if (clientChoice == 3) {
                 showCancelTicketMenu();
             } else if (clientChoice == 4) {
@@ -39,5 +40,11 @@ public class MenuClient extends Menu {
 
     }
 
+    private void showFindById() throws ValidationException {
+        System.out.println("Input ID");
+        String id = scanner.next();
 
+        PostTicket postTicket = managerController.filterTicketById(id);
+        System.out.println(postTicket.toString());
+    }
 }

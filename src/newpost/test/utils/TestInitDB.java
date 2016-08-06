@@ -16,13 +16,15 @@ public class TestInitDB {
         String location = "resources/db.json";
         AppDataContainer appDataContainer = new AppDataContainer();
         InitDB.initDB(appDataContainer);
-        InitDB.saveDBToFileAsJson(appDataContainer);
+        //InitDB.saveDBToFileAsJson(appDataContainer);
         String logs = "olololo";
+        String logs1 = "sada";
         //InitDB.saveLogsToFile(logs);
       //  LogContainer logContainer = new LogContainer();
         LogContainer.logEvent(logs);
-        LogContainer.logEvent(logs);
-
+        LogContainer.logEvent(logs1);
+      //  LogContainer.logEvent(logs);
+/*
         try {
             String res = InitDB.loadDB(location);
             System.out.println("load was ok");
@@ -32,6 +34,6 @@ public class TestInitDB {
             System.out.println(appDataContainer1.getTickets().get(0).asString());
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        } */
     }
 }

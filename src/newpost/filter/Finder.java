@@ -55,14 +55,5 @@ public final class Finder {
         return  list;
     }
 
-    public static PostTicket findById(AppDataContainer appDataContainer, String id) {
-        for(PostTicket postTicket: appDataContainer.getTickets()) {
-            if(postTicket.getId().equals(id)) {
-                return postTicket;
-            }
-        }
-        return null;
-    }
-
 
 }

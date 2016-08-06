@@ -3,10 +3,7 @@ package newpost.controller;
 
 import newpost.controller.interfaces.IManagerController;
 import newpost.db.AppDataContainer;
-import newpost.filter.AddressComparator;
-import newpost.filter.Finder;
-import newpost.filter.OwnerNameComparator;
-import newpost.filter.PriceComparator;
+import newpost.filter.*;
 import newpost.model.common.Address;
 import newpost.model.common.MyDate;
 import newpost.model.common.Passport;
@@ -16,6 +13,7 @@ import newpost.model.office.PostTicket;
 import newpost.test.utils.TestSMTP;
 import newpost.utils.email.smtp.SMTP;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -58,6 +56,7 @@ public class ManagerController implements IManagerController {
                 currentTime, estimationArrivalDate);
 
         appDataContainer.getTickets().add(postTicket);
+
 
         this.sendMail(client, postTicket);
 
@@ -128,23 +127,35 @@ public class ManagerController implements IManagerController {
         return client;
     }
 
-    public void sortTicketsByAddress() {
-        appDataContainer.getTickets().sort(new AddressComparator());
+    public List<PostTicket> sortTicketsByAddress() {
+         List <PostTicket> tickets = new ArrayList<>();
+        tickets = appDataContainer.getTickets();
+        tickets.sort(new AddressComparator());
+       return tickets;
     }
 
     @Override
-    public void sortClientsByName() {
-        appDataContainer.getClients().sort(new OwnerNameComparator());
+    public List<Client> sortClientsByName() {
+        List <Client> clients = new ArrayList<>();
+        clients = appDataContainer.getClients();
+        clients.sort(new OwnerNameComparator());
+        return clients;
     }
 
     @Override
-    public void sortTicketsByPrice() {
-        appDataContainer.getTickets().sort(new PriceComparator());
+    public List<PostTicket> sortTicketsByPrice(){
+        List<PostTicket> tickets= new ArrayList<>();
+        tickets = appDataContainer.getTickets();
+        tickets.sort(new PriceComparator());
+        return tickets;
     }
 
     @Override
-    public void sortTicketsById() {
-        appDataContainer.getTickets().sort(new PriceComparator());
+    public List<PostTicket> sortTicketsById() {
+        List<PostTicket> tickets= new ArrayList<>();
+        tickets = appDataContainer.getTickets();
+        tickets.sort(new TicketIdComparator());
+       return tickets;
     }
 
     @Override
@@ -172,8 +183,4 @@ public class ManagerController implements IManagerController {
         return Finder.findByOwnerName(appDataContainer,name);
     }
 
-    @Override
-    public PostTicket findById(String id) {
-        return Finder.findById(appDataContainer, id);
-    }
 }

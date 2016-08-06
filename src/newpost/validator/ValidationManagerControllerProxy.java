@@ -38,27 +38,27 @@ public class ValidationManagerControllerProxy implements IManagerController {
 
     @Override
     public PostTicket filterTicketById(String ticketId) throws ValidationException {
-        try{
+        try {
             int num = Integer.parseInt(ticketId);
             PostTicket pt = managerController.filterTicketById(ticketId);
-            if (pt != null){
+            if (pt != null) {
                 return pt;
             } else {
-                throw  new ValidationException("No ticket was found per inputted Id.");
+                throw new ValidationException("No ticket was found per inputted Id.");
             }
-        } catch (NumberFormatException ex){
+        } catch (NumberFormatException ex) {
             throw new ValidationException("Inputted ticket Id is not numeric.");
         }
     }
 
     @Override
     public PostTicket showTicketByClientPhone(String phone) throws ValidationException {
-        if (validator.isPhone(phone)){
+        if (validator.isPhone(phone)) {
             PostTicket ps = managerController.showTicketByClientPhone(phone);
-            if (ps != null){
-                return  ps;
+            if (ps != null) {
+                return ps;
             } else {
-                throw  new ValidationException("No ticket was found per inputted phone.");
+                throw new ValidationException("No ticket was found per inputted phone.");
             }
         } else {
             throw new ValidationException("Phone number is not correct. Please verify.");
@@ -67,12 +67,12 @@ public class ValidationManagerControllerProxy implements IManagerController {
 
     @Override
     public Client getClient(String phone) throws ValidationException {
-        if (validator.isPhone(phone)){
+        if (validator.isPhone(phone)) {
             Client cl = managerController.getClient(phone);
-            if (cl != null){
+            if (cl != null) {
                 return cl;
             } else {
-                throw  new ValidationException("No client was found per inputted Id.");
+                throw new ValidationException("No client was found per inputted Id.");
             }
         } else {
             throw new ValidationException("Phone number is not correct. Please verify.");
@@ -94,7 +94,7 @@ public class ValidationManagerControllerProxy implements IManagerController {
             err += "Passport number is not correct. Please verify.";
         }
 
-        if (err.length() > 0){
+        if (err.length() > 0) {
             throw new ValidationException(err);
         } else {
             return managerController.addClient(passport, phone);
@@ -102,23 +102,23 @@ public class ValidationManagerControllerProxy implements IManagerController {
     }
 
     @Override
-    public void sortTicketsByAddress() {
-
+    public List<PostTicket> sortTicketsByAddress() {
+        return null;
     }
 
     @Override
-    public void sortClientsByName() {
-
+    public List<Client> sortClientsByName() {
+        return null;
     }
 
     @Override
-    public void sortTicketsByPrice() {
-
+    public List<PostTicket> sortTicketsByPrice() {
+        return null;
     }
 
     @Override
-    public void sortTicketsById() {
-
+    public List<PostTicket> sortTicketsById() {
+        return null;
     }
 
     @Override
@@ -145,8 +145,4 @@ public class ValidationManagerControllerProxy implements IManagerController {
         return null;
     }
 
-    @Override
-    public PostTicket findById(String id) {
-        return null;
-    }
 }

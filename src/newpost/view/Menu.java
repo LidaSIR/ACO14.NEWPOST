@@ -92,7 +92,7 @@ public class Menu {
         }
     }
 
-    protected void showTicketByClientPhoneMenu() throws ValidationException {
+    protected  void showTicketByClientPhoneMenu() throws ValidationException {
         System.out.println("Input clients phone");
         String phone;
         phone = scanner.next();
@@ -120,23 +120,6 @@ public class Menu {
         }
     }
 
-    protected void showInfoMenu() throws ValidationException {
-
-        System.out.println("Show info: input ticket Id");
-        String ticketId;
-        ticketId = scanner.next();
-
-        try {
-            PostTicket postTicket = clientController.showTicketById(String.valueOf(ticketId));
-            if (postTicket != null) {
-                System.out.println(postTicket.toString());
-            } else {
-                System.out.println("No ticket was found according to inputted ticekt Id.");
-            }
-        } catch (ValidationException ex){
-            System.out.println(ex.getMessage());
-        }
-    }
 
     protected void showCancelTicketMenu() throws ValidationException {
 
@@ -163,8 +146,9 @@ public class Menu {
         String clientPhone = phoneInput();
         String clientFullName = fullNameInput();
         String clientPassportNumber = passportInput();
+        String clientEmail = emailInput();
 
-        Client client = new Client(clientPhone, new Passport(clientFullName, clientPassportNumber));
+        Client client = new Client(clientPhone, new Passport(clientFullName, clientPassportNumber),clientEmail);
 
         System.out.println("Address destination creation: input city ");
         String addressToCity;
@@ -221,6 +205,8 @@ public class Menu {
             System.out.println(e.getMessage());
         }
     }
+
+
     protected void clientEnter() {
         while (true) {
 //            System.out.println("Input: 1.I am already have account in Art Post ");
@@ -261,7 +247,7 @@ public class Menu {
         String passportNumber;
         while (true) {
             System.out.println("Input  passport number in format DF908754(without spaces) ");
-            passportNumber = scanner.next();
+            passportNumber = String.valueOf(scanner.useDelimiter("\\n"));
             if (passportNumber.isEmpty() || (passportNumber.length() != 8) || passportNumber.contains(" ")) {
                 System.out.println("Incorrect data: either passport number is empty or length is greater than " +
                         "8 characters or contains spaces..");
@@ -286,8 +272,19 @@ public class Menu {
         }
         return phone;
     }
-
-
+    private String emailInput() {
+        String email;
+        while(true){
+            System.out.println("Input client email: ");
+            email = scanner.next();
+            if(!email.contains("@")){
+                System.out.println("Incorrect email address ");
+            }else{
+                break;
+            }
+        }
+        return email;
+    }
 
     public Scanner getScanner() {
         return scanner;
