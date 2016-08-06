@@ -16,6 +16,7 @@ public class SMTP {
 
 
     public static void sendFromGMail(String from, String pass, String to, String subject, String body) {
+        // todo get from properties file
         Properties props = System.getProperties();
         String host = "smtp.gmail.com";
         props.put("mail.smtp.starttls.enable", "true");

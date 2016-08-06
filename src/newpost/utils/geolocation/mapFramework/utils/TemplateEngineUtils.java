@@ -1,16 +1,13 @@
-package newpost.utils.geolocation.MapFramefork.utils;
+package newpost.utils.geolocation.mapFramework.utils;
 
 /**
  * Created by Vladislav on 24.07.2016.
  */
-import freemarker.core.ParseException;
 import freemarker.template.*;
-import freemarker.template.utility.StringUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.net.URL;
 import java.util.Map;
 
