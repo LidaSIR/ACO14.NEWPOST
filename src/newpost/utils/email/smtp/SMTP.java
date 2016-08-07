@@ -31,8 +31,8 @@ public class SMTP {
         Properties props = System.getProperties();
         Map<String, String> propertiesMap = getPropertiesFromFile();
 
-        propertiesMap.keySet().stream().forEach((key)->{
-            props.put(key,propertiesMap.get(key));
+        propertiesMap.keySet().stream().forEach((key) -> {
+            props.put(key, propertiesMap.get(key));
         });
 
         Session session = Session.getDefaultInstance(props);
@@ -58,26 +58,26 @@ public class SMTP {
         }
     }
 
-    public static Map<String,String> getPropertiesFromFile() throws IOException {
+    public static Map<String, String> getPropertiesFromFile() throws IOException {
 
-        Map<String,String> propertiesMap = new HashMap<>();
+        Map<String, String> propertiesMap = new HashMap<>();
 
         List<String> properList = Files.readAllLines(Paths.get("resources\\properties"));
 
         properList.stream().forEach((e) -> {
             e = e.replaceAll("\\s", "");
             try {
+
                 String key = e.split(":")[0];
                 String value = e.split(":")[1];
 
                 propertiesMap.put(key, value);
+
             } catch (Exception ex) {
 
             }
 
         });
-
-
 
 
         return propertiesMap;

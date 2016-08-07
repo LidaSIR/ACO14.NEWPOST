@@ -27,14 +27,7 @@ public class TestSMTP {
         managerController.createTicket(testClient, DataInitFactory.createAddress(), DataInitFactory.productsCreator()[0]);
 
 
-
-        //sendFromGMail("lightpostua", "lightpostuaaco14", "fyrsenko@gmail.com", "TEST", "TEST TEXT");
-
-
-
     }
-
-
 
 
 }
