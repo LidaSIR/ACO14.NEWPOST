@@ -1,0 +1,7 @@
+mail.smtp.user : lightpostua
+mail.smtp.password : lightpostuaaco14
+mail.smtp.host : smtp.gmail.com
+mail.smtp.port : 587
+mail.smtp.starttls.enable : true
+mail.smtp.auth : true
+

@@ -13,6 +13,7 @@ import newpost.model.office.PostTicket;
 import newpost.test.utils.TestSMTP;
 import newpost.utils.email.smtp.SMTP;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -24,8 +25,6 @@ import java.util.List;
 public class ManagerController implements IManagerController {
 
     public static final int DAYS_IN_ROAD = 2;
-    private final static String MAIL_LOGIN = "lightpostua";
-    private final static String MAIL_PASSWORD = "lightpostuaaco14";
     private final static String MAIL_SUBJECT = "Hello from ACO14 New Post";
     private final static String DEFAULT_MESSAGE_TEXT = "Hello dear {name}!!!\n" +
             "\n" +
@@ -58,12 +57,16 @@ public class ManagerController implements IManagerController {
         appDataContainer.getTickets().add(postTicket);
 
 
-        this.sendMail(client, postTicket);
+        try {
+            this.sendMail(client, postTicket);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return postTicket;
     }
 
-    private boolean sendMail(Client client, PostTicket ticket) {
+    private boolean sendMail(Client client, PostTicket ticket) throws IOException {
 
         String mailText = DEFAULT_MESSAGE_TEXT.replace("{name}",client.getPassport().getFullname());
         mailText = mailText.replace("{ticket}",ticket.getId());
@@ -73,7 +76,7 @@ public class ManagerController implements IManagerController {
         }
 
 
-        SMTP.sendFromGMail(MAIL_LOGIN, MAIL_PASSWORD, client.getMail(),MAIL_SUBJECT, mailText);
+        SMTP.sendMail(client.getMail(),MAIL_SUBJECT, mailText);
 
         return true;
     }
