@@ -25,11 +25,7 @@ import java.util.List;
 public class ManagerController implements IManagerController {
 
     public static final int DAYS_IN_ROAD = 2;
-    private final static String MAIL_SUBJECT = "Hello from ACO14 New Post";
-    private final static String DEFAULT_MESSAGE_TEXT = "Hello dear {name}!!!\n" +
-            "\n" +
-            "Now your order in progress and your ticket number is:\n" +
-            "{ticket}";
+    private static final String DEFAULT_ATTACHMENT = "resources/orderTemplate.rtf";
 
 
 
@@ -56,9 +52,8 @@ public class ManagerController implements IManagerController {
 
         appDataContainer.getTickets().add(postTicket);
 
-
         try {
-            this.sendMail(client, postTicket);
+            SMTP.sendMail(client,postTicket,DEFAULT_ATTACHMENT);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,20 +61,6 @@ public class ManagerController implements IManagerController {
         return postTicket;
     }
 
-    private boolean sendMail(Client client, PostTicket ticket) throws IOException {
-
-        String mailText = DEFAULT_MESSAGE_TEXT.replace("{name}",client.getPassport().getFullname());
-        mailText = mailText.replace("{ticket}",ticket.getId());
-
-        if(client.getMail()==null) {
-            return false;
-        }
-
-
-        SMTP.sendMail(client.getMail(),MAIL_SUBJECT, mailText);
-
-        return true;
-    }
 
     @Override
     public PostTicket filterTicketById(String ticketId) {

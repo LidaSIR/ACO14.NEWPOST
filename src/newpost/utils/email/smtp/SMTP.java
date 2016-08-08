@@ -1,12 +1,13 @@
 package newpost.utils.email.smtp;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import newpost.model.office.Client;
+import newpost.model.office.PostTicket;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.*;
+import javax.mail.internet.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -23,10 +24,16 @@ public class SMTP {
     public static final String SMTP_LOGIN_KEY = "mail.smtp.user";
     public static final String SMTP_PASSWORD_KEY = "mail.smtp.password";
     public static final String SMTP_HOST_KEY = "mail.smtp.host";
+    private final static String MAIL_SUBJECT = "Hello from ACO14 New Post";
+    private final static String DEFAULT_MESSAGE_TEXT = "Hello dear {name}!!!\n" +
+            "\n" +
+            "Now your order in progress and your ticket number is:\n" +
+            "{ticket}";
 
 
-    public static void sendMail(String to, String subject, String body) throws IOException {
-        // todo get from properties file
+    public static void sendMail(Client to, PostTicket postTicket, String attachmentPath) throws IOException {
+
+        if (to.getMail() == null) return;
 
         Properties props = System.getProperties();
         Map<String, String> propertiesMap = getPropertiesFromFile();
@@ -38,14 +45,32 @@ public class SMTP {
         Session session = Session.getDefaultInstance(props);
         MimeMessage message = new MimeMessage(session);
 
+        String mailText = DEFAULT_MESSAGE_TEXT.replace("{name}", to.getPassport().getFullname());
+        mailText = mailText.replace("{ticket}", postTicket.getId());
+
+
         try {
             message.setFrom(new InternetAddress(propertiesMap.get(SMTP_LOGIN_KEY)));
-            InternetAddress toAddress = new InternetAddress(to);
+            InternetAddress toAddress = new InternetAddress(to.getMail());
 
             message.addRecipient(Message.RecipientType.TO, toAddress);
+            message.setSubject(MAIL_SUBJECT);
 
-            message.setSubject(subject);
-            message.setText(body);
+            BodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setText(mailText);
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+
+            // attachment
+            if(attachmentPath!=null) {
+                messageBodyPart = new MimeBodyPart();
+                String filename = attachmentPath;
+                DataSource source = new FileDataSource(filename);
+                messageBodyPart.setDataHandler(new DataHandler(source));
+                messageBodyPart.setFileName(filename);
+                multipart.addBodyPart(messageBodyPart);
+            }
+            message.setContent(multipart);
 
             Transport transport = session.getTransport("smtp");
             transport.connect(propertiesMap.get(SMTP_HOST_KEY), propertiesMap.get(SMTP_LOGIN_KEY), propertiesMap.get(SMTP_PASSWORD_KEY));
@@ -58,11 +83,11 @@ public class SMTP {
         }
     }
 
-    public static Map<String, String> getPropertiesFromFile() throws IOException {
+    private static Map<String, String> getPropertiesFromFile() throws IOException {
 
         Map<String, String> propertiesMap = new HashMap<>();
 
-        List<String> properList = Files.readAllLines(Paths.get("resources\\properties"));
+        List<String> properList = Files.readAllLines(Paths.get("resources/properties"));
 
         properList.stream().forEach((e) -> {
             e = e.replaceAll("\\s", "");

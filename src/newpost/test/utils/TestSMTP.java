@@ -21,7 +21,7 @@ public class TestSMTP {
 
         Client testClient = DataInitFactory.clientCreator();
 
-        testClient.setMail("YOUR_TEST_MAIL@gmail.com");
+        testClient.setMail("YOUR_MAIL_ADDRESS@gmail.com");
         ManagerController managerController = new ManagerController(new AppDataContainer());
 
         managerController.createTicket(testClient, DataInitFactory.createAddress(), DataInitFactory.productsCreator()[0]);
