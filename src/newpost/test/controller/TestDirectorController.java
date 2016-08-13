@@ -12,23 +12,19 @@ import java.util.List;
 /**
  * Created by Артем on 23.07.2016.
  */
+// todo use test data from generated db
+// todo replace annon classes by lambda
 public class TestDirectorController {
 
-    private static int staffNumber = 100;
+    private static int staffNumber = 150;
 
     public static void main(String[] args) {
 
         System.out.println("Staff = " + staffNumber + " Persons");
         AppDataContainer appDataContainer = new AppDataContainer();
         List<Employee> employees = appDataContainer.getEmployees();
-        for (int i = 0; i < staffNumber; i++) {
-            String fullName = DataInitFactory.createFullName();
-            String jobTitle = DataInitFactory.createJobTitle();
-            String phone = DataInitFactory.createPnoneNumber();
-            int salary = DataInitFactory.createSalary();
-            Employee e = new Employee(jobTitle, fullName, phone, salary);
-            employees.add(e);
-        }
+        generateTestData(employees);
+
         DirectorController directorController = new DirectorController(appDataContainer);
 
         testFindStaff(directorController);
@@ -45,9 +41,20 @@ public class TestDirectorController {
 
     }
 
+    private static void generateTestData(List<Employee> employees) {
+        for (int i = 0; i < staffNumber; i++) {
+            String fullName = DataInitFactory.createFullName();
+            String jobTitle = DataInitFactory.createJobTitle();
+            String phone = DataInitFactory.createPnoneNumber();
+            int salary = DataInitFactory.createSalary();
+            Employee e = new Employee(jobTitle, fullName, phone, salary);
+            employees.add(e);
+        }
+    }
+
     private static void testFindStaff(DirectorController directorController) {
         if (directorController.findStaffByName("Anton Stepanov") != null) {
-            System.out.println("FindStaff test passed " + "\n" + directorController.findStaffByName("Nikola Tesla").toString() + "\n");
+            System.out.println("FindStaff test passed " + "\n\t" + directorController.findStaffByName("Nikola Tesla").toString() + "\n");
         } else System.out.println("FindStaff failed");
     }
 
@@ -92,19 +99,16 @@ public class TestDirectorController {
 
         TimeCounter selectTime = new TimeCounter();
 
-        long addStaffTime = selectTime.count(new Action() {
-            @Override
-            public void run() {
+        long addStaffTime = selectTime.count(() -> {
 
-                for (int i = 0; i < staffNumber; i++) {
-                    String fullName = DataInitFactory.createFullName();
-                    String jobTitle = DataInitFactory.createJobTitle();
-                    String phone = DataInitFactory.createPnoneNumber();
-                    int salary = DataInitFactory.createSalary();
+            for (int i = 0; i < staffNumber; i++) {
+                String fullName = DataInitFactory.createFullName();
+                String jobTitle = DataInitFactory.createJobTitle();
+                String phone = DataInitFactory.createPnoneNumber();
+                int salary = DataInitFactory.createSalary();
 
-                    directorController.addStaff(jobTitle, fullName, phone, salary);
+                directorController.addStaff(jobTitle, fullName, phone, salary);
 
-                }
             }
         });
 
@@ -117,12 +121,7 @@ public class TestDirectorController {
 
         TimeCounter selectTime2 = new TimeCounter();
 
-        long removeStaffTime = selectTime2.count(new Action() {
-            @Override
-            public void run() {
-                directorController.removeStaff("Ivan Ivanov");
-            }
-        });
+        long removeStaffTime = selectTime2.count(() -> directorController.removeStaff("Ivan Ivanov"));
 
         System.out.println("RemoveStaffTime - " + removeStaffTime + " mills" + "\n");
     }
@@ -133,12 +132,7 @@ public class TestDirectorController {
 
         TimeCounter selectTime3 = new TimeCounter();
 
-        long findStaffByNameTime = selectTime3.count(new Action() {
-            @Override
-            public void run() {
-                directorController.findStaffByName("Nikola Tesla");
-            }
-        });
+        long findStaffByNameTime = selectTime3.count(() -> directorController.findStaffByName("Nikola Tesla"));
 
         System.out.println("findStaffByNameTime - " + findStaffByNameTime + " mills" + "\n");
 

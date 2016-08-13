@@ -13,6 +13,7 @@ import newpost.model.office.PostTicket;
 import newpost.test.utils.TestSMTP;
 import newpost.utils.email.smtp.SMTP;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -24,13 +25,7 @@ import java.util.List;
 public class ManagerController implements IManagerController {
 
     public static final int DAYS_IN_ROAD = 2;
-    private final static String MAIL_LOGIN = "lightpostua";
-    private final static String MAIL_PASSWORD = "lightpostuaaco14";
-    private final static String MAIL_SUBJECT = "Hello from ACO14 New Post";
-    private final static String DEFAULT_MESSAGE_TEXT = "Hello dear {name}!!!\n" +
-            "\n" +
-            "Now your order in progress and your ticket number is:\n" +
-            "{ticket}";
+    private static final String DEFAULT_ATTACHMENT = "resources/orderTemplate.rtf";
 
 
 
@@ -57,26 +52,15 @@ public class ManagerController implements IManagerController {
 
         appDataContainer.getTickets().add(postTicket);
 
-
-        this.sendMail(client, postTicket);
+        try {
+            SMTP.sendMail(client,postTicket,DEFAULT_ATTACHMENT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return postTicket;
     }
 
-    private boolean sendMail(Client client, PostTicket ticket) {
-
-        String mailText = DEFAULT_MESSAGE_TEXT.replace("{name}",client.getPassport().getFullname());
-        mailText = mailText.replace("{ticket}",ticket.getId());
-
-        if(client.getMail()==null) {
-            return false;
-        }
-
-
-        SMTP.sendFromGMail(MAIL_LOGIN, MAIL_PASSWORD, client.getMail(),MAIL_SUBJECT, mailText);
-
-        return true;
-    }
 
     @Override
     public PostTicket filterTicketById(String ticketId) {

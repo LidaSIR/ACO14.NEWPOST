@@ -17,6 +17,7 @@ public class TestPOP {
 
     public static void main(String args[]) {
 
+        // todo get values from properties file
         String host = "pop.gmail.com";// change accordingly
         String mailStoreType = "pop3";
         String username = "lightpostua@gmail.com";// change accordingly

@@ -4,32 +4,30 @@ import newpost.controller.DataInitFactory;
 import newpost.controller.ManagerController;
 import newpost.db.AppDataContainer;
 import newpost.model.office.Client;
+import newpost.utils.email.smtp.SMTP;
 
 import javax.mail.MessagingException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * Created by Serhii Fursenko on 27.07.16.
  */
 public class TestSMTP {
 
-    public static void main(String[] args) throws MessagingException {
+    public static void main(String[] args) throws IOException {
 
 
         Client testClient = DataInitFactory.clientCreator();
 
-        testClient.setMail("YOUR_TEST_MAIL@gmail.com");
+        testClient.setMail("YOUR_MAIL_ADDRESS@gmail.com");
         ManagerController managerController = new ManagerController(new AppDataContainer());
 
         managerController.createTicket(testClient, DataInitFactory.createAddress(), DataInitFactory.productsCreator()[0]);
 
 
-
-        //sendFromGMail("lightpostua", "lightpostuaaco14", "fyrsenko@gmail.com", "TEST", "TEST TEXT");
-
-
     }
-
-
 
 
 }

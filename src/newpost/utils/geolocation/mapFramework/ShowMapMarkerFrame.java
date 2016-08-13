@@ -1,11 +1,10 @@
-package newpost.utils.geolocation.MapFramefork;
+package newpost.utils.geolocation.mapFramework;
 
 import freemarker.template.TemplateException;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebErrorEvent;
 import javafx.scene.web.WebView;
 
 //import ua.artcode.taxi.utils.IOUtils;
@@ -14,8 +13,7 @@ import javafx.scene.web.WebView;
 //import ua.artcode.taxi.utils.template.TemplateEngineUtils;
 
 
-import newpost.utils.geolocation.*;
-import newpost.utils.geolocation.MapFramefork.utils.TemplateEngineUtils;
+import newpost.utils.geolocation.mapFramework.utils.TemplateEngineUtils;
 import newpost.utils.geolocation.controller.Location;
 
 import javax.swing.*;
