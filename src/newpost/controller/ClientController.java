@@ -8,9 +8,7 @@ import newpost.model.common.Product;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 import newpost.model.office.TicketStatus;
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import newpost.utils.TimeUtils;
 
 /**
  * Created by macaque on 09.07.2016.
@@ -29,9 +27,7 @@ public class ClientController implements IClientController {
     public PostTicket makeOrder(Client client, Address sendToAddress, Product product) {
 
 
-        Calendar calendar = GregorianCalendar.getInstance();
-        MyDate currentTime = new MyDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+        MyDate currentTime = TimeUtils.getCurrentDate();
 
         currentTime.setDay(currentTime.getDay() + DAYS_IN_ROAD);
 
