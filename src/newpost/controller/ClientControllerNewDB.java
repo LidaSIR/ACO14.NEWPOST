@@ -22,7 +22,7 @@ public class ClientControllerNewDB implements IClientController {
     public PostTicket makeOrder(Client client, Address sendToAddress, Product product)
             throws AppException {
 
-        PostTicket postTicket = newDb.addPostTicket(client, sendToAddress, product);
+        PostTicket postTicket = null;//newDb.addPostTicket(client, sendToAddress, product);
 
         return postTicket;
     }

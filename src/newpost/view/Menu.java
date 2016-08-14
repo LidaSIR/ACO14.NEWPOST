@@ -3,8 +3,9 @@ package newpost.view;
 
 import newpost.controller.interfaces.*;
 import newpost.exceptions.LogException;
-import newpost.exceptions.ValidationException;
+import newpost.exceptions.AppException;
 
+import newpost.exceptions.ValidationException;
 import newpost.model.common.Address;
 import newpost.model.common.Passport;
 import newpost.model.common.Product;
@@ -27,7 +28,7 @@ public class Menu {
 
     public void start(IClientController controller, IManagerController managerController,
                       IMoneyController moneyController, IEmployeeManagement employeeManagement, IPostController postController)
-                               throws ValidationException, LogException {
+                                {
         clientController = controller;
         this.managerController = managerController;
         this.moneyController = moneyController;
@@ -39,7 +40,7 @@ public class Menu {
      }
 
 
-    protected void chooseUser() throws ValidationException, LogException {
+    protected void chooseUser() {
         System.out.printf("For clients choose: 1\nFor manager choose: 2\nFor director choose 3\n");
         int user = scanner.nextInt();
         switch (user) {
@@ -67,16 +68,21 @@ public class Menu {
         }
     }
 
-    protected void showTakeProductMenu() throws ValidationException {
+    protected void showTakeProductMenu()  {
         System.out.println("Input ticket ID");
         String ticketId;
         ticketId = scanner.next();
-        Product product = clientController.takeProduct(Integer.parseInt(ticketId));
+        Product product = null;
+        try {
+            product = clientController.takeProduct(Integer.parseInt(ticketId));
+            System.out.println(product.toString());
+        } catch (AppException e) {
+            e.printStackTrace();
+        }
 
-        System.out.println(product.toString());
     }
 
-    protected void showGetClientMenu() throws ValidationException {
+    protected void showGetClientMenu() {
         System.out.println("Input clients phone");
         String phone;
         phone = scanner.next();
@@ -87,31 +93,40 @@ public class Menu {
             } else {
                 System.out.println("Client was not found according to inputted phone number.");
             }
-        } catch (ValidationException ex){
+        } catch (AppException ex){
             System.out.println(ex.getMessage());
         }
     }
 
-    protected  void showTicketByClientPhoneMenu() throws ValidationException {
+    protected  void showTicketByClientPhoneMenu() {
         System.out.println("Input clients phone");
         String phone;
         phone = scanner.next();
-        PostTicket postTicket = managerController.showTicketByClientPhone(phone);
-        System.out.println(postTicket.toString());
+        PostTicket postTicket = null;
+        try {
+            postTicket = managerController.showTicketByClientPhone(phone);
+            System.out.println(postTicket.toString());
+        } catch (ValidationException e) {
+            e.printStackTrace();
+        }
     }
 
-    protected void showAddClientMenu() throws ValidationException {
+    protected void showAddClientMenu() {
 
             String fullName = fullNameInput();
             String passportNum = passportInput();
             String phone = phoneInput();
 
             Passport passport = new Passport(fullName, passportNum);
+        try {
             Client client = managerController.addClient(passport, phone);
             System.out.println("Client added");
+        } catch (ValidationException e) {
+            e.printStackTrace();
+        }
     }
 
-    protected void showAllLogs() throws LogException {
+    protected void showAllLogs()  {
         System.out.println("Show all logs:\n");
         try {
             LogContainer.showAllLogs();
@@ -121,7 +136,7 @@ public class Menu {
     }
 
 
-    protected void showCancelTicketMenu() throws ValidationException {
+    protected void showCancelTicketMenu() {
 
         System.out.println("Cancel: input product Id to cancel");
         String productId;
@@ -136,7 +151,7 @@ public class Menu {
             }
         } catch (NumberFormatException ex){
             System.out.println("Inputted order Id is not numeric.");
-        } catch (ValidationException ex){
+        } catch (AppException ex){
             System.out.println(ex.getMessage());
         }
     }
@@ -201,7 +216,7 @@ public class Menu {
         try {
             PostTicket postTicket = clientController.makeOrder(client, addrTo, product);
             System.out.println("Post ticket id is " + postTicket.getId());
-        } catch (ValidationException e) {
+        } catch (AppException e) {
             System.out.println(e.getMessage());
         }
     }

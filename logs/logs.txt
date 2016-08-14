@@ -2,3 +2,5 @@
 2016/07/24 13:13:18 olololo
 2016/07/24 13:13:18 sada
 2016/08/02 17:04:13 Client: Attempt to show ticket by Id 0
+2016/08/14 15:32:39 Manager: there was an attempt to filter ticket by Id 1
+2016/08/14 15:33:23 Manager: there was an attempt to filter ticket by Id 1

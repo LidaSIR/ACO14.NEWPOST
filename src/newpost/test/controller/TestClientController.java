@@ -36,7 +36,7 @@ public class TestClientController {
 
         // need to put logic about ID, Address, Product, etc. here
         if (actual != null){
-            System.out.println("test passed "  + "\n" + actual.asString() + "\n");
+            System.out.println("test passed "  + "\n" + actual.toString() + "\n");
         } else System.out.println("failed");
     }
 

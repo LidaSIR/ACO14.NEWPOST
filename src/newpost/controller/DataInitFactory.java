@@ -1,6 +1,5 @@
 package newpost.controller;
 
-import javafx.geometry.Pos;
 import newpost.model.common.*;
 import newpost.model.office.Client;
 import newpost.model.office.PostOffice;
@@ -11,9 +10,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-/**
- * Created by macaque on 10.07.2016.
- */
 public class DataInitFactory {
 
     private static final int MIN_PASSPORT_NUMBER = 100000;
@@ -82,7 +78,7 @@ public class DataInitFactory {
     public static Client clientCreator() {
 
 
-        double phoneNumber = (double)(MIN_PHONE_NUMBER + Math.random()* RAND_PHONE_NUMBER);
+        double phoneNumber = (MIN_PHONE_NUMBER + Math.random()* RAND_PHONE_NUMBER);
         return new Client("+38050" + String.valueOf(phoneNumber), passportCreator());
     }
 
@@ -135,17 +131,6 @@ public class DataInitFactory {
         list.add(new PostOffice(new Address("Харків", "Салтівське шосе", "7")));
 
         return list;
-/*
-        Calendar calendar = GregorianCalendar.getInstance();
-        MyDate currentTime = new MyDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-
-        int daysInRoad = (int) (Math.random() * RAND_TIME_IN_ROAD);
-
-        currentTime.setDay(currentTime.getDay() + daysInRoad);
-
-        return new PostTicket(client, productsCreator(), createAddress(),
-                createAddress(), currentTime, currentTime);*/
     }
 
 }
