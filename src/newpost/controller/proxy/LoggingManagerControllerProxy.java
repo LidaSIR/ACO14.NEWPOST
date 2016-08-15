@@ -53,6 +53,12 @@ public class LoggingManagerControllerProxy implements IManagerController {
     }
 
     @Override
+    public Client addClient(Passport passport, String phone, String mail) throws ValidationException {
+        LogContainer.logEvent("Manager: there was an attempt to add client with passport " + passport.getNumber() + " and phone " + phone);
+        return managerController.addClient(passport, phone, mail);
+    }
+
+    @Override
     public List<PostTicket> sortTicketsByAddress() {
         return null;
     }

@@ -91,7 +91,7 @@ public class ValidationManagerControllerProxy implements IManagerController {
         if (validator.isPassport(passport)) {
         } else {
             if (err.length() > 0) err += "\n";
-            err += "Passport number is not correct. Please verify.";
+            err += "Passport info or full name is not correct. Please verify.";
         }
 
         if (err.length() > 0) {
@@ -100,6 +100,29 @@ public class ValidationManagerControllerProxy implements IManagerController {
             return managerController.addClient(passport, phone);
         }
     }
+
+    @Override
+    public Client addClient(Passport passport, String phone, String mail) throws ValidationException {
+
+        String err = "";
+
+        if (validator.isPhone(phone)) {
+        } else {
+            err += "Phone number is not correct. Please verify.";
+        }
+        if (validator.isPassport(passport)) {
+        } else {
+            if (err.length() > 0) err += "\n";
+            err += "Passport info or full name is not correct. Please verify.";
+        }
+
+        if (err.length() > 0) {
+            throw new ValidationException(err);
+        } else {
+            return managerController.addClient(passport, phone, mail);
+        }
+    }
+
 
     @Override
     public List<PostTicket> sortTicketsByAddress() {
