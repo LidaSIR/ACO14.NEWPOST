@@ -113,7 +113,8 @@ public class PostTicket {
         this.status = status;
     }
 
-    public String asString(){
+    @Override
+    public String toString(){
         return "client's name: " + client.getPassport().getFullname() + "\n" + "passport: " + client.getPassport().getNumber() +
                 "\n" +"client's phone: " + client.getPhone()  + "\n" + "product: "  +  products[0].getName();
     }

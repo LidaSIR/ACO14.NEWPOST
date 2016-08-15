@@ -19,6 +19,7 @@ public interface IManagerController {
     PostTicket showTicketByClientPhone(String phone) throws ValidationException;
     Client getClient(String phone) throws ValidationException;
     Client addClient (Passport passport, String phone) throws ValidationException;
+    Client addClient (Passport passport, String phone, String mail) throws ValidationException;
     List<PostTicket> sortTicketsByAddress();
     List<Client>sortClientsByName();
     List<PostTicket> sortTicketsByPrice();

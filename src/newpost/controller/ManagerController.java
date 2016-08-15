@@ -3,6 +3,7 @@ package newpost.controller;
 
 import newpost.controller.interfaces.IManagerController;
 import newpost.db.AppDataContainer;
+import newpost.exceptions.ValidationException;
 import newpost.filter.*;
 import newpost.model.common.Address;
 import newpost.model.common.MyDate;
@@ -104,12 +105,13 @@ public class ManagerController implements IManagerController {
         return client;
     }
 
-    public Client addClient(Passport passport, String phone, String mail) {
-        Client client = new Client(phone, passport, mail);
+    @Override
+    public Client addClient(Passport passport, String phone, String mail) throws ValidationException {
+        Client client = new Client(phone, passport);
         appDataContainer.getClients().add(client);
-
         return client;
     }
+
 
     public List<PostTicket> sortTicketsByAddress() {
          List <PostTicket> tickets = new ArrayList<>();
