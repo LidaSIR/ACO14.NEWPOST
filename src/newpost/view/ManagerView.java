@@ -39,7 +39,8 @@ public class ManagerView extends JFrame {
 
         // Create new JFrame
         JFrame managerFrame = new JFrame("Manager view");
-        managerFrame.setSize(650, 600);
+        managerFrame.setSize(600, 600);
+        managerFrame.setResizable(false);
         managerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         managerFrame.setLocation(100, 100);
         managerFrame.setLocationRelativeTo(null);
@@ -158,11 +159,12 @@ public class ManagerView extends JFrame {
         sendToPanel.add(labelSendToHouseNumber);
         sendToPanel.add(textFieldSendToHouseNumber);
 
-        JPanel addProductsPanel = new JPanel(new GridLayout(3, 1));
-        addProductsPanel.setBounds(20, 180, 550, 200);
+        JPanel addProductsPanel = new JPanel(new GridLayout(2, 1));
+        addProductsPanel.setBounds(20, 180, 550, 150);
         addProductsPanel.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Add products:")));
         Map<String, Product> productsMap = new HashMap<>();
         JComboBox productJList = new JComboBox<>(productsMap.keySet().toArray());
+        productJList.setEditable(true);
 
         JPanel panelForProductList = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelForProductList.add(productJList);
@@ -171,8 +173,9 @@ public class ManagerView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    String s = (String) productJList.getSelectedItem();
                     productsMap.remove(productJList.getSelectedItem());
-                    productJList.remove(productJList.getSelectedIndex());
+                    productJList.removeItemAt(productJList.getSelectedIndex());
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(new JFrame(), "Error");
                 }
@@ -183,6 +186,7 @@ public class ManagerView extends JFrame {
         addProductsPanel.add(panelForProductList);
 
         JPanel panelForProductInfo = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
 
         JLabel labelProductName = new JLabel("Title:");
         JTextField textFieldProductName = new JTextField(14);
@@ -217,15 +221,42 @@ public class ManagerView extends JFrame {
 
 
         addProductsPanel.add(panelForProductInfo);
-        addProductsPanel.add(new JButton("Add product"));
 
         contentPanelCreateTicket.add(sendToPanel);
         contentPanelCreateTicket.add(addProductsPanel);
 
+        JButton addProductButton = new JButton("Add product");
+        addProductButton.setBounds(165, 330, 250, 30);
+        addProductButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Product product = tryParseProduct();
+                if(product!=null) {
+                    productsMap.put(product.getName(), product);
+                    productJList.addItem(product.getName());// = new JComboBox<>(productsMap.keySet().toArray());
+                }
+            }
+
+            private Product tryParseProduct() {
+                try {
+                    Client client = new ManagerController(appDataContainer).getClient(textFieldClientPhone.getText());
+                    Product product = new Product(textFieldProductName.getText(),
+                            new Size(Integer.parseInt(textFieldSizeX.getText()), Integer.parseInt(textFieldSizeY.getText()),
+                                    Integer.parseInt(textFieldSizeZ.getText()), Integer.parseInt(textFieldWeight.getText())),
+                            Integer.parseInt(textFieldPrice.getText()), client);
+                    return product;
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Somethong wrong!\n"+ex);
+                    return null;
+                }
+            }
+        });
+        contentPanelCreateTicket.add(addProductButton);
+
 
 
         // Add all content to "Create ticket" tab
-        panelCreateTicket.add(contentPanelCreateTicket, BorderLayout.CENTER);
+        panelCreateTicket.add(contentPanelCreateTicket);
 
 
         JComponent panelSearch = new JPanel();
