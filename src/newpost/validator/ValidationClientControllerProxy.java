@@ -8,6 +8,8 @@ import newpost.model.office.PostTicket;
 import newpost.model.common.Product;
 import newpost.exceptions.AppException;
 
+import java.util.List;
+
 /**
  * Created by serhii on 10.07.16.
  */
@@ -23,7 +25,7 @@ public class ValidationClientControllerProxy implements IClientController {
     }
 
     @Override
-    public PostTicket makeOrder(Client client, Address sendToAdress, Product product) throws AppException {
+    public PostTicket makeOrder(Client client, Address sendToAdress, List<Product> product) throws AppException {
 
         String errString = "";
         boolean errors;
@@ -35,9 +37,11 @@ public class ValidationClientControllerProxy implements IClientController {
             if (errString.length() > 0) errString += "\n";
             errString += validator.validation(sendToAdress).getTextErr();
         }
-        if (!validator.validation(product).getErr()) {
-            if (errString.length() > 0) errString += "\n";
-            errString += validator.validation(product).getTextErr();
+        for(Product p : product) {
+            if (!validator.validation(p).getErr()) {
+                if (errString.length() > 0) errString += "\n";
+                errString += validator.validation(p).getTextErr();
+            }
         }
 
         if (errString.length() > 0) {

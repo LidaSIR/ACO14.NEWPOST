@@ -9,6 +9,9 @@ import newpost.model.common.Size;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by macaque on 09.07.2016.
  */
@@ -31,8 +34,10 @@ public class TestClientController {
         int price = 500;
         Product product = new Product("Monitor",size,price,client);
         Address toAddress = new Address("Kiev", "Khreshatyk", "5");
+        List<Product> productList = new ArrayList<>();
+        productList.add(product);
 
-        PostTicket actual = clientController.makeOrder(client,toAddress,product);
+        PostTicket actual = clientController.makeOrder(client,toAddress, productList);
 
         // need to put logic about ID, Address, Product, etc. here
         if (actual != null){

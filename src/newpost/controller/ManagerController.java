@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Created by home on 08.07.2016.
@@ -37,7 +39,7 @@ public class ManagerController implements IManagerController {
     }
 
     @Override
-    public PostTicket createTicket(Client client, Address sendToAdress, Product product) {
+    public PostTicket createTicket(Client client, Address sendToAdress, List<Product> product) {
         Calendar calendar = GregorianCalendar.getInstance();
         MyDate currentTime = new MyDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
@@ -45,10 +47,9 @@ public class ManagerController implements IManagerController {
         MyDate estimationArrivalDate = currentTime;
         estimationArrivalDate.setDay(currentTime.getDay()+ DAYS_IN_ROAD);
 
-        Product sendProduct = new Product(product.getName(), product.getSize(), product.getPrice(), client);
-        Product[] sendProductArr = {sendProduct};
+        Product[] productsArray = product.toArray(new Product[product.size()]);
 
-        PostTicket postTicket = new PostTicket(client, sendProductArr, addressFrom, sendToAdress,
+        PostTicket postTicket = new PostTicket(client, productsArray, addressFrom, sendToAdress,
                 currentTime, estimationArrivalDate);
 
         appDataContainer.getTickets().add(postTicket);
@@ -107,7 +108,7 @@ public class ManagerController implements IManagerController {
 
     @Override
     public Client addClient(Passport passport, String phone, String mail) throws ValidationException {
-        Client client = new Client(phone, passport);
+        Client client = new Client(phone, passport, mail);
         appDataContainer.getClients().add(client);
         return client;
     }

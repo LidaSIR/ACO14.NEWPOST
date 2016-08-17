@@ -9,6 +9,7 @@ import newpost.utils.email.smtp.SMTP;
 import javax.mail.MessagingException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Properties;
 
 /**
@@ -24,7 +25,7 @@ public class TestSMTP {
         testClient.setMail("YOUR_MAIL_ADDRESS@gmail.com");
         ManagerController managerController = new ManagerController(new AppDataContainer());
 
-        managerController.createTicket(testClient, DataInitFactory.createAddress(), DataInitFactory.productsCreator()[0]);
+        managerController.createTicket(testClient, DataInitFactory.createAddress(), Arrays.asList(DataInitFactory.productsCreator()));
 
 
     }

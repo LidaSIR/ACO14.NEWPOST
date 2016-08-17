@@ -11,6 +11,7 @@ import newpost.model.common.Size;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,9 +79,14 @@ public class TestManagerController {
 
         Address address = new Address("Kiyv", "Lesi", "2");
 
-        Product product = new Product("ProductName", new Size(1, 1, 1, 1), 1000, expected);
+        Product product1 = new Product("ProductName1", new Size(1, 1, 1, 1), 1000, expected);
+        Product product2 = new Product("ProductName2", new Size(1, 1, 1, 1), 1000, expected);
 
-        PostTicket postTicket = managerController.createTicket(expected, address, product);
+        List<Product> productList = new ArrayList<>();
+        productList.add(product1);
+        productList.add(product2);
+
+        PostTicket postTicket = managerController.createTicket(expected, address, productList);
 
         if (!in1.getFullname().equals(postTicket.getClient().getPassport().getFullname())) {
             System.out.println("Not passed");
@@ -112,15 +118,17 @@ public class TestManagerController {
             System.out.println();
             return;
         }
-        if (!product.getName().equals(postTicket.getProducts()[0].getName())) {
-            System.out.println("Not passed");
-            System.out.println();
-            return;
-        }
-        if (product.getPrice() != (postTicket.getProducts()[0].getPrice())) {
-            System.out.println("Not passed");
-            System.out.println();
-            return;
+        for (Product p : productList) {
+            if (!p.getName().equals(postTicket.getProducts()[0].getName())) {
+                System.out.println("Not passed");
+                System.out.println();
+                return;
+            }
+            if (p.getPrice() != (postTicket.getProducts()[0].getPrice())) {
+                System.out.println("Not passed");
+                System.out.println();
+                return;
+            }
         }
 
         System.out.println("Passed");
@@ -136,9 +144,14 @@ public class TestManagerController {
 
         Address address = new Address("Kiyv", "Lesi", "2");
 
-        Product product = new Product("ProductName", new Size(1, 1, 1, 1), 1000, client);
+        Product product1 = new Product("ProductName1", new Size(1, 1, 1, 1), 1000, client);
+        Product product2 = new Product("ProductName2", new Size(1, 1, 1, 1), 1000, client);
 
-        PostTicket postTicketExpected = managerController.createTicket(client, address, product);
+        List<Product> productList = new ArrayList<>();
+        productList.add(product1);
+        productList.add(product2);
+
+        PostTicket postTicketExpected = managerController.createTicket(client, address, productList);
 
         PostTicket postTicketActual = managerController.showTicketByClientPhone(in2);
 
@@ -173,15 +186,17 @@ public class TestManagerController {
             System.out.println();
             return;
         }
-        if (!product.getName().equals(postTicketActual.getProducts()[0].getName())) {
-            System.out.println("Not passed");
-            System.out.println();
-            return;
-        }
-        if (product.getPrice() != (postTicketActual.getProducts()[0].getPrice())) {
-            System.out.println("Not passed");
-            System.out.println();
-            return;
+        for(Product p : productList) {
+            if (!p.getName().equals(postTicketActual.getProducts()[0].getName())) {
+                System.out.println("Not passed");
+                System.out.println();
+                return;
+            }
+            if (p.getPrice() != (postTicketActual.getProducts()[0].getPrice())) {
+                System.out.println("Not passed");
+                System.out.println();
+                return;
+            }
         }
 
         System.out.println("Passed");

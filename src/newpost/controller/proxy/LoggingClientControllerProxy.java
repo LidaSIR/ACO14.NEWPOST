@@ -8,6 +8,8 @@ import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 import newpost.utils.logging.LogContainer;
 
+import java.util.List;
+
 /**
  * Created by macaque on 09.07.2016.
  */
@@ -20,8 +22,14 @@ public class LoggingClientControllerProxy implements IClientController {
     }
 
     @Override
-    public PostTicket makeOrder(Client client, Address sendToAddress, Product product) throws AppException {
-        LogContainer.logEvent("Client: Client " + client.getPassport().getFullname() + " have made order to " + sendToAddress.getCity() + " for product " + product.getName());
+    public PostTicket makeOrder(Client client, Address sendToAddress, List<Product> product) throws AppException {
+        String productsString = "";
+        for (Product p : product) {
+            productsString+=p.getName() + ", ";
+        }
+        productsString = productsString.substring(0, productsString.length()-1);
+
+        LogContainer.logEvent("Client: Client " + client.getPassport().getFullname() + " have made order to " + sendToAddress.getCity() + " for product " + productsString);
         return originalClientController.makeOrder(client, sendToAddress, product);
     }
 

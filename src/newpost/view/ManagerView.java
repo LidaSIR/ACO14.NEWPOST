@@ -2,12 +2,13 @@ package newpost.view;
 
 import newpost.controller.ManagerController;
 import newpost.db.AppDataContainer;
-import newpost.db.InitDB;
 import newpost.exceptions.ValidationException;
+import newpost.model.common.Address;
 import newpost.model.common.Passport;
 import newpost.model.common.Product;
 import newpost.model.common.Size;
 import newpost.model.office.Client;
+import newpost.model.office.PostTicket;
 import newpost.validator.ValidationManagerControllerProxy;
 import newpost.validator.Validator;
 
@@ -18,7 +19,9 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by Serhii Fursenko on 15.08.16.
@@ -26,20 +29,26 @@ import java.util.*;
  */
 public class ManagerView extends JFrame {
 
-    public static void main(String[] args) {
+    private static final int DEFAULT_WIDTH = 600;
+    private static final int DEFAULT_HEIGHT = 500;
+    private static final String TITLE = "Manager view";
 
-        ManagerView managerView = new ManagerView();
-        AppDataContainer appDataContainer = new AppDataContainer();
-        InitDB.initDB(appDataContainer);
+    private AppDataContainer appDataContainer;
+    private ValidationManagerControllerProxy validationManagerControllerProxy;
+    private Map<String, Product> productsMap;
 
-        managerView.showManagerView(appDataContainer);
+
+    public ManagerView(AppDataContainer appDataContainer) throws HeadlessException {
+        this.appDataContainer = appDataContainer;
+        this.validationManagerControllerProxy = new ValidationManagerControllerProxy(new ManagerController(appDataContainer), new Validator());
+        this.productsMap = new HashMap<>();
     }
 
-    public void showManagerView(AppDataContainer appDataContainer) {
+    public void showManagerView() {
 
         // Create new JFrame
-        JFrame managerFrame = new JFrame("Manager view");
-        managerFrame.setSize(600, 600);
+        JFrame managerFrame = new JFrame(TITLE);
+        managerFrame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         managerFrame.setResizable(false);
         managerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         managerFrame.setLocation(100, 100);
@@ -91,12 +100,13 @@ public class ManagerView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Button is pressed");
 
-                ValidationManagerControllerProxy validationManagerControllerProxy =
-                        new ValidationManagerControllerProxy(new ManagerController(appDataContainer), new Validator());
                 try {
                     validationManagerControllerProxy.addClient(new Passport(textFieldFullName.getText(), passportTextField.getText()),
                             phoneTextField.getText(), mailTextField.getText());
                     JOptionPane.showMessageDialog(new JFrame(), "Done!");
+                    Client client = validationManagerControllerProxy.getClient(phoneTextField.getText());
+
+                    // Clean text fields
                     textFieldFullName.setText("");
                     passportTextField.setText("");
                     phoneTextField.setText("");
@@ -120,18 +130,24 @@ public class ManagerView extends JFrame {
         JComponent contentPanelCreateTicket = new JPanel(null);
 
         // Create input field for client phone
-        JTextField textFieldClientPhone = new JTextField();
-        JPanel clientPhonePanel = createPanel("Example: 0664540934", "Client phone:", 20, 15, textFieldClientPhone);
+        JTextField textFieldClientPhoneTicketTab = new JTextField();
+        JPanel clientPhonePanel = createPanel("Example: 0664540934", "Client phone:", 20, 15, textFieldClientPhoneTicketTab);
         contentPanelCreateTicket.add(clientPhonePanel);
+
         JButton checkButton = new JButton("Check client in database");
-        checkButton.setBounds(165, 80, 250, 30);
+        checkButton.setBounds(165, 85, 250, 30);
         checkButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Client client = new ManagerController(appDataContainer).getClient(textFieldClientPhone.getText());
+                Client client = null;
+                try {
+                    client = validationManagerControllerProxy.getClient(textFieldClientPhoneTicketTab.getText());
+                } catch (ValidationException ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), ex);
+                }
                 if (client == null) {
                     JOptionPane.showMessageDialog(new JFrame(), "Client not found! Please create before");
-                    phoneTextField.setText(textFieldClientPhone.getText());
+                    phoneTextField.setText(textFieldClientPhoneTicketTab.getText());
                     tabbedPane.setSelectedComponent(panelAddClient);
                 } else {
                     JOptionPane.showMessageDialog(new JFrame(), "Client found!\nClient name: " + client.getPassport().getFullname());
@@ -147,13 +163,13 @@ public class ManagerView extends JFrame {
         sendToPanel.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Send to address:")));
 
         JLabel sendToCity = new JLabel("City:");
-        JTextField textFieldSendTo = new JTextField(14);
+        JTextField textFieldSendToCity = new JTextField(14);
         JLabel labelSendToStreet = new JLabel("Street:");
         JTextField textFieldSendToStreet = new JTextField(14);
         JLabel labelSendToHouseNumber = new JLabel("#:");
         JTextField textFieldSendToHouseNumber = new JTextField(4);
         sendToPanel.add(sendToCity);
-        sendToPanel.add(textFieldSendTo);
+        sendToPanel.add(textFieldSendToCity);
         sendToPanel.add(labelSendToStreet);
         sendToPanel.add(textFieldSendToStreet);
         sendToPanel.add(labelSendToHouseNumber);
@@ -162,9 +178,8 @@ public class ManagerView extends JFrame {
         JPanel addProductsPanel = new JPanel(new GridLayout(2, 1));
         addProductsPanel.setBounds(20, 180, 550, 150);
         addProductsPanel.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Add products:")));
-        Map<String, Product> productsMap = new HashMap<>();
+
         JComboBox productJList = new JComboBox<>(productsMap.keySet().toArray());
-        productJList.setEditable(true);
 
         JPanel panelForProductList = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelForProductList.add(productJList);
@@ -173,9 +188,10 @@ public class ManagerView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String s = (String) productJList.getSelectedItem();
                     productsMap.remove(productJList.getSelectedItem());
                     productJList.removeItemAt(productJList.getSelectedIndex());
+                    JOptionPane.showMessageDialog(new JFrame(), "Product removed!");
+
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(new JFrame(), "Error");
                 }
@@ -187,38 +203,41 @@ public class ManagerView extends JFrame {
 
         JPanel panelForProductInfo = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-
+        // Create and add elements to "Add product" panel
         JLabel labelProductName = new JLabel("Title:");
         JTextField textFieldProductName = new JTextField(14);
+        panelForProductInfo.add(labelProductName);
+        panelForProductInfo.add(textFieldProductName);
+
         JLabel labelPrice = new JLabel("Price:");
         JTextField textFieldPrice = new JTextField(6);
         textFieldPrice.setToolTipText("Example: 100");
+        panelForProductInfo.add(labelPrice);
+        panelForProductInfo.add(textFieldPrice);
+
+        JLabel labelWeight = new JLabel("Weight:");
+        JTextField textFieldWeight = new JTextField(7);
+        textFieldWeight.setToolTipText("in grams");
+        panelForProductInfo.add(labelWeight);
+        panelForProductInfo.add(textFieldWeight);
+
         JLabel labelSizeX = new JLabel("SizeX:");
         labelSizeX.setToolTipText("in centimeters");
         JTextField textFieldSizeX = new JTextField(4);
+        panelForProductInfo.add(labelSizeX);
+        panelForProductInfo.add(textFieldSizeX);
+
         JLabel labelSizeY = new JLabel("Y:");
         JTextField textFieldSizeY = new JTextField(4);
         textFieldSizeY.setToolTipText("in centimeters");
+        panelForProductInfo.add(labelSizeY);
+        panelForProductInfo.add(textFieldSizeY);
+
         JLabel labelSizeZ = new JLabel("Z:");
         JTextField textFieldSizeZ = new JTextField(4);
         textFieldSizeZ.setToolTipText("in centimeters");
-        JLabel labelWeight = new JLabel("Weight:");
-        textFieldSizeZ.setToolTipText("in kilograms");
-        JTextField textFieldWeight = new JTextField(7);
-
-        panelForProductInfo.add(labelProductName);
-        panelForProductInfo.add(textFieldProductName);
-        panelForProductInfo.add(labelPrice);
-        panelForProductInfo.add(textFieldPrice);
-        panelForProductInfo.add(labelWeight);
-        panelForProductInfo.add(textFieldWeight);
-        panelForProductInfo.add(labelSizeX);
-        panelForProductInfo.add(textFieldSizeX);
-        panelForProductInfo.add(labelSizeY);
-        panelForProductInfo.add(textFieldSizeY);
         panelForProductInfo.add(labelSizeZ);
         panelForProductInfo.add(textFieldSizeZ);
-
 
         addProductsPanel.add(panelForProductInfo);
 
@@ -234,25 +253,55 @@ public class ManagerView extends JFrame {
                 if(product!=null) {
                     productsMap.put(product.getName(), product);
                     productJList.addItem(product.getName());// = new JComboBox<>(productsMap.keySet().toArray());
+                    JOptionPane.showMessageDialog(new JFrame(), "Product added!");
+                    textFieldProductName.setText("");
+                    textFieldPrice.setText("");
+                    textFieldWeight.setText("");
+                    textFieldSizeX.setText("");
+                    textFieldSizeY.setText("");
+                    textFieldSizeZ.setText("");
                 }
             }
 
             private Product tryParseProduct() {
                 try {
-                    Client client = new ManagerController(appDataContainer).getClient(textFieldClientPhone.getText());
+                    Client client = validationManagerControllerProxy.getClient(textFieldClientPhoneTicketTab.getText());
                     Product product = new Product(textFieldProductName.getText(),
                             new Size(Integer.parseInt(textFieldSizeX.getText()), Integer.parseInt(textFieldSizeY.getText()),
                                     Integer.parseInt(textFieldSizeZ.getText()), Integer.parseInt(textFieldWeight.getText())),
                             Integer.parseInt(textFieldPrice.getText()), client);
                     return product;
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Somethong wrong!\n"+ex);
+                    JOptionPane.showMessageDialog(new JFrame(), "Something wrong!\n"+ex);
                     return null;
                 }
             }
         });
         contentPanelCreateTicket.add(addProductButton);
 
+        JButton createTicketButton = new JButton("Create ticket");
+        createTicketButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Client client = validationManagerControllerProxy.getClient(textFieldClientPhoneTicketTab.getText());
+                    Address sendToAddress = new Address(textFieldSendToCity.getText(), textFieldSendToStreet.getText(),
+                            textFieldSendToHouseNumber.getText());
+                    PostTicket postTicket = validationManagerControllerProxy.createTicket(client, sendToAddress,
+                            productsMap.values().stream().collect(Collectors.toList()));
+
+                    JOptionPane.showMessageDialog(new JFrame(), "Done!\n Your ticket number is " + postTicket.getId());
+                    productJList.removeAllItems();
+                    textFieldSendToCity.setText("");
+                    textFieldSendToStreet.setText("");
+                    textFieldSendToHouseNumber.setText("");
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Something wrong!\n"+ex);
+                }
+            }
+        });
+        panelCreateTicket.add(createTicketButton, BorderLayout.SOUTH);
 
 
         // Add all content to "Create ticket" tab

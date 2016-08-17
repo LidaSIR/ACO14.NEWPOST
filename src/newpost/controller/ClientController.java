@@ -10,6 +10,8 @@ import newpost.model.office.PostTicket;
 import newpost.model.office.TicketStatus;
 import newpost.utils.TimeUtils;
 
+import java.util.List;
+
 /**
  * Created by macaque on 09.07.2016.
  */
@@ -24,16 +26,14 @@ public class ClientController implements IClientController {
     }
 
     @Override
-    public PostTicket makeOrder(Client client, Address sendToAddress, Product product) {
+    public PostTicket makeOrder(Client client, Address sendToAddress, List<Product> product) {
 
 
         MyDate currentTime = TimeUtils.getCurrentDate();
 
         currentTime.setDay(currentTime.getDay() + DAYS_IN_ROAD);
 
-        Product sendProduct = new Product(product.getName(), product.getSize(), product.getPrice(), client);
-        Product[] sendProductArr = {sendProduct};
-        PostTicket postTicket = new PostTicket(client, sendProductArr, new Address("Kiyv","Lesi","22"), sendToAddress,
+        PostTicket postTicket = new PostTicket(client, (Product[]) product.toArray(), new Address("Kiyv","Lesi","22"), sendToAddress,
                 currentTime, currentTime);
 
         appDataContainer.getTickets().add(postTicket);

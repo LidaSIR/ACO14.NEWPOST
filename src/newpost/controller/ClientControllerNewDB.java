@@ -11,6 +11,8 @@ import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 import newpost.model.office.TicketStatus;
 
+import java.util.List;
+
 /**
  * Created by serhii on 13.08.16.
  */
@@ -19,7 +21,7 @@ public class ClientControllerNewDB implements IClientController {
     private NewDb newDb;
 
     @Override
-    public PostTicket makeOrder(Client client, Address sendToAddress, Product product)
+    public PostTicket makeOrder(Client client, Address sendToAddress, List<Product> product)
             throws AppException {
 
         PostTicket postTicket = null;//newDb.addPostTicket(client, sendToAddress, product);

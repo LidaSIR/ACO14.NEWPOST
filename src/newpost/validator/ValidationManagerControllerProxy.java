@@ -24,16 +24,17 @@ public class ValidationManagerControllerProxy implements IManagerController {
     }
 
     @Override
-    public PostTicket createTicket(Client client, Address sendToAdress, Product product) throws ValidationException {
+    public PostTicket createTicket(Client client, Address sendToAdress, List<Product> product) throws ValidationException {
 
         String err = "";
 
         if (!validator.validation(client).getErr()) err += validator.validation(client).getTextErr();
         if (!validator.validation(sendToAdress).getErr()) err += validator.validation(sendToAdress).getTextErr();
-        if (!validator.validation(product).getErr()) err += validator.validation(product).getTextErr();
-
-        if (err.length() > 0) return managerController.createTicket(client, sendToAdress, product);
-        else throw new ValidationException(err);
+        for(Product p : product) {
+            if (!validator.validation(p).getErr()) err += validator.validation(p).getTextErr();
+        }
+        if (!err.equals("")) throw new ValidationException(err);
+        else return managerController.createTicket(client, sendToAdress, product);
     }
 
     @Override
