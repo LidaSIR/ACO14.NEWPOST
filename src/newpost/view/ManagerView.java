@@ -122,17 +122,13 @@ public class ManagerView extends JFrame {
                 } catch (ValidationException e1) {
                     JOptionPane.showMessageDialog(new JFrame(), e1);
                 }
-
-
             }
         });
 
         // Add all content to "Add client" tab
         panelAddClient.add(contentPanelAddClient, BorderLayout.CENTER);
 
-        ////////////////////////////////////////////////////////////
         // Create panel for content on "Create ticket" tab
-        ///////////////////////////////////////////////////////////
         JComponent contentPanelCreateTicket = new JPanel(null);
 
         // Create input field for client phone
@@ -344,9 +340,7 @@ public class ManagerView extends JFrame {
         scrollPane.setBounds(2, 110, 590, 300);
         scrollPane.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Result")));
 
-
         contentPanelSearch.add(scrollPane);
-
 
         JButton searchButton = new JButton("Search");
         searchButton.addActionListener(new ActionListener() {
@@ -424,11 +418,10 @@ public class ManagerView extends JFrame {
             }
         });
 
-        JPanel buttonsPanelOnSearchTab = new JPanel(new GridLayout(1,2));
+        JPanel buttonsPanelOnSearchTab = new JPanel(new GridLayout(1, 2));
         buttonsPanelOnSearchTab.add(showInfoButton, BorderLayout.SOUTH);
         buttonsPanelOnSearchTab.add(cancelButton, BorderLayout.SOUTH);
         panelSearch.add(buttonsPanelOnSearchTab, BorderLayout.SOUTH);
-
 
 
         // Add all tabs to JFrame
@@ -472,7 +465,6 @@ public class ManagerView extends JFrame {
         DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
         defaultTableModel.setRowCount(0);
 
-
         if (postTicketList == null) {
             data[0] = "";
             data[1] = "";
@@ -481,7 +473,7 @@ public class ManagerView extends JFrame {
             defaultTableModel.addRow(data);
         } else {
             for (int i = 0; i < postTicketList.size(); i++) {
-                if(postTicketList.get(i).getStatus()==TicketStatus.CANCELED) continue;
+                if (postTicketList.get(i).getStatus() == TicketStatus.CANCELED) continue;
                 data[0] = postTicketList.get(i).getId();
                 data[1] = postTicketList.get(i).getClient().getPassport().getFullname();
                 data[2] = postTicketList.get(i).getClient().getPhone();
@@ -493,9 +485,7 @@ public class ManagerView extends JFrame {
         table.getColumnModel().getColumn(0).setPreferredWidth(2);
         table.getColumnModel().getColumn(2).setPreferredWidth(60);
 
-
         table.setModel(defaultTableModel);
         defaultTableModel.fireTableDataChanged();
-
     }
 }
