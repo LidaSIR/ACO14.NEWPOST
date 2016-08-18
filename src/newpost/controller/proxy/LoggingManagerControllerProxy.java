@@ -23,8 +23,14 @@ public class LoggingManagerControllerProxy implements IManagerController {
     }
 
     @Override
-    public PostTicket createTicket(Client client, Address sendToAdress, Product product) throws ValidationException {
-        LogContainer.logEvent("Manager: there was an attempt to create ticket with client number " + client.getPhone() + ", destination " + sendToAdress.getCity() + ", product " + product.getName());
+    public PostTicket createTicket(Client client, Address sendToAdress, List<Product> product) throws ValidationException {
+        String products = "";
+        for(Product p : product) {
+            products += p.getName() + ", ";
+        }
+        products = products.substring(0, products.length()-1);
+
+        LogContainer.logEvent("Manager: there was an attempt to create ticket with client number " + client.getPhone() + ", destination " + sendToAdress.getCity() + ", product " + products);
         return managerController.createTicket(client, sendToAdress, product);
     }
 
@@ -35,7 +41,7 @@ public class LoggingManagerControllerProxy implements IManagerController {
     }
 
     @Override
-    public PostTicket showTicketByClientPhone(String phone) throws ValidationException {
+    public List<PostTicket> showTicketByClientPhone(String phone) throws ValidationException {
         LogContainer.logEvent("Manager: there was an attempt to show ticket by client phone " + phone);
         return managerController.showTicketByClientPhone(phone);
     }

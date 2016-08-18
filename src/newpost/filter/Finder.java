@@ -52,7 +52,7 @@ public final class Finder {
                 list.add(postTicket);
             }
         }
-        return  list;
+        return  list.size()==0? null : list;
     }
 
 

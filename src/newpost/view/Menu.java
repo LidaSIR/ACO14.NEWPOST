@@ -15,6 +15,8 @@ import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 import newpost.utils.logging.LogContainer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -104,8 +106,10 @@ public class Menu {
         phone = scanner.next();
         PostTicket postTicket = null;
         try {
-            postTicket = managerController.showTicketByClientPhone(phone);
-            System.out.println(postTicket.toString());
+            List<PostTicket> postTicketList= managerController.showTicketByClientPhone(phone);
+            for(PostTicket p : postTicketList) {
+                System.out.println(postTicket.toString());
+            }
         } catch (ValidationException e) {
             e.printStackTrace();
         }
@@ -205,16 +209,18 @@ public class Menu {
         String productPrice;
         productPrice = scanner.next();
 
-        Product product = new Product(productName,
+        Product product1 = new Product(productName,
                 new Size(Integer.parseInt(productLength),
                         Integer.parseInt(productWidth),
                         Integer.parseInt(productHeight),
                         Integer.parseInt(productWeight)),
                 Integer.parseInt(productPrice),
                 client);
+        List<Product> productList = new ArrayList<>();
+        productList.add(product1);
 
         try {
-            PostTicket postTicket = clientController.makeOrder(client, addrTo, product);
+            PostTicket postTicket = clientController.makeOrder(client, addrTo, productList);
             System.out.println("Post ticket id is " + postTicket.getId());
         } catch (AppException e) {
             System.out.println(e.getMessage());
