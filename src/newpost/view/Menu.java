@@ -106,8 +106,10 @@ public class Menu {
         phone = scanner.next();
         PostTicket postTicket = null;
         try {
-            postTicket = managerController.showTicketByClientPhone(phone);
-            System.out.println(postTicket.toString());
+            List<PostTicket> postTicketList= managerController.showTicketByClientPhone(phone);
+            for(PostTicket p : postTicketList) {
+                System.out.println(postTicket.toString());
+            }
         } catch (ValidationException e) {
             e.printStackTrace();
         }

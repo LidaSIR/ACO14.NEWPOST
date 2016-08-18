@@ -1,5 +1,6 @@
 package newpost.view;
 
+import newpost.controller.ClientController;
 import newpost.controller.ManagerController;
 import newpost.db.AppDataContainer;
 import newpost.exceptions.ValidationException;
@@ -19,8 +20,8 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -35,12 +36,14 @@ public class ManagerView extends JFrame {
 
     private AppDataContainer appDataContainer;
     private ValidationManagerControllerProxy validationManagerControllerProxy;
+    private ManagerController managerController;
     private Map<String, Product> productsMap;
 
 
     public ManagerView(AppDataContainer appDataContainer) throws HeadlessException {
         this.appDataContainer = appDataContainer;
-        this.validationManagerControllerProxy = new ValidationManagerControllerProxy(new ManagerController(appDataContainer), new Validator());
+        this.managerController = new ManagerController(appDataContainer);
+        this.validationManagerControllerProxy = new ValidationManagerControllerProxy(managerController, new Validator());
         this.productsMap = new HashMap<>();
     }
 
@@ -103,7 +106,7 @@ public class ManagerView extends JFrame {
                 try {
                     validationManagerControllerProxy.addClient(new Passport(textFieldFullName.getText(), passportTextField.getText()),
                             phoneTextField.getText(), mailTextField.getText());
-                    JOptionPane.showMessageDialog(new JFrame(), "Done!");
+                    JOptionPane.showMessageDialog(new JFrame(), "Client added!");
                     Client client = validationManagerControllerProxy.getClient(phoneTextField.getText());
 
                     // Clean text fields
@@ -139,18 +142,13 @@ public class ManagerView extends JFrame {
         checkButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Client client = null;
                 try {
-                    client = validationManagerControllerProxy.getClient(textFieldClientPhoneTicketTab.getText());
+                    Client client = validationManagerControllerProxy.getClient(textFieldClientPhoneTicketTab.getText());
+                    JOptionPane.showMessageDialog(new JFrame(), "Client found!\nClient name: " + client.getPassport().getFullname());
                 } catch (ValidationException ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), ex);
-                }
-                if (client == null) {
                     JOptionPane.showMessageDialog(new JFrame(), "Client not found! Please create before");
                     phoneTextField.setText(textFieldClientPhoneTicketTab.getText());
                     tabbedPane.setSelectedComponent(panelAddClient);
-                } else {
-                    JOptionPane.showMessageDialog(new JFrame(), "Client found!\nClient name: " + client.getPassport().getFullname());
                 }
             }
         });
@@ -250,10 +248,10 @@ public class ManagerView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Product product = tryParseProduct();
-                if(product!=null) {
+                if (product != null) {
                     productsMap.put(product.getName(), product);
                     productJList.addItem(product.getName());// = new JComboBox<>(productsMap.keySet().toArray());
-                    JOptionPane.showMessageDialog(new JFrame(), "Product added!");
+                    JOptionPane.showMessageDialog(new JFrame(), "Product " + product.getName() + " added!");
                     textFieldProductName.setText("");
                     textFieldPrice.setText("");
                     textFieldWeight.setText("");
@@ -272,7 +270,7 @@ public class ManagerView extends JFrame {
                             Integer.parseInt(textFieldPrice.getText()), client);
                     return product;
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Something wrong!\n"+ex);
+                    JOptionPane.showMessageDialog(new JFrame(), "Something wrong!\n" + ex);
                     return null;
                 }
             }
@@ -297,20 +295,121 @@ public class ManagerView extends JFrame {
                     textFieldSendToHouseNumber.setText("");
 
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Something wrong!\n"+ex);
+                    JOptionPane.showMessageDialog(new JFrame(), "Something wrong!\n" + ex);
                 }
             }
         });
         panelCreateTicket.add(createTicketButton, BorderLayout.SOUTH);
 
-
         // Add all content to "Create ticket" tab
         panelCreateTicket.add(contentPanelCreateTicket);
 
-
+        // Create Search Tab
         JComponent panelSearch = new JPanel();
+        panelSearch.setLayout(new BorderLayout());
+        panelSearch.add(new JLabel("Please input data for search", SwingConstants.CENTER), BorderLayout.NORTH);
 
 
+        JComponent contentPanelSearch = new JPanel(null);
+
+        // Create input field for search
+        JTextField textFieldSearchKey = new JTextField();
+        JPanel searchKeyPanel = createPanel("Please input client name/phone/ticket number", "Search key", 20, 15, textFieldSearchKey);
+        contentPanelSearch.add(searchKeyPanel);
+
+        JRadioButton radioButtonName = new JRadioButton("By name");
+        JRadioButton radioButtonPhone = new JRadioButton("By phone");
+        JRadioButton radioButtonTicketNumber = new JRadioButton("By ticket id");
+
+        ButtonGroup searchFilterRadioButtonGroup = new ButtonGroup();
+        searchFilterRadioButtonGroup.add(radioButtonName);
+        searchFilterRadioButtonGroup.add(radioButtonPhone);
+        searchFilterRadioButtonGroup.add(radioButtonTicketNumber);
+
+        JPanel filterPanel = new JPanel(new FlowLayout(SwingConstants.HORIZONTAL));
+        filterPanel.setBounds(60, 80, 550, 45);
+        filterPanel.add(radioButtonName);
+        filterPanel.add(radioButtonPhone);
+        filterPanel.add(radioButtonTicketNumber);
+
+
+
+        // Create input field for search
+        //JPanel resultPanelOnScrollPanel = new JPanel();
+        //JScrollPane scrollPane = new JScrollPane(resultPanelOnScrollPanel);
+        //resultPanelOnScrollPanel.setLayout(new BoxLayout(resultPanelOnScrollPanel, BoxLayout.Y_AXIS));
+
+        //scrollPane.setBounds(20, 110, 550, 300);
+        //scrollPane.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Result")));
+        //contentPanelSearch.add(scrollPane);
+        JScrollPane scrollPane = new JScrollPane();
+        contentPanelSearch.add(scrollPane);
+
+        JButton searchButton = new JButton("Search");
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO
+                String radioButtonText = getSelectedButtonText(searchFilterRadioButtonGroup);
+                if (radioButtonText == null) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Please select search filter");
+                    return;
+                }
+                switch (radioButtonText) {
+                    case "By name":
+                        try {
+                            java.util.List<PostTicket> postTicketList = managerController.findByOwnerName(textFieldSearchKey.getText());
+                            if (postTicketList.size() == 0) {
+                                JOptionPane.showMessageDialog(new JFrame(), "Client doesn't have any tickets");
+                                return;
+                            }
+                            for (PostTicket postTicket : postTicketList) {
+                                System.out.println(postTicket);
+                            }
+                        } catch (Exception exception) {
+                            JOptionPane.showMessageDialog(new JFrame(), "Client not found");
+                        }
+
+                        break;
+                    case "By phone":
+                        try {
+                            java.util.List<PostTicket> postTicketList = managerController.showTicketByClientPhone(textFieldSearchKey.getText());
+                            if (postTicketList.size() == 0) {
+                                JOptionPane.showMessageDialog(new JFrame(), "Doesn't find any client with current phone");
+                                return;
+                            }
+                            for (PostTicket postTicket : postTicketList) {
+                                System.out.println(postTicket);
+                            }
+                        } catch (Exception exception) {
+                            JOptionPane.showMessageDialog(new JFrame(), "Client not found");
+                        }
+                        break;
+                    case "By ticket id":
+
+                        PostTicket postTicket = new ClientController(appDataContainer).showTicketById(textFieldSearchKey.getText());
+                        if (postTicket == null) {
+                            JOptionPane.showMessageDialog(new JFrame(), "Doesn't find ticket");
+                            return;
+                        }
+                        System.out.println(postTicket);
+
+                        break;
+
+                }
+            }
+        });
+
+        filterPanel.add(searchButton);
+        contentPanelSearch.add(filterPanel);
+
+
+
+
+
+        panelSearch.add(contentPanelSearch);
+
+        // Add all tabs to JFrame
         managerFrame.add(tabbedPane);
         tabbedPane.add("Add client", panelAddClient);
         tabbedPane.add("Create ticket", panelCreateTicket);
@@ -329,6 +428,31 @@ public class ManagerView extends JFrame {
         jPanel.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder(title)));
         jPanel.setBounds(x, y, 550, 70);
         return jPanel;
+
+    }
+
+    private String getSelectedButtonText(ButtonGroup buttonGroup) {
+        for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements(); ) {
+            AbstractButton button = buttons.nextElement();
+
+            if (button.isSelected()) {
+                return button.getText();
+            }
+        }
+
+        return null;
+    }
+
+    private void showResult(JScrollPane scrollPane, List<PostTicket> postTicketList) {
+        JPanel resultPanelOnScrollPanel = new JPanel();
+
+        scrollPane = new JScrollPane(resultPanelOnScrollPanel);
+
+        resultPanelOnScrollPanel.setLayout(new BoxLayout(resultPanelOnScrollPanel, BoxLayout.Y_AXIS));
+
+        scrollPane.setBounds(20, 110, 550, 300);
+        scrollPane.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Result")));
+        //contentPanelSearch.add(scrollPane);
 
     }
 }

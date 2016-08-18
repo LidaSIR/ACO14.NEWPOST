@@ -53,9 +53,9 @@ public class ValidationManagerControllerProxy implements IManagerController {
     }
 
     @Override
-    public PostTicket showTicketByClientPhone(String phone) throws ValidationException {
+    public List<PostTicket> showTicketByClientPhone(String phone) throws ValidationException {
         if (validator.isPhone(phone)) {
-            PostTicket ps = managerController.showTicketByClientPhone(phone);
+            List<PostTicket> ps = managerController.showTicketByClientPhone(phone);
             if (ps != null) {
                 return ps;
             } else {

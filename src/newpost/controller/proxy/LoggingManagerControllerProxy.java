@@ -41,7 +41,7 @@ public class LoggingManagerControllerProxy implements IManagerController {
     }
 
     @Override
-    public PostTicket showTicketByClientPhone(String phone) throws ValidationException {
+    public List<PostTicket> showTicketByClientPhone(String phone) throws ValidationException {
         LogContainer.logEvent("Manager: there was an attempt to show ticket by client phone " + phone);
         return managerController.showTicketByClientPhone(phone);
     }

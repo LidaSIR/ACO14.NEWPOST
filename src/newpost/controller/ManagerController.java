@@ -77,13 +77,14 @@ public class ManagerController implements IManagerController {
     }
 
     @Override
-    public PostTicket showTicketByClientPhone(String phone) {
+    public List<PostTicket> showTicketByClientPhone(String phone) {
+        List<PostTicket> postTicketList = new ArrayList<>();
         for(PostTicket postTicket : appDataContainer.getTickets()) {
             if(postTicket.getClient().getPhone().equals(String.valueOf(phone))){
-                return postTicket;
+                postTicketList.add(postTicket);
             }
         }
-        return null;
+        return postTicketList.size()==0? null : postTicketList;
     }
 
     @Override

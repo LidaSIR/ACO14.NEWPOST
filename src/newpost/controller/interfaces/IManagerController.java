@@ -16,7 +16,7 @@ import java.util.List;
 public interface IManagerController {
     PostTicket createTicket(Client client, Address sendToAdress, List<Product> product) throws ValidationException;
     PostTicket filterTicketById(String ticketId) throws ValidationException;
-    PostTicket showTicketByClientPhone(String phone) throws ValidationException;
+    List<PostTicket> showTicketByClientPhone(String phone) throws ValidationException;
     Client getClient(String phone) throws ValidationException;
     Client addClient (Passport passport, String phone) throws ValidationException;
     Client addClient (Passport passport, String phone, String mail) throws ValidationException;
