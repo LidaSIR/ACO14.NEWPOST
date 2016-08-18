@@ -342,14 +342,13 @@ public class ManagerView extends JFrame {
         //scrollPane.setBounds(20, 110, 550, 300);
         //scrollPane.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Result")));
         //contentPanelSearch.add(scrollPane);
-        JScrollPane scrollPane = new JScrollPane();
-        contentPanelSearch.add(scrollPane);
+        //JScrollPane scrollPane = new JScrollPane();
+        //contentPanelSearch.add(scrollPane);
 
         JButton searchButton = new JButton("Search");
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
                 String radioButtonText = getSelectedButtonText(searchFilterRadioButtonGroup);
                 if (radioButtonText == null) {
                     JOptionPane.showMessageDialog(new JFrame(), "Please select search filter");
@@ -363,9 +362,7 @@ public class ManagerView extends JFrame {
                                 JOptionPane.showMessageDialog(new JFrame(), "Client doesn't have any tickets");
                                 return;
                             }
-                            for (PostTicket postTicket : postTicketList) {
-                                System.out.println(postTicket);
-                            }
+                            //TODO new Jframe for Ticket info
                         } catch (Exception exception) {
                             JOptionPane.showMessageDialog(new JFrame(), "Client not found");
                         }
@@ -378,9 +375,7 @@ public class ManagerView extends JFrame {
                                 JOptionPane.showMessageDialog(new JFrame(), "Doesn't find any client with current phone");
                                 return;
                             }
-                            for (PostTicket postTicket : postTicketList) {
-                                System.out.println(postTicket);
-                            }
+                            //TODO new Jframe for Ticket info
                         } catch (Exception exception) {
                             JOptionPane.showMessageDialog(new JFrame(), "Client not found");
                         }
@@ -392,7 +387,7 @@ public class ManagerView extends JFrame {
                             JOptionPane.showMessageDialog(new JFrame(), "Doesn't find ticket");
                             return;
                         }
-                        System.out.println(postTicket);
+                        //TODO new Jframe for Ticket info
 
                         break;
 
@@ -443,6 +438,7 @@ public class ManagerView extends JFrame {
         return null;
     }
 
+    /*
     private void showResult(JScrollPane scrollPane, List<PostTicket> postTicketList) {
         JPanel resultPanelOnScrollPanel = new JPanel();
 
@@ -454,5 +450,5 @@ public class ManagerView extends JFrame {
         scrollPane.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Result")));
         //contentPanelSearch.add(scrollPane);
 
-    }
+    }*/
 }
