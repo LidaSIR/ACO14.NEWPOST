@@ -10,6 +10,7 @@ import newpost.model.common.Product;
 import newpost.model.common.Size;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
+import newpost.model.office.TicketStatus;
 import newpost.validator.ValidationManagerControllerProxy;
 import newpost.validator.Validator;
 
@@ -17,6 +18,8 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,6 +41,7 @@ public class ManagerView extends JFrame {
     private ValidationManagerControllerProxy validationManagerControllerProxy;
     private ManagerController managerController;
     private Map<String, Product> productsMap;
+    private static final String[] COLUMN_NAMES = new String[]{"ID", "Full name", "Phone", "Email"};
 
 
     public ManagerView(AppDataContainer appDataContainer) throws HeadlessException {
@@ -101,7 +105,6 @@ public class ManagerView extends JFrame {
         addClientButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Button is pressed");
 
                 try {
                     validationManagerControllerProxy.addClient(new Passport(textFieldFullName.getText(), passportTextField.getText()),
@@ -333,17 +336,17 @@ public class ManagerView extends JFrame {
         filterPanel.add(radioButtonTicketNumber);
 
 
+        String data[][] = {};
+        JTable table = new JTable(data, COLUMN_NAMES);
+        table.setModel(new DefaultTableModel(data, COLUMN_NAMES));
 
-        // Create input field for search
-        //JPanel resultPanelOnScrollPanel = new JPanel();
-        //JScrollPane scrollPane = new JScrollPane(resultPanelOnScrollPanel);
-        //resultPanelOnScrollPanel.setLayout(new BoxLayout(resultPanelOnScrollPanel, BoxLayout.Y_AXIS));
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(2, 110, 590, 300);
+        scrollPane.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Result")));
 
-        //scrollPane.setBounds(20, 110, 550, 300);
-        //scrollPane.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Result")));
-        //contentPanelSearch.add(scrollPane);
-        //JScrollPane scrollPane = new JScrollPane();
-        //contentPanelSearch.add(scrollPane);
+
+        contentPanelSearch.add(scrollPane);
+
 
         JButton searchButton = new JButton("Search");
         searchButton.addActionListener(new ActionListener() {
@@ -356,39 +359,31 @@ public class ManagerView extends JFrame {
                 }
                 switch (radioButtonText) {
                     case "By name":
-                        try {
-                            java.util.List<PostTicket> postTicketList = managerController.findByOwnerName(textFieldSearchKey.getText());
-                            if (postTicketList.size() == 0) {
-                                JOptionPane.showMessageDialog(new JFrame(), "Client doesn't have any tickets");
-                                return;
-                            }
-                            //TODO new Jframe for Ticket info
-                        } catch (Exception exception) {
-                            JOptionPane.showMessageDialog(new JFrame(), "Client not found");
+                        java.util.List<PostTicket> postTicketList2 = managerController.findByOwnerName(textFieldSearchKey.getText());
+                        if (postTicketList2 == null) {
+                            JOptionPane.showMessageDialog(new JFrame(), "Nothing found");
                         }
-
+                        showResult(table, postTicketList2);
                         break;
+
                     case "By phone":
-                        try {
-                            java.util.List<PostTicket> postTicketList = managerController.showTicketByClientPhone(textFieldSearchKey.getText());
-                            if (postTicketList.size() == 0) {
-                                JOptionPane.showMessageDialog(new JFrame(), "Doesn't find any client with current phone");
-                                return;
-                            }
-                            //TODO new Jframe for Ticket info
-                        } catch (Exception exception) {
-                            JOptionPane.showMessageDialog(new JFrame(), "Client not found");
+                        java.util.List<PostTicket> postTicketList = managerController.showTicketByClientPhone(textFieldSearchKey.getText());
+                        if (postTicketList == null) {
+                            JOptionPane.showMessageDialog(new JFrame(), "Nothing with this phone");
                         }
+                        showResult(table, postTicketList);
                         break;
-                    case "By ticket id":
 
+                    case "By ticket id":
                         PostTicket postTicket = new ClientController(appDataContainer).showTicketById(textFieldSearchKey.getText());
                         if (postTicket == null) {
                             JOptionPane.showMessageDialog(new JFrame(), "Doesn't find ticket");
+                            showResult(table, null);
                             return;
                         }
-                        //TODO new Jframe for Ticket info
-
+                        List<PostTicket> postTicketList1 = new ArrayList<>();
+                        postTicketList1.add(postTicket);
+                        showResult(table, postTicketList1);
                         break;
 
                 }
@@ -397,12 +392,44 @@ public class ManagerView extends JFrame {
 
         filterPanel.add(searchButton);
         contentPanelSearch.add(filterPanel);
-
-
-
-
-
         panelSearch.add(contentPanelSearch);
+
+        JButton cancelButton = new JButton("Cancel ticket");
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Object ticketId = table.getValueAt(table.getSelectedRow(), 0);
+                    managerController.cancelTicket(Integer.parseInt((String) ticketId));
+                    JOptionPane.showMessageDialog(new JFrame(), "Ticket canceled!");
+                    showResult(table, null);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Please select ticket");
+                }
+            }
+        });
+
+        JButton showInfoButton = new JButton("Show info");
+        showInfoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Object ticketId = table.getValueAt(table.getSelectedRow(), 0);
+                    PostTicket postTicket = managerController.filterTicketById((String) ticketId);
+                    System.out.println(postTicket);
+                    //TODO add new frame
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Please select ticket");
+                }
+            }
+        });
+
+        JPanel buttonsPanelOnSearchTab = new JPanel(new GridLayout(1,2));
+        buttonsPanelOnSearchTab.add(showInfoButton, BorderLayout.SOUTH);
+        buttonsPanelOnSearchTab.add(cancelButton, BorderLayout.SOUTH);
+        panelSearch.add(buttonsPanelOnSearchTab, BorderLayout.SOUTH);
+
+
 
         // Add all tabs to JFrame
         managerFrame.add(tabbedPane);
@@ -438,17 +465,37 @@ public class ManagerView extends JFrame {
         return null;
     }
 
-    /*
-    private void showResult(JScrollPane scrollPane, List<PostTicket> postTicketList) {
-        JPanel resultPanelOnScrollPanel = new JPanel();
 
-        scrollPane = new JScrollPane(resultPanelOnScrollPanel);
+    private static void showResult(JTable table, List<PostTicket> postTicketList) {
 
-        resultPanelOnScrollPanel.setLayout(new BoxLayout(resultPanelOnScrollPanel, BoxLayout.Y_AXIS));
+        String data[] = new String[4];
+        DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
+        defaultTableModel.setRowCount(0);
 
-        scrollPane.setBounds(20, 110, 550, 300);
-        scrollPane.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Result")));
-        //contentPanelSearch.add(scrollPane);
 
-    }*/
+        if (postTicketList == null) {
+            data[0] = "";
+            data[1] = "";
+            data[2] = "";
+            data[3] = "";
+            defaultTableModel.addRow(data);
+        } else {
+            for (int i = 0; i < postTicketList.size(); i++) {
+                if(postTicketList.get(i).getStatus()==TicketStatus.CANCELED) continue;
+                data[0] = postTicketList.get(i).getId();
+                data[1] = postTicketList.get(i).getClient().getPassport().getFullname();
+                data[2] = postTicketList.get(i).getClient().getPhone();
+                data[3] = postTicketList.get(i).getClient().getMail();
+                defaultTableModel.addRow(data);
+            }
+        }
+
+        table.getColumnModel().getColumn(0).setPreferredWidth(2);
+        table.getColumnModel().getColumn(2).setPreferredWidth(60);
+
+
+        table.setModel(defaultTableModel);
+        defaultTableModel.fireTableDataChanged();
+
+    }
 }

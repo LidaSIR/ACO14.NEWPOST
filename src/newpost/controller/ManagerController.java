@@ -11,6 +11,7 @@ import newpost.model.common.Passport;
 import newpost.model.common.Product;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
+import newpost.model.office.TicketStatus;
 import newpost.test.utils.TestSMTP;
 import newpost.utils.email.smtp.SMTP;
 
@@ -169,6 +170,18 @@ public class ManagerController implements IManagerController {
     @Override
     public List<PostTicket> findByOwnerName(String name) {
         return Finder.findByOwnerName(appDataContainer,name);
+    }
+
+    public boolean cancelTicket(int ticketId) {
+
+        for(PostTicket postTicket : appDataContainer.getTickets()) {
+            if(postTicket.getId().equals(String.valueOf(ticketId))){
+                postTicket.setStatus(TicketStatus.CANCELED);
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
