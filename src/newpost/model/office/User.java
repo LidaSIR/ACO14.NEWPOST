@@ -7,8 +7,8 @@ public class User {
     private String fullName;
     private String phone;
     private String login;
-    private int password;
-    private  int randomPass = 100000 + (int)(Math.random() * ((999999 - 100000)));
+    private String password;
+    private String randomPass = Integer.toString(100000 + (int)(Math.random() * ((999999 - 100000))));
 
     public User(String fullName, String phone) {
         this.fullName = fullName;
@@ -38,7 +38,7 @@ public class User {
         return login;
     }
 
-    public int getPassword() {
+    public String getPassword() {
         return password;
     }
 
