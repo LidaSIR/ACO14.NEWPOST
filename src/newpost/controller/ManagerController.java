@@ -3,6 +3,7 @@ package newpost.controller;
 
 import newpost.controller.interfaces.IManagerController;
 import newpost.db.AppDataContainer;
+import newpost.exceptions.ValidationException;
 import newpost.filter.*;
 import newpost.model.common.Address;
 import newpost.model.common.MyDate;
@@ -10,13 +11,17 @@ import newpost.model.common.Passport;
 import newpost.model.common.Product;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
+import newpost.model.office.TicketStatus;
 import newpost.test.utils.TestSMTP;
 import newpost.utils.email.smtp.SMTP;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Created by home on 08.07.2016.
@@ -24,13 +29,7 @@ import java.util.List;
 public class ManagerController implements IManagerController {
 
     public static final int DAYS_IN_ROAD = 2;
-    private final static String MAIL_LOGIN = "lightpostua";
-    private final static String MAIL_PASSWORD = "lightpostuaaco14";
-    private final static String MAIL_SUBJECT = "Hello from ACO14 New Post";
-    private final static String DEFAULT_MESSAGE_TEXT = "Hello dear {name}!!!\n" +
-            "\n" +
-            "Now your order in progress and your ticket number is:\n" +
-            "{ticket}";
+    private static final String DEFAULT_ATTACHMENT = "resources/orderTemplate.rtf";
 
 
 
@@ -41,7 +40,7 @@ public class ManagerController implements IManagerController {
     }
 
     @Override
-    public PostTicket createTicket(Client client, Address sendToAdress, Product product) {
+    public PostTicket createTicket(Client client, Address sendToAdress, List<Product> product) {
         Calendar calendar = GregorianCalendar.getInstance();
         MyDate currentTime = new MyDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
@@ -49,34 +48,22 @@ public class ManagerController implements IManagerController {
         MyDate estimationArrivalDate = currentTime;
         estimationArrivalDate.setDay(currentTime.getDay()+ DAYS_IN_ROAD);
 
-        Product sendProduct = new Product(product.getName(), product.getSize(), product.getPrice(), client);
-        Product[] sendProductArr = {sendProduct};
+        Product[] productsArray = product.toArray(new Product[product.size()]);
 
-        PostTicket postTicket = new PostTicket(client, sendProductArr, addressFrom, sendToAdress,
+        PostTicket postTicket = new PostTicket(client, productsArray, addressFrom, sendToAdress,
                 currentTime, estimationArrivalDate);
 
         appDataContainer.getTickets().add(postTicket);
 
-
-        this.sendMail(client, postTicket);
+        try {
+            SMTP.sendMail(client,postTicket,DEFAULT_ATTACHMENT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return postTicket;
     }
 
-    private boolean sendMail(Client client, PostTicket ticket) {
-
-        String mailText = DEFAULT_MESSAGE_TEXT.replace("{name}",client.getPassport().getFullname());
-        mailText = mailText.replace("{ticket}",ticket.getId());
-
-        if(client.getMail()==null) {
-            return false;
-        }
-
-
-        SMTP.sendFromGMail(MAIL_LOGIN, MAIL_PASSWORD, client.getMail(),MAIL_SUBJECT, mailText);
-
-        return true;
-    }
 
     @Override
     public PostTicket filterTicketById(String ticketId) {
@@ -91,13 +78,14 @@ public class ManagerController implements IManagerController {
     }
 
     @Override
-    public PostTicket showTicketByClientPhone(String phone) {
+    public List<PostTicket> showTicketByClientPhone(String phone) {
+        List<PostTicket> postTicketList = new ArrayList<>();
         for(PostTicket postTicket : appDataContainer.getTickets()) {
             if(postTicket.getClient().getPhone().equals(String.valueOf(phone))){
-                return postTicket;
+                postTicketList.add(postTicket);
             }
         }
-        return null;
+        return postTicketList.size()==0? null : postTicketList;
     }
 
     @Override
@@ -120,12 +108,13 @@ public class ManagerController implements IManagerController {
         return client;
     }
 
-    public Client addClient(Passport passport, String phone, String mail) {
+    @Override
+    public Client addClient(Passport passport, String phone, String mail) throws ValidationException {
         Client client = new Client(phone, passport, mail);
         appDataContainer.getClients().add(client);
-
         return client;
     }
+
 
     public List<PostTicket> sortTicketsByAddress() {
          List <PostTicket> tickets = new ArrayList<>();
@@ -181,6 +170,18 @@ public class ManagerController implements IManagerController {
     @Override
     public List<PostTicket> findByOwnerName(String name) {
         return Finder.findByOwnerName(appDataContainer,name);
+    }
+
+    public boolean cancelTicket(int ticketId) {
+
+        for(PostTicket postTicket : appDataContainer.getTickets()) {
+            if(postTicket.getId().equals(String.valueOf(ticketId))){
+                postTicket.setStatus(TicketStatus.CANCELED);
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

@@ -1,11 +1,10 @@
-package newpost.utils.geolocation.MapFramefork;
+package newpost.utils.geolocation.mapFramework;
 
 import freemarker.template.TemplateException;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebErrorEvent;
 import javafx.scene.web.WebView;
 
 //import ua.artcode.taxi.utils.IOUtils;
@@ -14,8 +13,7 @@ import javafx.scene.web.WebView;
 //import ua.artcode.taxi.utils.template.TemplateEngineUtils;
 
 
-import newpost.utils.geolocation.*;
-import newpost.utils.geolocation.MapFramefork.utils.TemplateEngineUtils;
+import newpost.utils.geolocation.mapFramework.utils.TemplateEngineUtils;
 import newpost.utils.geolocation.controller.Location;
 
 import javax.swing.*;
@@ -81,14 +79,5 @@ public class ShowMapMarkerFrame extends JFrame {
         panel.setScene(scene);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ShowMapMarkerFrame(new Location(50.4538759, 30.5064151, "my location"),
-                        Arrays.asList(new Location(50.4603181,30.5223264, "driver1"),
-                                new Location(50.4292824, 30.536174, "driver2")));
-            }
-        });
-    }
+
 }

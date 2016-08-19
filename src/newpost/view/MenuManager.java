@@ -12,7 +12,7 @@ public class MenuManager  extends Menu {
     protected MenuManager() {
     }
 
-    protected void managerMenuRun() throws ValidationException, LogException {
+    protected void managerMenuRun() {
         while (true) {
             showMainMenuManager();
 
@@ -31,14 +31,14 @@ public class MenuManager  extends Menu {
             } else if (choice == 6) {
                 showAddClientMenu();
             } else if(choice == 7) {
-                this.showManagementOperationsMenu();
+                showManagementOperationsMenu();
             } else if (choice == 0) {
                 break;
             }
         }
     }
 
-    public void showManagementOperationsMenu() throws ValidationException {
+    public void showManagementOperationsMenu()  {
         System.out.println();
         System.out.println("1. Find");
         System.out.println("2. Sort");
@@ -103,7 +103,7 @@ public class MenuManager  extends Menu {
         System.out.println("0. Exit");
     }
 
-    private void showFindMenu() throws ValidationException {
+    private void showFindMenu() {
         System.out.println("1. Find by price");
         System.out.println("2. Find by address");
         System.out.println("3. Find by city");
@@ -169,11 +169,16 @@ public class MenuManager  extends Menu {
         List<PostTicket> list = managerController.findByOwnerName(name);
         System.out.println(list.toString());
     }
-    private void findById() throws ValidationException {
+    private void findById() {
         System.out.println("Input ID");
         String id = scanner.next();
 
-        PostTicket postTicket = managerController.filterTicketById(id);
-        System.out.println(postTicket.toString());
+        PostTicket postTicket = null;
+        try {
+            postTicket = managerController.filterTicketById(id);
+            System.out.println(postTicket.toString());
+        } catch (ValidationException e) {
+            e.printStackTrace();
+        }
     }
 }

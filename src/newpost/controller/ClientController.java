@@ -8,9 +8,9 @@ import newpost.model.common.Product;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 import newpost.model.office.TicketStatus;
+import newpost.utils.TimeUtils;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * Created by macaque on 09.07.2016.
@@ -26,18 +26,14 @@ public class ClientController implements IClientController {
     }
 
     @Override
-    public PostTicket makeOrder(Client client, Address sendToAddress, Product product) {
+    public PostTicket makeOrder(Client client, Address sendToAddress, List<Product> product) {
 
 
-        Calendar calendar = GregorianCalendar.getInstance();
-        MyDate currentTime = new MyDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+        MyDate currentTime = TimeUtils.getCurrentDate();
 
         currentTime.setDay(currentTime.getDay() + DAYS_IN_ROAD);
 
-        Product sendProduct = new Product(product.getName(), product.getSize(), product.getPrice(), client);
-        Product[] sendProductArr = {sendProduct};
-        PostTicket postTicket = new PostTicket(client, sendProductArr, new Address("Kiyv","Lesi","22"), sendToAddress,
+        PostTicket postTicket = new PostTicket(client, (Product[]) product.toArray(), new Address("Kiyv","Lesi","22"), sendToAddress,
                 currentTime, currentTime);
 
         appDataContainer.getTickets().add(postTicket);

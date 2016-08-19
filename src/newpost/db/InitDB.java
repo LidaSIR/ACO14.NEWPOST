@@ -13,6 +13,7 @@ import java.util.List;
 public class InitDB {
 
     //private AppDataContainer appDataContainer;
+    // todo access modifiers
     static final int COUNT = 10;
     static final String DB_LOCATION = "resources/db.json";
     static final String LOG_LOCATION = "logs/logs.txt";
@@ -32,14 +33,18 @@ public class InitDB {
     public static void saveDBToFileAsJson(AppDataContainer appDataContainer){
         Gson gson = new Gson();
         String resJson = gson.toJson(appDataContainer);
+        PrintWriter printWriter = null;
         try {
-            PrintWriter printWriter = new PrintWriter(new FileWriter(DB_LOCATION,true),true);
+            printWriter = new PrintWriter(new FileWriter(DB_LOCATION,true),true);
             printWriter.println(resJson);
-            printWriter.close();
            // System.out.println("write was successfull");
             printWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if(printWriter != null){
+                printWriter.close();
+            }
         }
     }
 
@@ -55,13 +60,11 @@ public class InitDB {
     }
 
     public static void saveStringToFile(String str, String location, boolean overwrite){
-        try {
-            PrintWriter printWrite = new PrintWriter(new FileWriter(location, overwrite), true);
+        try (PrintWriter printWrite = new PrintWriter(new FileWriter(location, overwrite), true)){
             printWrite.println(str);
-            printWrite.close();
             //System.out.println("write was successfull");
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // todo use logging
         }
     }
 
@@ -109,17 +112,11 @@ public class InitDB {
     }
 
     public static boolean checkFileisCreated(String location){
-        if (new File(location).exists()){
-            return true;
-        }
-        return false;
+        return new File(location).exists();
     }
 
     public static boolean checkFileisNotEmpty(String location){
-        if (new File(location).length() != 0){
-            return true;
-        }
-        return false;
+        return new File(location).length() != 0;
     }
 
 

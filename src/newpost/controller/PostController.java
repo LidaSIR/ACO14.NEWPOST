@@ -4,7 +4,7 @@ import newpost.controller.interfaces.IPostController;
 import newpost.db.AppDataContainer;
 import newpost.model.common.Address;
 import newpost.model.office.PostOffice;
-import newpost.utils.geolocation.MapFramefork.ShowMapMarkerFrame;
+import newpost.utils.geolocation.mapFramework.ShowMapMarkerFrame;
 import newpost.utils.geolocation.controller.GoogleMapsAPI;
 import newpost.utils.geolocation.controller.GoogleMapsAPIImpl;
 import newpost.utils.geolocation.controller.Location;
@@ -24,6 +24,7 @@ public class PostController implements IPostController {
         this.appDataContainer = appDataContainer;
     }
 
+    // todo pass location to the method
     @Override
     public void showOfficesOnMap() {
         //todo create class post office and change ticket and db
@@ -34,6 +35,7 @@ public class PostController implements IPostController {
 
         List<PostOffice> postOffices = appDataContainer.getPostOffices();
 
+        // todo replace by stream
         for (PostOffice pst: postOffices){
             Address addr = pst.getAddress();
             locations.add(googleMapsAPI.findLocation("Ukraine", addr.getCity(), addr.getStreet(), addr.getHouseNum()));

@@ -12,6 +12,8 @@ import java.util.List;
  * Created by Serhii Fursenko on 08.07.2016.
  * fyrsenko@gmail.com
  */
+
+// todo find good collections for Container
 public class AppDataContainer {
 
     private List<Client> clients;
