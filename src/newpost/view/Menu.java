@@ -268,7 +268,9 @@ public class Menu {
         String passportNumber;
         while (true) {
             System.out.println("Input  passport number in format DF908754(without spaces) ");
-            passportNumber = String.valueOf(scanner.useDelimiter("\\n"));
+            //passportNumber = String.valueOf(scanner.useDelimiter("\\n"));
+            scanner.useDelimiter("\\n");
+            passportNumber = scanner.next();
             if (passportNumber.isEmpty() || (passportNumber.length() != 8) || passportNumber.contains(" ")) {
                 System.out.println("Incorrect data: either passport number is empty or length is greater than " +
                         "8 characters or contains spaces..");
