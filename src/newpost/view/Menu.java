@@ -289,4 +289,24 @@ public class Menu {
     public Scanner getScanner() {
         return scanner;
     }
+
+    public static IClientController getClientController() {
+        return clientController;
+    }
+
+    public static IManagerController getManagerController() {
+        return managerController;
+    }
+
+    public static IEmployeeManagement getEmployeeManagement() {
+        return employeeManagement;
+    }
+
+    public static IMoneyController getMoneyController() {
+        return moneyController;
+    }
+
+    public static IPostController getPostController() {
+        return postController;
+    }
 }

@@ -57,6 +57,7 @@ public class TestMoneyController {
                 expected.toString().equals(actual.toString()),expected,actual);
     }
 
+    // TODO: 06.08.2016  do data base for test and check test!!!!
     public static void testFindTransactionByID (MoneyController moneyController){
         Transaction expected = moneyController.makePayment(56788635,979345935,7564,"Rent");
         String id = expected.getTransactionId();

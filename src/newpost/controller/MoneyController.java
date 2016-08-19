@@ -49,6 +49,7 @@ public class MoneyController implements IMoneyController {
     }
 
     @Override
+    // fill db for test
     public Transaction findTransactionByID(String transactionId) {
         for(Transaction transaction: appDataContainer.getTransactions()) {
             if (transaction.getTransactionId().equals(String.valueOf(transactionId))) {
