@@ -29,6 +29,7 @@ public class DirectorController implements IEmployeeManagement,IReport {
         Employee employee = new Employee(jobTitle,fullName,phone,salary);
 
         appDataContainer.getEmployees().add(employee);
+        appDataContainer.getUsers().put(employee.getLogin(), employee);
 
         return employee;
     }
@@ -38,6 +39,7 @@ public class DirectorController implements IEmployeeManagement,IReport {
         for(Employee employee:appDataContainer.getEmployees()){
            if(employee.getFullName().equals(fullName)) {
                appDataContainer.getEmployees().remove(employee);
+               appDataContainer.getUsers().remove(employee.getLogin());
                return employee;
            }
         }

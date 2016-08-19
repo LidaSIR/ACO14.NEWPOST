@@ -14,11 +14,6 @@ public class TestLoginPassView {
 
         AppDataContainer appDataContainer = new AppDataContainer();
         InitDB.initDB(appDataContainer);
-        Employee employee = new Employee("Manager", "Anna", "777", 10000);
-        System.out.println("test login = "    + employee.getLogin());
-        System.out.println("test password = " + employee.getPassword());
-        appDataContainer.getEmployees().add(employee);
-        appDataContainer.getUsers().put(employee.getLogin(), employee);
         LoginFrame loginPassFrame = new LoginFrame(appDataContainer);
     }
 
