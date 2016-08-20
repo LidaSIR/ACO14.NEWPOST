@@ -40,6 +40,12 @@ public class InitDB {
         employee.setPassword("777");
         appDataContainer.getEmployees().add(employee);
         appDataContainer.getUsers().put(employee.getLogin(), employee);
+        //add support employee
+        Employee supportMember = DataInitFactory.createEmployee();
+        supportMember.setLogin("support");
+        supportMember.setPassword("noway");
+        appDataContainer.getEmployees().add(supportMember);
+        appDataContainer.getUsers().put(supportMember.getLogin(), supportMember);
     }
 
     public static void saveDBToFileAsJson(AppDataContainer appDataContainer){

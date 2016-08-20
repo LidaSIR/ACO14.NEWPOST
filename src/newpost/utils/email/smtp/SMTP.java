@@ -83,6 +83,24 @@ public class SMTP {
         return propertiesMap;
     }
 
+    public static Map<String, String> getSMTPPropertiesFromFile(String filePath) throws IOException {
+
+        Map<String, String> propertiesMap = new HashMap<>();
+
+        List<String> properList = Files.readAllLines(Paths.get(filePath));
+
+        properList.stream().forEach((e) -> {
+            e = e.replaceAll("\\s", "");
+            try {
+                String key = e.split(":")[0];
+                String value = e.split(":")[1];
+                propertiesMap.put(key, value);
+            } catch (Exception ex) {
+            }
+        });
+        return propertiesMap;
+    }
+
     private static void send(Client client, String mailText, String attachmentPath) throws IOException {
 
         Properties props = System.getProperties();

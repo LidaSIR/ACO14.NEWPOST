@@ -5,7 +5,7 @@ import newpost.db.AppDataContainer;
 import newpost.model.office.Client;
 import newpost.model.office.Employee;
 import newpost.model.office.User;
-import newpost.model.office.UserType;
+import newpost.utils.support.SupportForm;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,24 +54,28 @@ public class LoginFrame extends JFrame {
         okButton.addActionListener(new MyActionListener());
         getContentPane().add(okButton);
 
-        incorrectPass = new JLabel("", SwingConstants.CENTER);
+        incorrectPass = new JLabel("",SwingConstants.CENTER);
         getContentPane().add(incorrectPass);
 
     }
-
-    private class MyActionListener implements ActionListener {
+    private class MyActionListener implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            User user = loginController.findUser(login.getText(), password.getText());
-            if (user.getUserType() == UserType.MANAGER) {
-                ManagerView managerFrame = new ManagerView(appDataContainer);
-                managerFrame.showManagerView();
-                setVisible(false);
-            } else if (user.getUserType() == UserType.CLIENT) {
-                ClientView clientView = new ClientView(appDataContainer, user);
-                setVisible(false);
+            User user = loginController.findUser(login.getText(),password.getText());
+            if (user instanceof Employee) {
+                if (user.getLogin().contains("support")){
+                    new SupportForm();
+                } else {
+                    ManagerView managerFrame = new ManagerView(appDataContainer);
+                    managerFrame.showManagerView();
+                    setVisible(false);
+                }
+            }
+               else if (user instanceof Client){
+                    ClientView clientView = new ClientView(appDataContainer, (Client) user);
+                    setVisible(false);
             } else {
                 login.setText("");
                 password.setText("");
