@@ -69,7 +69,8 @@ public class ShowTicketInfoView extends JFrame {
 
         panelProducts.setLayout(new GridLayout(products.length, 3));
         panelProducts.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Client info")));
-        panelProducts.setBounds(20, 170, 550, 100);
+        panelProducts.setBounds(20, 170, 550, 500);
+
         for (int i = 0; i < products.length; i++) {
             panelProducts.add( new JLabel("product name: " + products[i].getName()));
             panelProducts.add( new JLabel("product price: " + String.valueOf(products[i].getPrice())));
