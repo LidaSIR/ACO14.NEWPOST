@@ -3,6 +3,7 @@ package newpost.view.frame;
 import newpost.model.common.Address;
 import newpost.model.common.MyDate;
 import newpost.model.common.Passport;
+import newpost.model.common.Product;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 
@@ -30,7 +31,7 @@ public class ShowTicketInfoView extends JFrame {
         main.add(createClientInfoPanel(postTicket.getClient()));
         main.add(adressPanel(postTicket.getFrom(), postTicket.getTo()));
         main.add(datePanel(postTicket.getCreationDate(), postTicket.getEstimationArrivalDate()));
-
+        main.add(productsPanel(postTicket.getProducts()));
 
         main.setVisible(true);
     }
@@ -66,6 +67,20 @@ public class ShowTicketInfoView extends JFrame {
         return panelTicketInfo;
     }
 
+    private JPanel productsPanel(Product[] products) {
+        JPanel panelProducts = new JPanel(null);
+
+        panelProducts.setLayout(new GridLayout(products.length, 3));
+        panelProducts.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Client info")));
+        panelProducts.setBounds(20, 15, 550, 100);
+        for (int i = 0; i < products.length; i++) {
+            panelProducts.add( new JLabel("product name: " + products[i].getName()));
+            panelProducts.add( new JLabel("product prize: " + products[i].getPrice()));
+            panelProducts.add( new JLabel("product size: " + products[i].getSize()));
+        }
+        return panelProducts;
+    }
+
     private  JPanel createClientInfoPanel(Client client) {
         JPanel panelClientInfo = new JPanel(null);
 
@@ -85,7 +100,7 @@ public class ShowTicketInfoView extends JFrame {
 
         panelAddress.setLayout(new GridLayout(3,2));
         panelAddress.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("address from / to")));
-        panelAddress.setBounds(20, 15, 550, 100);
+        panelAddress.setBounds(20, 110, 550, 70);
         panelAddress.add(new JLabel("City from: "+ addressFrom.getCity()));
         panelAddress.add(new JLabel("Street from: "+ addressFrom.getStreet()));
         panelAddress.add(new JLabel("HouseNum from: "+ addressFrom.getHouseNum()));
