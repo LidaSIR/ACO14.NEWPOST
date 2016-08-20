@@ -1,9 +1,6 @@
 package newpost.view.frame;
 
-import newpost.model.common.Address;
-import newpost.model.common.MyDate;
-import newpost.model.common.Passport;
-import newpost.model.common.Product;
+import newpost.model.common.*;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 
@@ -75,8 +72,8 @@ public class ShowTicketInfoView extends JFrame {
         panelProducts.setBounds(20, 15, 550, 100);
         for (int i = 0; i < products.length; i++) {
             panelProducts.add( new JLabel("product name: " + products[i].getName()));
-            panelProducts.add( new JLabel("product prize: " + products[i].getPrice()));
-            panelProducts.add( new JLabel("product size: " + products[i].getSize()));
+            panelProducts.add( new JLabel("product price: " + String.valueOf(products[i].getPrice())));
+            panelProducts.add( new JLabel("product size: " + products[i].getSize().toString()));
         }
         return panelProducts;
     }
@@ -111,10 +108,5 @@ public class ShowTicketInfoView extends JFrame {
         return panelAddress;
     }
 
-    public static void main(String[] args) {
 
-        Client cl = new Client("380509999999" ,new Passport("alex","fg123456"), "1@2.mail.ru");
-
-        //PostTicket pt = new PostTicket();
-    }
 }
