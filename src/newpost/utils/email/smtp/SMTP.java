@@ -32,7 +32,7 @@ public class SMTP {
     private final static String DEFAULT_MESSAGE_LOGIN_AND_PASSWORD = "Hello dear {name}!!!\n" +
             "\n" +
             "Your login is: " + "{login}\n" +
-            "Your password is: " + "{pass}" ;
+            "Your password is: " + "{pass}";
 
     public static void sendMail(Client to, PostTicket postTicket, String attachmentPath) throws IOException {
 
@@ -83,7 +83,7 @@ public class SMTP {
         return propertiesMap;
     }
 
-    private static void send (Client client, String mailText, String attachmentPath) throws IOException {
+    private static void send(Client client, String mailText, String attachmentPath) throws IOException {
 
         Properties props = System.getProperties();
         Map<String, String> propertiesMap = getPropertiesFromFile();
@@ -125,6 +125,35 @@ public class SMTP {
         }
     }
 
+    public static void sendMail(String to, String emailMessage) throws IOException {
 
+        Properties props = System.getProperties();
+        Map<String, String> propertiesMap = getPropertiesFromFile();
 
+        props.setProperty("mail.smtp.tls.trust", "smtp.gmail.com");
+        Session session = Session.getDefaultInstance(props);
+        MimeMessage message = new MimeMessage(session);
+        try {
+            message.setFrom(new InternetAddress(propertiesMap.get(SMTP_LOGIN_KEY)));
+
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            message.setSubject("Support newPOST");
+
+            BodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setText(emailMessage);
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+
+            message.setContent(multipart);
+
+            Transport transport = session.getTransport("smtps");
+            transport.connect(propertiesMap.get(SMTP_HOST_KEY), propertiesMap.get(SMTP_LOGIN_KEY), propertiesMap.get(SMTP_PASSWORD_KEY));
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+        } catch (AddressException ae) {
+            ae.printStackTrace();
+        } catch (MessagingException me) {
+            me.printStackTrace();
+        }
+    }
 }
