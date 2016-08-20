@@ -38,9 +38,9 @@ public class ShowTicketInfoView extends JFrame {
 
         panelDate.setLayout(new GridLayout(1,2));
         panelDate.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Date start / finish")));
-        panelDate.setBounds(20, 15, 550, 100);
-        panelDate.add(new JLabel("date start: " + dateStart));
-        panelDate.add(new JLabel("date estimation: " + dateEnd));
+        panelDate.setBounds(20, 160, 550, 70);
+        panelDate.add(new JLabel("date start: " + dateStart.toString()));
+        panelDate.add(new JLabel("date estimation: " + dateEnd.toString()));
         return panelDate;
     }
 
@@ -69,7 +69,7 @@ public class ShowTicketInfoView extends JFrame {
 
         panelProducts.setLayout(new GridLayout(products.length, 3));
         panelProducts.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Client info")));
-        panelProducts.setBounds(20, 15, 550, 100);
+        panelProducts.setBounds(20, 170, 550, 100);
         for (int i = 0; i < products.length; i++) {
             panelProducts.add( new JLabel("product name: " + products[i].getName()));
             panelProducts.add( new JLabel("product price: " + String.valueOf(products[i].getPrice())));
@@ -83,7 +83,7 @@ public class ShowTicketInfoView extends JFrame {
 
         panelClientInfo.setLayout(new GridLayout(2,2));
         panelClientInfo.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Client info")));
-        panelClientInfo.setBounds(20, 15, 550, 100);
+        panelClientInfo.setBounds(20, 15, 550, 70);
         panelClientInfo.add(new JLabel("full name: "+ client.getPassport().getFullname()));
         panelClientInfo.add(new JLabel("passport Id: "+ client.getPassport().getNumber()));
         panelClientInfo.add(new JLabel("phone number: "+ client.getPhone()));
@@ -97,7 +97,7 @@ public class ShowTicketInfoView extends JFrame {
 
         panelAddress.setLayout(new GridLayout(3,2));
         panelAddress.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("address from / to")));
-        panelAddress.setBounds(20, 110, 550, 70);
+        panelAddress.setBounds(20, 80, 550, 90);
         panelAddress.add(new JLabel("City from: "+ addressFrom.getCity()));
         panelAddress.add(new JLabel("Street from: "+ addressFrom.getStreet()));
         panelAddress.add(new JLabel("HouseNum from: "+ addressFrom.getHouseNum()));
