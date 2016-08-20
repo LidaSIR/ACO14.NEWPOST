@@ -48,7 +48,7 @@ public final class Finder {
     public static List<PostTicket> findByOwnerName(AppDataContainer appDataContainer, String name) {
         List<PostTicket> list = new ArrayList<>();
         for(PostTicket postTicket: appDataContainer.getTickets()) {
-            if(postTicket.getClient().getPassport().getFullname().equals(name)) {
+            if(postTicket.getClient().getPassport().getFullname().contains(name)) {
                 list.add(postTicket);
             }
         }
