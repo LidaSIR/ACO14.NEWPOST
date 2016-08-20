@@ -32,5 +32,7 @@ public class TestShowTicketInfoViev {
 
         ShowTicketInfoView showTicketInfoView = new ShowTicketInfoView(postTicket);
 
+
+
     }
 }

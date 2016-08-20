@@ -19,17 +19,21 @@ public class ShowTicketInfoView extends JFrame {
     private static final int DEFAULT_WIDTH = 600;
     private static final int DEFAULT_HEIGHT = 500;
     private static final String TITLE = "ticket info";
+    private static final String[] productTableHeader = {"product name", "price", "length, sm", "width, sm",
+                "height, sm", "weight, gm"};
 
     public ShowTicketInfoView(PostTicket postTicket) {
 
-        this.postTicket = postTicket;
+        //this.postTicket = postTicket;
         JFrame main = createMainFrame();
-        main.add(createInfoPanel(postTicket));
-        main.add(createClientInfoPanel(postTicket.getClient()));
-        main.add(adressPanel(postTicket.getFrom(), postTicket.getTo()));
-        main.add(datePanel(postTicket.getCreationDate(), postTicket.getEstimationArrivalDate()));
-        main.add(productsPanel(postTicket.getProducts()));
+        Box box = Box.createVerticalBox();
+        box.add(new JLabel("ticket ID: "+postTicket.getId().toString()));
+        box.add(createClientInfoPanel(postTicket.getClient()));
+        box.add(adressPanel(postTicket.getFrom(), postTicket.getTo()));
+        box.add(datePanel(postTicket.getCreationDate(), postTicket.getEstimationArrivalDate()));
+        box.add(productPanel(postTicket.getProducts()));
 
+        main.setContentPane(box);
         main.setVisible(true);
     }
 
@@ -47,13 +51,6 @@ public class ShowTicketInfoView extends JFrame {
         return managerFrame;
     }
 
-    private static JPanel createInfoPanel(PostTicket postTicket) {
-        JPanel panelTicketInfo = new JPanel();
-        panelTicketInfo.setLayout(new BorderLayout());
-        panelTicketInfo.add(new JLabel("ticket info"+postTicket.getId().toString(), SwingConstants.CENTER), BorderLayout.NORTH);
-
-        return panelTicketInfo;
-    }
 
     private  JPanel createClientInfoPanel(Client client) {
         JPanel panelClientInfo = new JPanel(null);
@@ -97,19 +94,27 @@ public class ShowTicketInfoView extends JFrame {
         return panelDate;
     }
 
-    private JPanel productsPanel(Product[] products) {
-        JPanel panelProducts = new JPanel(null);
+    private JPanel productPanel(Product[] products) {
 
-        panelProducts.setLayout(new GridLayout(products.length, 3));
-        panelProducts.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Client info")));
-        panelProducts.setBounds(20, 170, 550, 500);
-
+        Object[][] data = new Object[products.length][productTableHeader.length];
         for (int i = 0; i < products.length; i++) {
-            panelProducts.add( new JLabel("product name: " + products[i].getName()));
-            panelProducts.add( new JLabel("product price: " + String.valueOf(products[i].getPrice())));
-            panelProducts.add( new JLabel("product size: " + products[i].getSize().toString()));
+            data[i][0] = products[i].getName();
+            data[i][1] = products[i].getPrice();
+            data[i][2] = products[i].getSize().getLength();
+            data[i][3] = products[i].getSize().getWidth();
+            data[i][4] = products[i].getSize().getHeight();
+            data[i][5] = products[i].getSize().getWeight();
         }
-        return panelProducts;
+        JTable productsTable = new JTable(data, productTableHeader);
+        JScrollPane prodScrollTable = new JScrollPane(productsTable);
+
+        JPanel productPanel = new JPanel();
+        productPanel.setLayout(new GridLayout(1, 1));
+        productPanel.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("product list")));
+        productPanel.setBounds(20, 170, 550, 500);
+        productPanel.add(prodScrollTable);
+
+        return productPanel;
     }
 
 
