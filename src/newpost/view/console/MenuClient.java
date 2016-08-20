@@ -8,7 +8,7 @@ public class MenuClient extends Menu {
     public MenuClient() {
     }
 
-    protected void clientMenuRun(){
+    protected void clientMenuRun() {
         while (true) {
             showMenuClient();
 
@@ -31,20 +31,14 @@ public class MenuClient extends Menu {
     }
 
     protected void showMenuClient() {
-        String[] clientMenu = {"1. Add Ticket","2. Show info ","3. Cancel order","4. Take product","5. Show all post offices","0. Exit"};
-        for (int i = 0; i <clientMenu.length ; i++) {
+        String[] clientMenu = {"1. Add Ticket", "2. Show info ", "3. Cancel order", "4. Take product", "5. Show all post offices", "0. Exit"};
+        for (int i = 0; i < clientMenu.length; i++) {
             System.out.println(clientMenu[i]);
         }
-       /* System.out.println("1. Add Ticket");
-        System.out.println("2. Show info ");
-        System.out.println("3. Cancel order");
-        System.out.println("4. Take product");
-        System.out.println("5. Show all post offices");
-        System.out.println("0. Exit");*/
 
     }
 
-    private void showFindById()  {
+    private void showFindById() {
         System.out.println("Input ID");
         String id = scanner.next();
 
