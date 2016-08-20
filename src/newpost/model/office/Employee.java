@@ -3,7 +3,7 @@ package newpost.model.office;
 /**
  * Created by Lida on 16.07.2016.
  */
-public class Employee extends User{
+public class Employee extends User {
     private String jobTitle; // make constant?
     private int salary;
 
@@ -12,6 +12,7 @@ public class Employee extends User{
        super(fullName,phone);
         this.jobTitle = jobTitle;
         this.salary = salary;
+        userType = UserType.MANAGER;
     }
 
     public String getJobTitle() {

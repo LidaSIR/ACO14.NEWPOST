@@ -18,4 +18,5 @@ public interface IClientController {
     Product showProductById(int ticketId) throws AppException;
     boolean cancelTicket(int ticketId) throws AppException;
     Product takeProduct(int ticketId) throws AppException;
+    List<PostTicket> showAllClientTickets(Client client);
 }

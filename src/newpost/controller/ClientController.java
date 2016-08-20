@@ -10,6 +10,7 @@ import newpost.model.office.PostTicket;
 import newpost.model.office.TicketStatus;
 import newpost.utils.TimeUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -88,6 +89,19 @@ public class ClientController implements IClientController {
         }
 
         return null;
+    }
+
+    @Override
+    public List<PostTicket> showAllClientTickets(Client client) {
+
+        List<PostTicket> tickets = new ArrayList<>();
+        for(PostTicket postTicket : appDataContainer.getTickets()) {
+            if(postTicket.getClient().equals(client)){
+                tickets.add(postTicket);
+            }
+        }
+        return tickets;
+
     }
 
 }

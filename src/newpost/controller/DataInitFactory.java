@@ -56,7 +56,7 @@ public class DataInitFactory {
     }
 
     public static String createPnoneNumber() {
-        String[] operator = {"+38050", "+38063", "+38067", "+38044", "+38093", "+38099"};
+        String[] operator = {"050", "063", "067", "044", "093", "099"};
         String randOper = operator[(int) (Math.random() * operator.length)];
 
         int phoneNumber = (int) (MIN_PHONE_NUMBER + (Math.random() * RAND_PHONE_NUMBER));
@@ -79,8 +79,8 @@ public class DataInitFactory {
     public static Client clientCreator() {
 
 
-        double phoneNumber = (MIN_PHONE_NUMBER + Math.random()* RAND_PHONE_NUMBER);
-        return new Client("+38050" + String.valueOf(phoneNumber), passportCreator());
+        String phoneNumber = createPnoneNumber();
+        return new Client(phoneNumber, passportCreator());
     }
 
     public static Product[] productsCreator() {

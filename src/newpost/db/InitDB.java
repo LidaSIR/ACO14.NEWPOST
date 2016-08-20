@@ -6,8 +6,10 @@ import newpost.model.office.Client;
 import newpost.model.office.Employee;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Helps init db by test data
@@ -18,7 +20,7 @@ public class InitDB {
     //private AppDataContainer appDataContainer;
     // todo access modifiers
     static final int COUNT = 10;
-    static final String DB_LOCATION = "resources/db.json";
+    static final String DB_LOCATION = "src/resources/db.json";
     static final String LOG_LOCATION = "logs/logs.txt";
 
 
@@ -45,8 +47,8 @@ public class InitDB {
         String resJson = gson.toJson(appDataContainer);
         PrintWriter printWriter = null;
         try {
-            printWriter = new PrintWriter(new FileWriter(DB_LOCATION,true),true);
-            printWriter.println(resJson);
+            printWriter = new PrintWriter(new File(DB_LOCATION));
+            printWriter.print(resJson);
            // System.out.println("write was successfull");
             printWriter.flush();
         } catch (IOException e) {
@@ -113,8 +115,9 @@ public class InitDB {
     public static AppDataContainer loadDBAsJson(String location) throws IOException {
         Gson gson = new Gson();
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(location));
-            return gson.fromJson(bufferedReader.readLine(), AppDataContainer.class);
+            List<String> lines = Files.readAllLines(new File(location).toPath());
+            String loadedJson = lines.stream().reduce("", String::concat);
+            return gson.fromJson(loadedJson, AppDataContainer.class);
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         }
