@@ -33,16 +33,7 @@ public class ShowTicketInfoView extends JFrame {
         main.setVisible(true);
     }
 
-    private JPanel datePanel (MyDate dateStart, MyDate dateEnd) {
-        JPanel panelDate = new JPanel(null);
 
-        panelDate.setLayout(new GridLayout(1,2));
-        panelDate.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Date start / finish")));
-        panelDate.setBounds(20, 160, 550, 70);
-        panelDate.add(new JLabel("date start: " + dateStart.toString()));
-        panelDate.add(new JLabel("date estimation: " + dateEnd.toString()));
-        return panelDate;
-    }
 
     private static JFrame createMainFrame() {
         JFrame managerFrame = new JFrame(TITLE);
@@ -62,21 +53,6 @@ public class ShowTicketInfoView extends JFrame {
         panelTicketInfo.add(new JLabel("ticket info"+postTicket.getId().toString(), SwingConstants.CENTER), BorderLayout.NORTH);
 
         return panelTicketInfo;
-    }
-
-    private JPanel productsPanel(Product[] products) {
-        JPanel panelProducts = new JPanel(null);
-
-        panelProducts.setLayout(new GridLayout(products.length, 3));
-        panelProducts.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Client info")));
-        panelProducts.setBounds(20, 170, 550, 500);
-
-        for (int i = 0; i < products.length; i++) {
-            panelProducts.add( new JLabel("product name: " + products[i].getName()));
-            panelProducts.add( new JLabel("product price: " + String.valueOf(products[i].getPrice())));
-            panelProducts.add( new JLabel("product size: " + products[i].getSize().toString()));
-        }
-        return panelProducts;
     }
 
     private  JPanel createClientInfoPanel(Client client) {
@@ -108,6 +84,36 @@ public class ShowTicketInfoView extends JFrame {
 
         return panelAddress;
     }
+
+
+    private JPanel datePanel (MyDate dateStart, MyDate dateEnd) {
+        JPanel panelDate = new JPanel(null);
+
+        panelDate.setLayout(new GridLayout(1,2));
+        panelDate.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Date start / finish")));
+        panelDate.setBounds(20, 160, 550, 70);
+        panelDate.add(new JLabel("date start: " + dateStart.toString()));
+        panelDate.add(new JLabel("date estimation: " + dateEnd.toString()));
+        return panelDate;
+    }
+
+    private JPanel productsPanel(Product[] products) {
+        JPanel panelProducts = new JPanel(null);
+
+        panelProducts.setLayout(new GridLayout(products.length, 3));
+        panelProducts.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Client info")));
+        panelProducts.setBounds(20, 170, 550, 500);
+
+        for (int i = 0; i < products.length; i++) {
+            panelProducts.add( new JLabel("product name: " + products[i].getName()));
+            panelProducts.add( new JLabel("product price: " + String.valueOf(products[i].getPrice())));
+            panelProducts.add( new JLabel("product size: " + products[i].getSize().toString()));
+        }
+        return panelProducts;
+    }
+
+
+
 
 
 }
