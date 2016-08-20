@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 /**
  * Created by sasha on 18.08.2016.
  */
-public class ClientView extends JFrame {
+public class ClientMakeOrder extends JFrame {
 
     private static final int DEFAULT_WIDTH = 600;
     private static final int DEFAULT_HEIGHT = 500;
@@ -36,7 +36,7 @@ public class ClientView extends JFrame {
     private ClientController clientController;
     private Client client;
 
-    public ClientView(AppDataContainer appDataContainer, Client client){
+    public ClientMakeOrder(AppDataContainer appDataContainer, Client client){
         this.appDataContainer = appDataContainer;
         this.clientController = new ClientController(appDataContainer);
         this.client = client;
