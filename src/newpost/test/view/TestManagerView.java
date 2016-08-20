@@ -1,18 +1,8 @@
 package newpost.test.view;
 
-import newpost.controller.ManagerController;
 import newpost.db.AppDataContainer;
 import newpost.db.InitDB;
-import newpost.exceptions.ValidationException;
-import newpost.model.common.Address;
-import newpost.model.common.Passport;
-import newpost.model.common.Product;
-import newpost.model.common.Size;
-import newpost.model.office.Client;
-import newpost.view.ManagerView;
-
-import java.util.ArrayList;
-import java.util.List;
+import newpost.view.frame.ManagerView;
 
 /**
  * Created by Serhii Fursenko on 17.08.16.

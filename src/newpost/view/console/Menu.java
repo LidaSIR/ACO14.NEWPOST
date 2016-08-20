@@ -1,4 +1,4 @@
-package newpost.view;
+package newpost.view.console;
 
 
 import newpost.controller.interfaces.*;

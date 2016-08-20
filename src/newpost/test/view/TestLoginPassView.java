@@ -2,8 +2,7 @@ package newpost.test.view;
 
 import newpost.db.AppDataContainer;
 import newpost.db.InitDB;
-import newpost.model.office.Employee;
-import newpost.view.LoginFrame;
+import newpost.view.frame.LoginFrame;
 
 /**
  * Created by Anna on 19.08.2016.

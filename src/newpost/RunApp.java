@@ -14,7 +14,7 @@ import newpost.exceptions.ValidationException;
 import newpost.validator.ValidationClientControllerProxy;
 import newpost.validator.ValidationManagerControllerProxy;
 import newpost.validator.Validator;
-import newpost.view.Menu;
+import newpost.view.console.Menu;
 
 public class RunApp {
 

@@ -1,7 +1,6 @@
-package newpost.view;
+package newpost.view.frame;
 
 import newpost.controller.LoginController;
-import newpost.controller.interfaces.*;
 import newpost.db.AppDataContainer;
 import newpost.model.office.Employee;
 import newpost.model.office.User;
