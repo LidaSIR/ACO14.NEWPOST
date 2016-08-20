@@ -14,9 +14,10 @@ public class LoginController {
         this.appDataContainer = appDataContainer;
     }
 
-    public User loginFrame(String login, String password){
+    public User findUser(String login, String password){
         User user = appDataContainer.getUsers().get(login);
         if ((user != null) && user.getPassword().equals(password)) return user;
+
         return null;
     }
 }

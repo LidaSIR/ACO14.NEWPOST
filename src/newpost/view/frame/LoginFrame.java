@@ -61,7 +61,7 @@ public class LoginFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            User user = loginController.loginFrame(login.getText(),password.getText());
+            User user = loginController.findUser(login.getText(), password.getText());
             if (user instanceof Employee){
                 ManagerView managerFrame = new ManagerView(appDataContainer);
                 managerFrame.showManagerView();
