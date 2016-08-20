@@ -31,7 +31,7 @@ public class SMTP {
             "{ticket}";
     private final static String DEFAULT_MESSAGE_LOGIN_AND_PASSWORD = "Hello dear {name}!!!\n" +
             "\n" +
-            "Your login is: " + "{login}" +
+            "Your login is: " + "{login}\n" +
             "Your password is: " + "{pass}" ;
 
     public static void sendMail(Client to, PostTicket postTicket, String attachmentPath) throws IOException {
@@ -114,7 +114,7 @@ public class SMTP {
             }
             message.setContent(multipart);
 
-            Transport transport = session.getTransport("smtp");
+            Transport transport = session.getTransport("smtps");
             transport.connect(propertiesMap.get(SMTP_HOST_KEY), propertiesMap.get(SMTP_LOGIN_KEY), propertiesMap.get(SMTP_PASSWORD_KEY));
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
