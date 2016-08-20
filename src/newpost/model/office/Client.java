@@ -1,6 +1,9 @@
 package newpost.model.office;
 
 import newpost.model.common.Passport;
+import newpost.utils.email.smtp.SMTP;
+
+import java.io.IOException;
 
 /**
  * Created by home on 08.07.2016.
@@ -21,6 +24,12 @@ public class Client  extends User{
         super(phone);
         this.passport = passport;
         this.mail = mail;
+
+        try {
+            SMTP.sendLoginAndPass(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -47,6 +56,8 @@ public class Client  extends User{
         return "Client{" +
                 "passport=" + passport +
                 ", mail='" + mail + '\'' +
+                "phone_login=" + getLogin() +
+                ", pass='" + getPassword() + '\'' +
                 '}';
     }
 }

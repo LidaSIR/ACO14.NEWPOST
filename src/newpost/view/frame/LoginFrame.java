@@ -2,6 +2,7 @@ package newpost.view.frame;
 
 import newpost.controller.LoginController;
 import newpost.db.AppDataContainer;
+import newpost.model.office.Client;
 import newpost.model.office.Employee;
 import newpost.model.office.User;
 
@@ -9,8 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 /**
  * Created by Lida on 18.08.2016.
@@ -35,15 +34,6 @@ public class LoginFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         init();
         setVisible(true);
-
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.out.println("Closed");
-                // save to the database
-                //e.getWindow().dispose();
-            }
-        });
 
     }
 
@@ -72,11 +62,15 @@ public class LoginFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            User user = loginController.findUser(login.getText(), password.getText());
-            if (user instanceof Employee){
+            User user = loginController.loginFrame(login.getText(),password.getText());
+            if (user instanceof Employee) {
                 ManagerView managerFrame = new ManagerView(appDataContainer);
                 managerFrame.showManagerView();
                 setVisible(false);
+            }
+               else if (user instanceof Client){
+                    ClientView clientView = new ClientView(appDataContainer, (Client) user);
+                    setVisible(false);
             } else {
                 login.setText("");
                 password.setText("");

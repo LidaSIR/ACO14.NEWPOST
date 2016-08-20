@@ -22,6 +22,7 @@ public class TestLoginPassView {
         });
 
         InitDB.initDB(appDataContainer);
+        System.out.println(appDataContainer.getClients());
         LoginFrame loginPassFrame = new LoginFrame(appDataContainer);
     }
 

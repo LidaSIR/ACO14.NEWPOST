@@ -70,4 +70,9 @@ public class ClientControllerNewDB implements IClientController {
     public Product takeProduct(int ticketId) throws AppException {
         return null;
     }
+
+    @Override
+    public List<PostTicket> showAllClientTickets(Client client) {
+        return null;
+    }
 }

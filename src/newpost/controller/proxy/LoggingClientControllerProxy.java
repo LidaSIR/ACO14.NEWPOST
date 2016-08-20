@@ -56,4 +56,9 @@ public class LoggingClientControllerProxy implements IClientController {
         LogContainer.logEvent("Client: Attempt to take ticket by Id " + ticketId);
         return originalClientController.takeProduct(ticketId);
     }
+
+    @Override
+    public List<PostTicket> showAllClientTickets(Client client) {
+        return null;
+    }
 }
