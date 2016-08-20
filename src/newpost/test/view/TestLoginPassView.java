@@ -10,8 +10,17 @@ import newpost.view.frame.LoginFrame;
 public class TestLoginPassView {
 
     public static void main(String[] args) {
-
         AppDataContainer appDataContainer = new AppDataContainer();
+
+        Runtime.getRuntime().addShutdownHook(new Thread()
+        {
+            @Override
+            public void run()
+            {
+               InitDB.saveDBToFileAsJson(appDataContainer);
+            }
+        });
+
         InitDB.initDB(appDataContainer);
         LoginFrame loginPassFrame = new LoginFrame(appDataContainer);
     }
