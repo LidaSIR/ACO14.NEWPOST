@@ -55,7 +55,7 @@ public class DataInitFactory {
         return randJobTitle;
     }
 
-    public static String createPnoneNumber() {
+    public static String createPhoneNumber() {
         String[] operator = {"050", "063", "067", "044", "093", "099"};
         String randOper = operator[(int) (Math.random() * operator.length)];
 
@@ -79,7 +79,7 @@ public class DataInitFactory {
     public static Client clientCreator() {
 
 
-        String phoneNumber = createPnoneNumber();
+        String phoneNumber = createPhoneNumber();
         return new Client(phoneNumber, passportCreator());
     }
 
@@ -135,7 +135,7 @@ public class DataInitFactory {
     }
 
     public static Employee createEmployee() {
-        return new Employee("Manager", createFullName(), createPnoneNumber(), createSalary());
+        return new Employee("Manager", createFullName(), createPhoneNumber(), createSalary());
     }
 
 }

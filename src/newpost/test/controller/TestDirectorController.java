@@ -45,7 +45,7 @@ public class TestDirectorController {
         for (int i = 0; i < staffNumber; i++) {
             String fullName = DataInitFactory.createFullName();
             String jobTitle = DataInitFactory.createJobTitle();
-            String phone = DataInitFactory.createPnoneNumber();
+            String phone = DataInitFactory.createPhoneNumber();
             int salary = DataInitFactory.createSalary();
             Employee e = new Employee(jobTitle, fullName, phone, salary);
             employees.add(e);
@@ -82,7 +82,7 @@ public class TestDirectorController {
         System.out.println("AddStaff test:");
         String fullName = DataInitFactory.createFullName();
         String jobTitle = DataInitFactory.createJobTitle();
-        String phone = DataInitFactory.createPnoneNumber();
+        String phone = DataInitFactory.createPhoneNumber();
         int salary = DataInitFactory.createSalary();
 
         Employee employee = directorController.addStaff(jobTitle, fullName, phone, salary);
@@ -104,7 +104,7 @@ public class TestDirectorController {
             for (int i = 0; i < staffNumber; i++) {
                 String fullName = DataInitFactory.createFullName();
                 String jobTitle = DataInitFactory.createJobTitle();
-                String phone = DataInitFactory.createPnoneNumber();
+                String phone = DataInitFactory.createPhoneNumber();
                 int salary = DataInitFactory.createSalary();
 
                 directorController.addStaff(jobTitle, fullName, phone, salary);
