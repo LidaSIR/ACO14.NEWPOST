@@ -18,24 +18,18 @@ import java.util.Map;
 // todo find good collections for Container
 public class AppDataContainer {
 
-    private List<Client> clients;
-    private List<PostTicket> tickets;
-    private List<Driver> drivers;
-    private List<Transaction> transactions;
-    private List<Employee> employees;
-    private List<Report> reports;
-    private List<PostOffice> postOffices;
-    private Map<String, User> users;
+    private List<Client> clients            = new ArrayList<>();
+    private List<PostTicket> tickets        = new ArrayList<>();
+    private List<Driver> drivers            = new ArrayList<>();
+    private List<Transaction> transactions  = new ArrayList<>();
+    private List<Employee> employees        = new ArrayList<>();
+    private List<Report> reports            = new ArrayList<>();
+    private List<PostOffice> postOffices    = new ArrayList<>();
+    private Map<String, User> users         = new HashMap<>();
+
+
 
     public AppDataContainer() {
-        clients = new ArrayList<>();
-        tickets = new ArrayList<>();
-        drivers = new ArrayList<>();
-        transactions = new ArrayList<>();
-        employees = new ArrayList<>();
-        reports = new ArrayList<>();
-        postOffices = new ArrayList<>();
-        users = new HashMap<>();
     }
 
     public List<PostOffice> getPostOffices() {
@@ -78,8 +72,27 @@ public class AppDataContainer {
         return users;
     }
 
-    public void setUsers(Map<String, User> users) {
+    public void setUsers(Map<String,User> users) {
         this.users = users;
     }
 
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
+    }
+
+    public void setTickets(List<PostTicket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public void setDrivers(List<Driver> drivers) {
+        this.drivers = drivers;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
 }

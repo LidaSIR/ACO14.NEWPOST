@@ -1,5 +1,7 @@
 package newpost.model.office;
 
+import newpost.model.common.Passport;
+
 /**
  * Created by Lida on 19.08.2016.
  */
@@ -8,6 +10,11 @@ public class User {
     private String phone;
     private String login;
     private String password;
+    protected String mail;
+    protected Passport passport;
+
+
+    protected UserType userType;
     private String randomPass = Integer.toString(100000 + (int)(Math.random() * ((999999 - 100000))));
 
     public User(String fullName, String phone) {
@@ -52,6 +59,46 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public Passport getPassport() {
+        return passport;
+    }
+
+    public void setPassport(Passport passport) {
+        this.passport = passport;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return !(phone != null ? !phone.equals(user.phone) : user.phone != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return phone != null ? phone.hashCode() : 0;
     }
 
     @Override

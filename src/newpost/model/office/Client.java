@@ -8,29 +8,19 @@ import java.io.IOException;
 /**
  * Created by home on 08.07.2016.
  */
-public class Client  extends User{
-
-
-    private Passport passport;
-    private String mail;
-
+public class Client extends User {
 
     public Client( String phone, Passport passport) {
         super(phone);
         this.passport = passport;
+        userType = UserType.CLIENT;
     }
 
     public Client(String phone, Passport passport, String mail) {
         super(phone);
         this.passport = passport;
         this.mail = mail;
-
-        try {
-            SMTP.sendLoginAndPass(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        userType = UserType.CLIENT;
     }
 
     public void setMail(String mail) {

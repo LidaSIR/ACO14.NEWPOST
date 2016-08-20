@@ -4,6 +4,7 @@ import newpost.controller.ClientController;
 import newpost.db.AppDataContainer;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
+import newpost.model.office.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,16 +26,15 @@ public class ClientView extends JFrame {
     private JButton takeProductButton;
     private JButton showOffices;
     private JTextField clientsInfo;
-    private Client client;
-
+    private User user;
 
     private DefaultListModel ticketListModel = new DefaultListModel();
     private JList ticketList = new JList(ticketListModel);
 
 
 
-    public ClientView(AppDataContainer appDataContainer, Client client) throws HeadlessException {
-
+    public ClientView(AppDataContainer appDataContainer, User user) throws HeadlessException {
+        this.user = user;
         this.appDataContainer = appDataContainer;
         this.clientController = new ClientController(appDataContainer);
 
@@ -57,7 +57,9 @@ public class ClientView extends JFrame {
         showOffices = new JButton("Show All Offices");
         clientsInfo = new JTextField(clientController.toString());
 
-        List<PostTicket> postTicketList = clientController.showAllClientTickets(client);
+        List<PostTicket> postTicketList = clientController.showAllClientTickets(
+                new Client(user.getPhone(),user.getPassport()));
+
         for (PostTicket postTicket: postTicketList ){
             ticketListModel.addElement(postTicket);
         }

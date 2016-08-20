@@ -104,6 +104,7 @@ public class ManagerController implements IManagerController {
     @Override
     public Client addClient(Passport passport, String phone) {
         Client client = new Client(phone, passport);
+        sendLogin(client);
         appDataContainer.getClients().add(client);
         appDataContainer.getUsers().put(client.getLogin(), client);
         return client;
@@ -112,9 +113,18 @@ public class ManagerController implements IManagerController {
     @Override
     public Client addClient(Passport passport, String phone, String mail) throws ValidationException {
         Client client = new Client(phone, passport, mail);
+        sendLogin(client);
         appDataContainer.getClients().add(client);
         appDataContainer.getUsers().put(client.getLogin(), client);
         return client;
+    }
+
+    private void sendLogin(Client client) {
+        try {
+            SMTP.sendLoginAndPass(client);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
