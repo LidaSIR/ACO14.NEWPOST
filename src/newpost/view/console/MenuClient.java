@@ -1,6 +1,5 @@
-package newpost.view;
+package newpost.view.console;
 
-import newpost.exceptions.AppException;
 import newpost.exceptions.ValidationException;
 import newpost.model.office.PostTicket;
 

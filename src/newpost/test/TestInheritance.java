@@ -8,7 +8,7 @@ import newpost.model.office.Client;
 /**
  * Created by Lida on 19.08.2016.
  */
-public class testInheritance {
+public class TestInheritance {
     public static void main(String[] args) {
 
         AppDataContainer appDataContainer = new AppDataContainer();

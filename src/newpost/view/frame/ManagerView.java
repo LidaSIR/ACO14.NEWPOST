@@ -1,4 +1,4 @@
-package newpost.view;
+package newpost.view.frame;
 
 import newpost.controller.ClientController;
 import newpost.controller.ManagerController;

@@ -1,6 +1,5 @@
-package newpost.view;
+package newpost.view.console;
 
-import newpost.exceptions.LogException;
 import newpost.exceptions.ValidationException;
 import newpost.model.common.Address;
 import newpost.model.office.PostTicket;
