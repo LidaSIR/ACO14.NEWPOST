@@ -2,6 +2,9 @@ package newpost.db;
 
 import com.google.gson.Gson;
 import newpost.controller.DataInitFactory;
+import newpost.model.office.Client;
+import newpost.model.office.Employee;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +25,19 @@ public class InitDB {
     public static void initDB(AppDataContainer appDataContainer){
 
         for (int i = 0; i < COUNT; i++) {
-            appDataContainer.getClients().add(DataInitFactory.clientCreator());
+            Client client = DataInitFactory.clientCreator();
+            appDataContainer.getClients().add(client);
+            appDataContainer.getUsers().put(client.getLogin(), client);
             appDataContainer.getTickets().add(DataInitFactory.ticketCreator(
-                    appDataContainer.getClients().get(
+            appDataContainer.getClients().get(
                             (int) (Math.random() * appDataContainer.getClients().size()))));
             appDataContainer.setPostOffices(DataInitFactory.postOfficeCreator());
         }
+        Employee employee = DataInitFactory.createEmployee();
+        employee.setLogin("Manager");
+        employee.setPassword("777");
+        appDataContainer.getEmployees().add(employee);
+        appDataContainer.getUsers().put(employee.getLogin(), employee);
     }
 
     public static void saveDBToFileAsJson(AppDataContainer appDataContainer){

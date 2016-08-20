@@ -5,7 +5,9 @@ import newpost.model.money.Transaction;
 import newpost.model.office.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -23,6 +25,7 @@ public class AppDataContainer {
     private List<Employee> employees;
     private List<Report> reports;
     private List<PostOffice> postOffices;
+    private Map<String, User> users;
 
     public AppDataContainer() {
         clients = new ArrayList<>();
@@ -32,6 +35,7 @@ public class AppDataContainer {
         employees = new ArrayList<>();
         reports = new ArrayList<>();
         postOffices = new ArrayList<>();
+        users = new HashMap<>();
     }
 
     public List<PostOffice> getPostOffices() {
@@ -69,4 +73,13 @@ public class AppDataContainer {
     public void setReports(List<Report> reports) {
         this.reports = reports;
     }
+
+    public Map<String, User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Map<String, User> users) {
+        this.users = users;
+    }
+
 }

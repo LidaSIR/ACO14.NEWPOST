@@ -2,6 +2,7 @@ package newpost.controller;
 
 import newpost.model.common.*;
 import newpost.model.office.Client;
+import newpost.model.office.Employee;
 import newpost.model.office.PostOffice;
 import newpost.model.office.PostTicket;
 
@@ -131,6 +132,10 @@ public class DataInitFactory {
         list.add(new PostOffice(new Address("Харків", "Салтівське шосе", "7")));
 
         return list;
+    }
+
+    public static Employee createEmployee() {
+        return new Employee("Manager", createFullName(), createPnoneNumber(), createSalary());
     }
 
 }

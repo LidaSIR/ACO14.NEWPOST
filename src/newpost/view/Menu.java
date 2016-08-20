@@ -268,7 +268,9 @@ public class Menu {
         String passportNumber;
         while (true) {
             System.out.println("Input  passport number in format DF908754(without spaces) ");
-            passportNumber = String.valueOf(scanner.useDelimiter("\\n"));
+            //passportNumber = String.valueOf(scanner.useDelimiter("\\n"));
+            scanner.useDelimiter("\\n");
+            passportNumber = scanner.next();
             if (passportNumber.isEmpty() || (passportNumber.length() != 8) || passportNumber.contains(" ")) {
                 System.out.println("Incorrect data: either passport number is empty or length is greater than " +
                         "8 characters or contains spaces..");
@@ -309,5 +311,25 @@ public class Menu {
 
     public Scanner getScanner() {
         return scanner;
+    }
+
+    public static IClientController getClientController() {
+        return clientController;
+    }
+
+    public static IManagerController getManagerController() {
+        return managerController;
+    }
+
+    public static IEmployeeManagement getEmployeeManagement() {
+        return employeeManagement;
+    }
+
+    public static IMoneyController getMoneyController() {
+        return moneyController;
+    }
+
+    public static IPostController getPostController() {
+        return postController;
     }
 }

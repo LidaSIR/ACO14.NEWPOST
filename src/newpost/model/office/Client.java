@@ -5,23 +5,23 @@ import newpost.model.common.Passport;
 /**
  * Created by home on 08.07.2016.
  */
-public class Client {
+public class Client  extends User{
 
 
-    private String phone;
     private Passport passport;
     private String mail;
 
 
-    public Client(String phone, Passport passport) {
-        this.phone = phone;
+    public Client( String phone, Passport passport) {
+        super(phone);
         this.passport = passport;
     }
 
     public Client(String phone, Passport passport, String mail) {
-        this.phone = phone;
+        super(phone);
         this.passport = passport;
         this.mail = mail;
+
     }
 
     public void setMail(String mail) {
@@ -33,14 +33,6 @@ public class Client {
         return mail;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public Passport getPassport() {
         return passport;
     }
@@ -49,11 +41,12 @@ public class Client {
         this.passport = passport;
     }
 
+
     @Override
     public String toString() {
         return "Client{" +
-                "phone='" + phone + '\'' +
-                ", passport=" + passport +
+                "passport=" + passport +
+                ", mail='" + mail + '\'' +
                 '}';
     }
 }

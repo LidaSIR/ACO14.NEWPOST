@@ -69,6 +69,7 @@ public class ManagerView extends JFrame {
 
     private static JFrame createMainFrame() {
         JFrame managerFrame = new JFrame(TITLE);
+        managerFrame.setIconImage(new ImageIcon("resources/icons/managerViewIcon.png").getImage());
         managerFrame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         managerFrame.setResizable(false);
         managerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,18 +108,18 @@ public class ManagerView extends JFrame {
         contentPanelAddClient.add(phonePanel);
 
         // Create button "Add client"
-        JButton addClientButton = new JButton("Add new client");
+        JButton addClientButton = new JButton("Add new client",
+                (new ImageIcon(new ImageIcon("resources/icons/plus.png").getImage().getScaledInstance(25,25,Image.SCALE_SMOOTH))));
         addClientButton.setSize(150, 30);
         panelAddClient.add(addClientButton, BorderLayout.SOUTH);
 
         addClientButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 try {
                     validationManagerControllerProxy.addClient(new Passport(textFieldFullName.getText(), passportTextField.getText()),
                             phoneTextField.getText(), mailTextField.getText());
-                    JOptionPane.showMessageDialog(new JFrame(), "Client added!");
+                    JOptionPane.showMessageDialog(new JFrame(), "Client added!", "NEW POST",JOptionPane.INFORMATION_MESSAGE);
 
                     // Clean text fields
                     textFieldFullName.setText("");
@@ -127,7 +128,7 @@ public class ManagerView extends JFrame {
                     mailTextField.setText("");
 
                 } catch (ValidationException e1) {
-                    JOptionPane.showMessageDialog(new JFrame(), e1);
+                    JOptionPane.showMessageDialog(new JFrame(), e1, "NEW POST",JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -150,7 +151,8 @@ public class ManagerView extends JFrame {
         JPanel clientPhonePanel = createPanel("Example: 0664540934", "Client phone:", 20, 15, textFieldClientPhoneTicketTab);
         contentPanelCreateTicket.add(clientPhonePanel);
 
-        JButton checkButton = new JButton("Check client in database");
+        JButton checkButton = new JButton("Check client in database",
+                (new ImageIcon(new ImageIcon("resources/icons/idCard.png").getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH))));
         checkButton.setBounds(165, 85, 250, 30);
         checkButton.addActionListener(e -> {
             try {
@@ -189,7 +191,8 @@ public class ManagerView extends JFrame {
 
         JPanel panelForProductList = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelForProductList.add(productJList);
-        JButton removeProductButton = new JButton("Remove product");
+        JButton removeProductButton = new JButton("Remove product",
+                (new ImageIcon(new ImageIcon("resources/icons/error.png").getImage().getScaledInstance(15,15,Image.SCALE_SMOOTH))));
         removeProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -245,7 +248,8 @@ public class ManagerView extends JFrame {
         contentPanelCreateTicket.add(sendToPanel);
         contentPanelCreateTicket.add(addProductsPanel);
 
-        JButton addProductButton = new JButton("Add product");
+        JButton addProductButton = new JButton("Add product",
+                (new ImageIcon(new ImageIcon("resources/icons/plus.png").getImage().getScaledInstance(23,23,Image.SCALE_SMOOTH))));
         addProductButton.setBounds(165, 330, 250, 30);
         addProductButton.addActionListener(new ActionListener() {
             @Override
@@ -280,7 +284,8 @@ public class ManagerView extends JFrame {
         });
         contentPanelCreateTicket.add(addProductButton);
 
-        JButton createTicketButton = new JButton("Create ticket");
+        JButton createTicketButton = new JButton("Create ticket",
+                (new ImageIcon(new ImageIcon("resources/icons/archive.png").getImage().getScaledInstance(25,25,Image.SCALE_SMOOTH))));
         createTicketButton.addActionListener(e -> {
             try {
                 Client client = validationManagerControllerProxy.getClient(textFieldClientPhoneTicketTab.getText());
@@ -344,12 +349,13 @@ public class ManagerView extends JFrame {
         table.setModel(new DefaultTableModel(data, COLUMN_NAMES));
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(2, 110, 590, 300);
+        scrollPane.setBounds(2, 112, 590, 300);
         scrollPane.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Result")));
 
         contentPanelSearch.add(scrollPane);
 
-        JButton searchButton = new JButton("Search");
+        JButton searchButton = new JButton("Search",
+                (new ImageIcon(new ImageIcon("resources/icons/search.png").getImage().getScaledInstance(15,15,Image.SCALE_SMOOTH))));
         searchButton.addActionListener(e -> {
             String radioButtonText = getSelectedButtonText(searchFilterRadioButtonGroup);
             if (radioButtonText == null) {
@@ -392,7 +398,8 @@ public class ManagerView extends JFrame {
         contentPanelSearch.add(filterPanel);
         panelSearch.add(contentPanelSearch);
 
-        JButton cancelButton = new JButton("Cancel ticket");
+        JButton cancelButton = new JButton("Cancel ticket",
+                (new ImageIcon(new ImageIcon("resources/icons/error.png").getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH))));
         cancelButton.addActionListener(e -> {
             try {
                 Object ticketId = table.getValueAt(table.getSelectedRow(), 0);
@@ -404,7 +411,8 @@ public class ManagerView extends JFrame {
             }
         });
 
-        JButton showInfoButton = new JButton("Show info");
+        JButton showInfoButton = new JButton("Show info",
+                (new ImageIcon(new ImageIcon("resources/icons/info.png").getImage().getScaledInstance(23,23,Image.SCALE_SMOOTH))));
         showInfoButton.addActionListener(e -> {
             try {
                 Object ticketId = table.getValueAt(table.getSelectedRow(), 0);
@@ -420,6 +428,7 @@ public class ManagerView extends JFrame {
         buttonsPanelOnSearchTab.add(showInfoButton, BorderLayout.SOUTH);
         buttonsPanelOnSearchTab.add(cancelButton, BorderLayout.SOUTH);
         panelSearch.add(buttonsPanelOnSearchTab, BorderLayout.SOUTH);
+
 
         return panelSearch;
     }

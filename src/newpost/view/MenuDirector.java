@@ -61,7 +61,7 @@ public class MenuDirector extends Menu{
         int salary = scanner.nextInt();
 
         Employee employee = employeeManagement.addStaff(jobTitle,fullName,phone,salary);
-        int password = employee.getPassword();
+        String password = employee.getPassword();
         String login = employee.getLogin();
         System.out.printf("Employee added. Employees password %d, login %s",password,login );
     }

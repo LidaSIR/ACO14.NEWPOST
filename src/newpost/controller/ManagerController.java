@@ -105,6 +105,7 @@ public class ManagerController implements IManagerController {
     public Client addClient(Passport passport, String phone) {
         Client client = new Client(phone, passport);
         appDataContainer.getClients().add(client);
+        appDataContainer.getUsers().put(client.getLogin(), client);
         return client;
     }
 
@@ -112,6 +113,7 @@ public class ManagerController implements IManagerController {
     public Client addClient(Passport passport, String phone, String mail) throws ValidationException {
         Client client = new Client(phone, passport, mail);
         appDataContainer.getClients().add(client);
+        appDataContainer.getUsers().put(client.getLogin(), client);
         return client;
     }
 
