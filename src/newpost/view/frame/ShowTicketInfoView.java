@@ -74,7 +74,7 @@ public class ShowTicketInfoView extends JFrame {
 
         panelAddress.setLayout(new GridLayout(3,2));
         panelAddress.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("address from / to")));
-        panelAddress.setBounds(20, 80, 550, 90);
+        panelAddress.setBounds(20, 85, 550, 90);
         panelAddress.add(new JLabel("City from: "+ addressFrom.getCity()));
         panelAddress.add(new JLabel("Street from: "+ addressFrom.getStreet()));
         panelAddress.add(new JLabel("HouseNum from: "+ addressFrom.getHouseNum()));
@@ -91,7 +91,7 @@ public class ShowTicketInfoView extends JFrame {
 
         panelDate.setLayout(new GridLayout(1,2));
         panelDate.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Date start / finish")));
-        panelDate.setBounds(20, 160, 550, 70);
+        panelDate.setBounds(20, 175, 550, 70);
         panelDate.add(new JLabel("date start: " + dateStart.toString()));
         panelDate.add(new JLabel("date estimation: " + dateEnd.toString()));
         return panelDate;
