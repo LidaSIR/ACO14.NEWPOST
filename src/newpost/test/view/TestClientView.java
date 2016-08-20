@@ -2,19 +2,17 @@ package newpost.test.view;
 
 import newpost.db.AppDataContainer;
 import newpost.db.InitDB;
-import newpost.view.frame.LoginFrame;
+import newpost.view.frame.ClientView;
+
 
 /**
- * Created by Anna on 19.08.2016.
+ * Created by pashc on 20.08.2016.
  */
-public class TestLoginPassView {
-
+public class TestClientView {
     public static void main(String[] args) {
-
         AppDataContainer appDataContainer = new AppDataContainer();
         InitDB.initDB(appDataContainer);
-        System.out.println(appDataContainer.getClients());
-        LoginFrame loginPassFrame = new LoginFrame(appDataContainer);
-    }
 
+        //ClientView clientView = new ClientView(appDataContainer);
+    }
 }

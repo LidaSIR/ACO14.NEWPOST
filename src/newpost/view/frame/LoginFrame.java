@@ -2,6 +2,7 @@ package newpost.view.frame;
 
 import newpost.controller.LoginController;
 import newpost.db.AppDataContainer;
+import newpost.model.office.Client;
 import newpost.model.office.Employee;
 import newpost.model.office.User;
 
@@ -62,10 +63,14 @@ public class LoginFrame extends JFrame {
         public void actionPerformed(ActionEvent e) {
 
             User user = loginController.loginFrame(login.getText(),password.getText());
-            if (user instanceof Employee){
+            if (user instanceof Employee) {
                 ManagerView managerFrame = new ManagerView(appDataContainer);
                 managerFrame.showManagerView();
                 setVisible(false);
+            }
+               else if (user instanceof Client){
+                    ClientView clientView = new ClientView(appDataContainer, (Client) user);
+                    setVisible(false);
             } else {
                 login.setText("");
                 password.setText("");

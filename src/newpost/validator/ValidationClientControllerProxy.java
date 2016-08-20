@@ -92,4 +92,9 @@ public class ValidationClientControllerProxy implements IClientController {
             throw new AppException("Validation: ticket Id is less than 0");
         }
     }
+
+    @Override
+    public List<PostTicket> showAllClientTickets(Client client) {
+        return null;
+    }
 }

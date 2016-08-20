@@ -56,6 +56,8 @@ public class Client  extends User{
         return "Client{" +
                 "passport=" + passport +
                 ", mail='" + mail + '\'' +
+                "phone_login=" + getLogin() +
+                ", pass='" + getPassword() + '\'' +
                 '}';
     }
 }
