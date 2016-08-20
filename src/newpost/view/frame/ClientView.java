@@ -3,7 +3,6 @@ package newpost.view.frame;
 import newpost.controller.ClientController;
 import newpost.db.AppDataContainer;
 import newpost.model.common.Address;
-import newpost.model.common.Passport;
 import newpost.model.common.Product;
 import newpost.model.common.Size;
 import newpost.model.office.Client;
@@ -25,7 +24,7 @@ import java.util.stream.Collectors;
 /**
  * Created by sasha on 18.08.2016.
  */
-public class MakeOrderFrame extends JFrame {
+public class ClientView extends JFrame {
 
     private static final int DEFAULT_WIDTH = 600;
     private static final int DEFAULT_HEIGHT = 500;
@@ -37,7 +36,7 @@ public class MakeOrderFrame extends JFrame {
     private ClientController clientController;
     private Client client;
 
-    public MakeOrderFrame(AppDataContainer appDataContainer, Client client){
+    public ClientView(AppDataContainer appDataContainer, Client client){
         this.appDataContainer = appDataContainer;
         this.clientController = new ClientController(appDataContainer);
         this.client = client;
@@ -60,6 +59,7 @@ public class MakeOrderFrame extends JFrame {
 
         return managerFrame;
     }
+
 
     private  JPanel createClientInfoPanel(Client client) {
         JPanel panelClientInfo = new JPanel(null);
@@ -255,11 +255,5 @@ public class MakeOrderFrame extends JFrame {
     }
 
 
-    public static void main(String[] args) {
 
-        AppDataContainer app = new AppDataContainer();
-        Client cl = new Client("380509999999" ,new Passport("alex","fg123456"), "1@2.mail.ru");
-
-        MakeOrderFrame mf = new MakeOrderFrame(app, cl);
-    }
 }

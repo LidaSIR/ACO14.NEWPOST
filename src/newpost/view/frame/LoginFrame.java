@@ -2,6 +2,7 @@ package newpost.view.frame;
 
 import newpost.controller.LoginController;
 import newpost.db.AppDataContainer;
+import newpost.model.office.Client;
 import newpost.model.office.Employee;
 import newpost.model.office.User;
 
@@ -52,27 +53,32 @@ public class LoginFrame extends JFrame {
         okButton.addActionListener(new MyActionListener());
         getContentPane().add(okButton);
 
-        incorrectPass = new JLabel("",SwingConstants.CENTER);
+        incorrectPass = new JLabel("", SwingConstants.CENTER);
         getContentPane().add(incorrectPass);
 
     }
-    private class MyActionListener implements ActionListener{
+
+    private class MyActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            User user = loginController.loginFrame(login.getText(),password.getText());
-            if (user instanceof Employee){
+            User user = loginController.loginFrame(login.getText(), password.getText());
+            if (user instanceof Employee) {
                 ManagerView managerFrame = new ManagerView(appDataContainer);
                 managerFrame.showManagerView();
                 setVisible(false);
+
+            } else if (user instanceof Client) {
+                ClientView clientFrame = new ClientView(appDataContainer, (Client) user);
+
             } else {
                 login.setText("");
                 password.setText("");
                 incorrectPass.setText("invalid login or password");
                 incorrectPass.setForeground(Color.red);
-            }
 
+            }
         }
     }
 }

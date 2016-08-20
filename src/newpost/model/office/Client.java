@@ -22,6 +22,7 @@ public class Client  extends User{
         this.passport = passport;
         this.mail = mail;
 
+
     }
 
     public void setMail(String mail) {
