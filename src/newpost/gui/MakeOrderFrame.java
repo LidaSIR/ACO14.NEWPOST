@@ -27,6 +27,12 @@ public class MakeOrderFrame extends JFrame {
         this.validationClientControllerProxy = new ValidationClientControllerProxy(clientController, new Validator());
     }
 
+    public void showMakeOrderFrame() {
+        JFrame makeOrderFrame = createFirstFrame();
+
+
+    }
+
     public static JFrame createFirstFrame() {
         JFrame orderFrame = new JFrame();
         orderFrame.setTitle(TITLE);
@@ -39,17 +45,27 @@ public class MakeOrderFrame extends JFrame {
         orderFrame.setLocation ((sSize.width - fSize.width)/2,
                 (sSize.height - fSize.height)/2);
 
-        
+
 
         orderFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         orderFrame.setVisible(true);
         return orderFrame;
     }
 
+    void init() {
+
+    }
+
+
+
+
+
+
+
     public static void main(String[] args) {
-        createFirstFrame();
-        //AppDataContainer app = new AppDataContainer();
-        //ManagerView mv = new ManagerView(app);
-        //mv.showManagerView();
+        //createFirstFrame();
+        AppDataContainer app = new AppDataContainer();
+        MakeOrderFrame mv = new MakeOrderFrame(app);
+        mv.showMakeOrderFrame();
     }
 }
