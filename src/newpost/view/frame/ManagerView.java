@@ -419,6 +419,7 @@ public class ManagerView extends JFrame {
                 PostTicket postTicket = managerController.filterTicketById((String) ticketId);
                 System.out.println(postTicket);
                 //TODO add new frame
+                ShowTicketInfoView showTicketInfoView = new ShowTicketInfoView(postTicket);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(new JFrame(), "Please select ticket");
             }
