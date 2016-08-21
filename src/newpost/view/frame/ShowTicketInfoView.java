@@ -89,12 +89,12 @@ public class ShowTicketInfoView extends JFrame {
         panelDate.setLayout(new GridLayout(1,2));
         panelDate.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new TitledBorder("Date start / finish")));
         panelDate.setBounds(20, 175, 550, 70);
-        String strDateStart = String.valueOf(dateStart.getYear()) + " -"
-                + String.valueOf(dateStart.getMonth()) + " -"
+        String strDateStart = String.valueOf(dateStart.getYear()) + " - "
+                + String.valueOf(dateStart.getMonth()) + " - "
                 + String.valueOf(dateStart.getDay());
 
-        String strDateFin = String.valueOf(dateEnd.getYear()) + " -"
-                + String.valueOf(dateEnd.getMonth()) + " -"
+        String strDateFin = String.valueOf(dateEnd.getYear()) + " - "
+                + String.valueOf(dateEnd.getMonth()) + " - "
                 + String.valueOf(dateEnd.getDay());
 
         panelDate.add(new JLabel("date start: " + strDateStart));
