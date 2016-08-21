@@ -1,8 +1,8 @@
 package newpost.view.frame;
 
-import newpost.controller.ClientController;
-import newpost.controller.ManagerController;
-import newpost.db.AppDataContainer;
+import newpost.controller.interfaces.IClientController;
+import newpost.controller.interfaces.IManagerController;
+import newpost.exceptions.AppException;
 import newpost.exceptions.ValidationException;
 import newpost.model.common.Address;
 import newpost.model.common.Passport;
@@ -11,8 +11,6 @@ import newpost.model.common.Size;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 import newpost.model.office.TicketStatus;
-import newpost.validator.ValidationManagerControllerProxy;
-import newpost.validator.Validator;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -37,16 +35,14 @@ public class ManagerView extends JFrame {
     private static final String TITLE = "Manager view";
     private static final String[] COLUMN_NAMES = new String[]{"ID", "Full name", "Phone", "Email"};
 
-    private AppDataContainer appDataContainer;
-    private ValidationManagerControllerProxy validationManagerControllerProxy;
-    private ManagerController managerController;
+    private IClientController clientController;
+    private IManagerController managerController;
     private Map<String, Product> productsMap;
 
 
-    public ManagerView(AppDataContainer appDataContainer) throws HeadlessException {
-        this.appDataContainer = appDataContainer;
-        this.managerController = new ManagerController(appDataContainer);
-        this.validationManagerControllerProxy = new ValidationManagerControllerProxy(managerController, new Validator());
+    public ManagerView(IManagerController managerController, IClientController clientController) throws HeadlessException {
+        this.managerController = managerController;
+        this.clientController = clientController;
         this.productsMap = new HashMap<>();
     }
 
@@ -117,7 +113,7 @@ public class ManagerView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    validationManagerControllerProxy.addClient(new Passport(textFieldFullName.getText(), passportTextField.getText()),
+                    managerController.addClient(new Passport(textFieldFullName.getText(), passportTextField.getText()),
                             phoneTextField.getText(), mailTextField.getText());
                     JOptionPane.showMessageDialog(new JFrame(), "Client added!", "NEW POST",JOptionPane.INFORMATION_MESSAGE);
 
@@ -156,7 +152,7 @@ public class ManagerView extends JFrame {
         checkButton.setBounds(165, 85, 250, 30);
         checkButton.addActionListener(e -> {
             try {
-                Client client = validationManagerControllerProxy.getClient(textFieldClientPhoneTicketTab.getText());
+                Client client = managerController.getClient(textFieldClientPhoneTicketTab.getText());
                 JOptionPane.showMessageDialog(new JFrame(), "Client found!\nClient name: " + client.getPassport().getFullname());
             } catch (ValidationException ex) {
                 JOptionPane.showMessageDialog(new JFrame(), "Client not found! Please create before");
@@ -270,7 +266,7 @@ public class ManagerView extends JFrame {
 
             private Product tryParseProduct() {
                 try {
-                    Client client = validationManagerControllerProxy.getClient(textFieldClientPhoneTicketTab.getText());
+                    Client client = managerController.getClient(textFieldClientPhoneTicketTab.getText());
                     Product product = new Product(textFieldProductName.getText(),
                             new Size(Integer.parseInt(textFieldSizeX.getText()), Integer.parseInt(textFieldSizeY.getText()),
                                     Integer.parseInt(textFieldSizeZ.getText()), Integer.parseInt(textFieldWeight.getText())),
@@ -288,10 +284,10 @@ public class ManagerView extends JFrame {
                 (new ImageIcon(new ImageIcon("resources/icons/archive.png").getImage().getScaledInstance(25,25,Image.SCALE_SMOOTH))));
         createTicketButton.addActionListener(e -> {
             try {
-                Client client = validationManagerControllerProxy.getClient(textFieldClientPhoneTicketTab.getText());
+                Client client = managerController.getClient(textFieldClientPhoneTicketTab.getText());
                 Address sendToAddress = new Address(textFieldSendToCity.getText(), textFieldSendToStreet.getText(),
                         textFieldSendToHouseNumber.getText());
-                PostTicket postTicket = validationManagerControllerProxy.createTicket(client, sendToAddress,
+                PostTicket postTicket = managerController.createTicket(client, sendToAddress,
                         productsMap.values().stream().collect(Collectors.toList()));
 
                 JOptionPane.showMessageDialog(new JFrame(), "Done!\n Your ticket number is " + postTicket.getId());
@@ -372,20 +368,31 @@ public class ManagerView extends JFrame {
                     break;
 
                 case "By phone":
-                    List<PostTicket> postTicketList = managerController.showTicketByClientPhone(textFieldSearchKey.getText());
-                    if (postTicketList == null) {
+                    List<PostTicket> postTicketList = null;
+                    try {
+                        postTicketList = managerController.showTicketByClientPhone(textFieldSearchKey.getText());
+                    } catch (ValidationException e1) {
+                        e1.printStackTrace();
                         JOptionPane.showMessageDialog(new JFrame(), "Nothing with this phone");
                     }
+
                     showResult(table, postTicketList);
                     break;
 
                 case "By ticket id":
-                    PostTicket postTicket = new ClientController(appDataContainer).showTicketById(textFieldSearchKey.getText());
-                    if (postTicket == null) {
-                        JOptionPane.showMessageDialog(new JFrame(), "Doesn't find ticket");
-                        showResult(table, null);
-                        return;
+                    PostTicket postTicket = null;
+                    try {
+                        postTicket = clientController.showTicketById(textFieldSearchKey.getText());
+                        if (postTicket == null) {
+                            JOptionPane.showMessageDialog(new JFrame(), "Doesn't find ticket");
+                            showResult(table, null);
+                            return;
+                        }
+                    } catch (AppException e1) {
+                        JOptionPane.showMessageDialog(this, e1.getMessage(),e1.getClass().getName(), JOptionPane.ERROR_MESSAGE);
+                        e1.printStackTrace();
                     }
+
                     List<PostTicket> postTicketList1 = new ArrayList<>();
                     postTicketList1.add(postTicket);
                     showResult(table, postTicketList1);
@@ -419,7 +426,7 @@ public class ManagerView extends JFrame {
                 PostTicket postTicket = managerController.filterTicketById((String) ticketId);
                 System.out.println(postTicket);
                 //TODO add new frame
-                ShowTicketInfoView showTicketInfoView = new ShowTicketInfoView(postTicket);
+                TicketInfoView ticketInfoView = new TicketInfoView(postTicket);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(new JFrame(), "Please select ticket");
             }
@@ -474,12 +481,13 @@ public class ManagerView extends JFrame {
             defaultTableModel.addRow(data);
         } else {
             for (int i = 0; i < postTicketList.size(); i++) {
-                if (postTicketList.get(i).getStatus() == TicketStatus.CANCELED) continue;
-                data[0] = postTicketList.get(i).getId();
-                data[1] = postTicketList.get(i).getClient().getPassport().getFullname();
-                data[2] = postTicketList.get(i).getClient().getPhone();
-                data[3] = postTicketList.get(i).getClient().getMail();
-                defaultTableModel.addRow(data);
+                if (postTicketList.get(i).getStatus() != TicketStatus.CANCELED) {
+                    data[0] = postTicketList.get(i).getId();
+                    data[1] = postTicketList.get(i).getClient().getPassport().getFullname();
+                    data[2] = postTicketList.get(i).getClient().getPhone();
+                    data[3] = postTicketList.get(i).getClient().getMail();
+                    defaultTableModel.addRow(data);
+                }
             }
         }
 

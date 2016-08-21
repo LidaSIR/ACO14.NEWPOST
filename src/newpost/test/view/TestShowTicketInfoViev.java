@@ -3,7 +3,7 @@ package newpost.test.view;
 import newpost.model.common.*;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
-import newpost.view.frame.ShowTicketInfoView;
+import newpost.view.frame.TicketInfoView;
 
 /**
  * Created by sasha on 20.08.2016.
@@ -30,7 +30,7 @@ public class TestShowTicketInfoViev {
 
         PostTicket postTicket = new PostTicket(client, products, from, to, dateStart, dateEnd);
 
-        ShowTicketInfoView showTicketInfoView = new ShowTicketInfoView(postTicket);
+        TicketInfoView ticketInfoView = new TicketInfoView(postTicket);
 
 
 

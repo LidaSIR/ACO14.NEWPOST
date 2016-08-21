@@ -184,6 +184,7 @@ public class ManagerController implements IManagerController {
         return Finder.findByOwnerName(appDataContainer,name);
     }
 
+    @Override
     public boolean cancelTicket(int ticketId) {
 
         for(PostTicket postTicket : appDataContainer.getTickets()) {

@@ -4,6 +4,7 @@ import newpost.controller.DataInitFactory;
 import newpost.db.AppDataContainer;
 import newpost.db.InitDB;
 import newpost.model.office.Client;
+import newpost.utils.factory.ControllerFactory;
 import newpost.view.frame.ClientView;
 
 
@@ -15,6 +16,6 @@ public class TestClientView {
         AppDataContainer appDataContainer = new AppDataContainer();
         InitDB.initDB(appDataContainer);
         Client client = DataInitFactory.clientCreator();
-        ClientView clientView = new ClientView(appDataContainer, client);
+        ClientView clientView = new ClientView(ControllerFactory.getClientController(), client);
     }
 }

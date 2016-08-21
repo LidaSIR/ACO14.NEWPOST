@@ -1,7 +1,7 @@
 package newpost.view.frame;
 //JOptionpane - form to post
-import newpost.controller.ClientController;
-import newpost.db.AppDataContainer;
+
+import newpost.controller.interfaces.IClientController;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 import newpost.model.office.User;
@@ -17,26 +17,22 @@ import java.util.List;
  */
 public class ClientView extends JFrame {
 
+    private IClientController clientController;
+    private User user;
 
-    private AppDataContainer appDataContainer;
-    private ClientController  clientController;
-    private JButton addTicket;
+    private JButton addTicketButton;
     private JButton showInfo;
     private JButton cancelOrder;
     private JButton takeProductButton;
     private JButton showOffices;
     private JTextField clientsInfo;
-    private User user;
 
     private DefaultListModel ticketListModel = new DefaultListModel();
     private JList ticketList = new JList(ticketListModel);
 
-
-
-    public ClientView(AppDataContainer appDataContainer, User user) throws HeadlessException {
+    public ClientView(IClientController clientController, User user) throws HeadlessException {
         this.user = user;
-        this.appDataContainer = appDataContainer;
-        this.clientController = new ClientController(appDataContainer);
+        this.clientController = clientController;
 
         setTitle("Client Menu");
         setSize(600, 400);
@@ -49,8 +45,8 @@ public class ClientView extends JFrame {
 
     void init() {
 
-        setLayout(new GridLayout(6,2));
-        addTicket = new JButton("Add Ticket");
+        setLayout(new GridLayout(6, 2));
+        addTicketButton = new JButton("Add Ticket");
         showInfo = new JButton("Show Info");
         cancelOrder = new JButton("Cancel Order");
         takeProductButton = new JButton("Take Product");
@@ -58,28 +54,26 @@ public class ClientView extends JFrame {
         clientsInfo = new JTextField(clientController.toString());
 
         List<PostTicket> postTicketList = clientController.showAllClientTickets(
-                new Client(user.getPhone(),user.getPassport()));
+                new Client(user.getPhone(), user.getPassport()));
 
-        for (PostTicket postTicket: postTicketList ){
+        for (PostTicket postTicket : postTicketList) {
             ticketListModel.addElement(postTicket);
         }
         getContentPane().add(ticketList);
 
         JButton addTicket = new JButton("Add Ticket");
         addTicket.setMnemonic('O');
-        addTicket.setSize(2,3);
-        addTicket.setLayout(new GridLayout(1,2));
+        addTicket.setSize(2, 3);
+        addTicket.setLayout(new GridLayout(1, 2));
         addTicket.setToolTipText("pres to show info");
         addTicket.addActionListener(new ClientView.MyActionListener());
         getContentPane().add(addTicket);
 
 
-
-
         JButton showInfo = new JButton("showInfo");
         showInfo.setMnemonic('O');
-        showInfo.setSize(2,3);
-        showInfo.setLayout(new GridLayout(1,2));
+        showInfo.setSize(2, 3);
+        showInfo.setLayout(new GridLayout(1, 2));
         showInfo.setToolTipText("showInfo");
         showInfo.addActionListener(new ClientView.MyActionListener());
         getContentPane().add(showInfo);
@@ -87,8 +81,8 @@ public class ClientView extends JFrame {
 
         JButton cancelOrder = new JButton("cancelOrder");
         cancelOrder.setMnemonic('O');
-        cancelOrder.setSize(2,3);
-        cancelOrder.setLayout(new GridLayout(1,2));
+        cancelOrder.setSize(2, 3);
+        cancelOrder.setLayout(new GridLayout(1, 2));
         cancelOrder.setToolTipText("pres to show info");
         cancelOrder.addActionListener(new ClientView.MyActionListener());
         getContentPane().add(cancelOrder);
@@ -96,8 +90,8 @@ public class ClientView extends JFrame {
 
         JButton takeProduct = new JButton("takeProductButton");
         takeProduct.setMnemonic('O');
-        takeProduct.setSize(2,3);
-        takeProduct.setLayout(new GridLayout(1,2));
+        takeProduct.setSize(2, 3);
+        takeProduct.setLayout(new GridLayout(1, 2));
         takeProduct.setToolTipText("pres to show info");
         takeProduct.addActionListener(new ClientView.MyActionListener());
         getContentPane().add(takeProduct);
@@ -105,13 +99,11 @@ public class ClientView extends JFrame {
 
         JButton clientsInfo = new JButton("clientsInfo");
         clientsInfo.setMnemonic('O');
-        clientsInfo.setSize(2,3);
-        clientsInfo.setLayout(new GridLayout(1,2));
+        clientsInfo.setSize(2, 3);
+        clientsInfo.setLayout(new GridLayout(1, 2));
         clientsInfo.setToolTipText("pres to show info");
         clientsInfo.addActionListener(new ClientView.MyActionListener());
         getContentPane().add(clientsInfo);
-
-
 
 
     }

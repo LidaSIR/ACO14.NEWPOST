@@ -169,4 +169,9 @@ public class ValidationManagerControllerProxy implements IManagerController {
         return null;
     }
 
+    @Override
+    public boolean cancelTicket(int ticketId) {
+        return false;
+    }
+
 }

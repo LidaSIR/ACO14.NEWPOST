@@ -2,6 +2,7 @@ package newpost.test.view;
 
 import newpost.db.AppDataContainer;
 import newpost.db.InitDB;
+import newpost.utils.factory.ControllerFactory;
 import newpost.view.frame.ManagerView;
 
 /**
@@ -14,7 +15,7 @@ public class TestManagerView {
 
         AppDataContainer appDataContainer = new AppDataContainer();
         InitDB.initDB(appDataContainer);
-        ManagerView managerView = new ManagerView(appDataContainer);
+        ManagerView managerView = new ManagerView(ControllerFactory.getManagerController(),ControllerFactory.getClientController());
 
         managerView.showManagerView();
     }

@@ -2,6 +2,7 @@ package newpost.utils.email.smtp;
 
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
+import newpost.utils.PropertiesHolder;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -29,6 +30,7 @@ public class SMTP {
             "\n" +
             "Now your order in progress and your ticket number is:\n" +
             "{ticket}";
+    
     private final static String DEFAULT_MESSAGE_LOGIN_AND_PASSWORD = "Hello dear {name}!!!\n" +
             "\n" +
             "Your login is: " + "{login}\n" +
@@ -58,31 +60,6 @@ public class SMTP {
 
     }
 
-    private static Map<String, String> getPropertiesFromFile() throws IOException {
-
-        Map<String, String> propertiesMap = new HashMap<>();
-
-        List<String> properList = Files.readAllLines(Paths.get("resources/properties"));
-
-        properList.stream().forEach((e) -> {
-            e = e.replaceAll("\\s", "");
-            try {
-
-                String key = e.split(":")[0];
-                String value = e.split(":")[1];
-
-                propertiesMap.put(key, value);
-
-            } catch (Exception ex) {
-
-            }
-
-        });
-
-
-        return propertiesMap;
-    }
-
     public static Map<String, String> getSMTPPropertiesFromFile(String filePath) throws IOException {
 
         Map<String, String> propertiesMap = new HashMap<>();
@@ -104,13 +81,12 @@ public class SMTP {
     private static void send(Client client, String mailText, String attachmentPath) throws IOException {
 
         Properties props = System.getProperties();
-        Map<String, String> propertiesMap = getPropertiesFromFile();
 
         props.setProperty("mail.smtp.tls.trust", "smtp.gmail.com");
         Session session = Session.getDefaultInstance(props);
         MimeMessage message = new MimeMessage(session);
         try {
-            message.setFrom(new InternetAddress(propertiesMap.get(SMTP_LOGIN_KEY)));
+            message.setFrom(new InternetAddress(PropertiesHolder.get(SMTP_LOGIN_KEY)));
             InternetAddress toAddress = new InternetAddress(client.getMail());
 
             message.addRecipient(Message.RecipientType.TO, toAddress);
@@ -133,7 +109,7 @@ public class SMTP {
             message.setContent(multipart);
 
             Transport transport = session.getTransport("smtps");
-            transport.connect(propertiesMap.get(SMTP_HOST_KEY), propertiesMap.get(SMTP_LOGIN_KEY), propertiesMap.get(SMTP_PASSWORD_KEY));
+            transport.connect(PropertiesHolder.get(SMTP_HOST_KEY), PropertiesHolder.get(SMTP_LOGIN_KEY), PropertiesHolder.get(SMTP_PASSWORD_KEY));
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         } catch (AddressException ae) {
@@ -146,13 +122,12 @@ public class SMTP {
     public static void sendMail(String to, String emailMessage) throws IOException {
 
         Properties props = System.getProperties();
-        Map<String, String> propertiesMap = getPropertiesFromFile();
 
         props.setProperty("mail.smtp.tls.trust", "smtp.gmail.com");
         Session session = Session.getDefaultInstance(props);
         MimeMessage message = new MimeMessage(session);
         try {
-            message.setFrom(new InternetAddress(propertiesMap.get(SMTP_LOGIN_KEY)));
+            message.setFrom(new InternetAddress(PropertiesHolder.get(SMTP_LOGIN_KEY)));
 
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject("Support newPOST");
@@ -165,7 +140,7 @@ public class SMTP {
             message.setContent(multipart);
 
             Transport transport = session.getTransport("smtps");
-            transport.connect(propertiesMap.get(SMTP_HOST_KEY), propertiesMap.get(SMTP_LOGIN_KEY), propertiesMap.get(SMTP_PASSWORD_KEY));
+            transport.connect(PropertiesHolder.get(SMTP_HOST_KEY), PropertiesHolder.get(SMTP_LOGIN_KEY), PropertiesHolder.get(SMTP_PASSWORD_KEY));
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         } catch (AddressException ae) {

@@ -30,4 +30,5 @@ public interface IManagerController {
     List<PostTicket> findByOwnerName( String name);
 
 
+    boolean cancelTicket(int ticketId);
 }
