@@ -67,7 +67,6 @@ public class SupportForm extends JFrame {
 
         mailList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                JList list = (JList) evt.getSource();
                 if (evt.getClickCount() == 2) {
                     new LetterContent((Letter) mailList.getSelectedValue(), controller);
                 }

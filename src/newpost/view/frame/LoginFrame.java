@@ -2,14 +2,9 @@ package newpost.view.frame;
 
 import newpost.controller.interfaces.IClientController;
 import newpost.controller.interfaces.ILoginController;
-import newpost.controller.LoginController;
 import newpost.controller.interfaces.IManagerController;
-import newpost.db.AppDataContainer;
-import newpost.model.office.Client;
-import newpost.model.office.Employee;
 import newpost.model.office.User;
 import newpost.model.office.UserType;
-import newpost.utils.factory.ControllerFactory;
 import newpost.utils.support.SupportController;
 import newpost.utils.support.SupportForm;
 
@@ -17,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
  * Created by Lida on 18.08.2016.
@@ -81,11 +75,7 @@ public class LoginFrame extends JFrame {
                 ClientView clientView = new ClientView(clientController, user);
                 setVisible(false);
             } else if(user.getUserType() == UserType.SUPPORT) {
-                try {
-                    new SupportForm(new SupportController());
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+                new SupportForm(new SupportController());
             } else {
                 login.setText("");
                 password.setText("");

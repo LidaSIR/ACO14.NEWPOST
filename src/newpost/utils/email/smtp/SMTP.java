@@ -23,8 +23,11 @@ import java.util.Properties;
 public class SMTP {
 
     public static final String SMTP_LOGIN_KEY = "mail.smtp.user";
+    public static final String SMTP_SUPPORT_LOGIN_KEY = "supportuser";
     public static final String SMTP_PASSWORD_KEY = "mail.smtp.password";
+    public static final String SMTP_SUPPORT_PASSWORD_KEY = "supportpassword";
     public static final String SMTP_HOST_KEY = "mail.smtp.host";
+    public static final String SMTP_SUPPORT_HOST_KEY = "supportsmtpthost";
     private final static String MAIL_SUBJECT = "Hello from ACO14 New Post";
     private final static String DEFAULT_MESSAGE_TEXT = "Hello dear {name}!!!\n" +
             "\n" +
@@ -119,7 +122,7 @@ public class SMTP {
         }
     }
 
-    public static void sendMail(String to, String emailMessage) throws IOException {
+    public static void sendMailFromSupport(String to, String emailMessage) throws IOException {
 
         Properties props = System.getProperties();
 
@@ -127,7 +130,7 @@ public class SMTP {
         Session session = Session.getDefaultInstance(props);
         MimeMessage message = new MimeMessage(session);
         try {
-            message.setFrom(new InternetAddress(PropertiesHolder.get(SMTP_LOGIN_KEY)));
+            message.setFrom(new InternetAddress(PropertiesHolder.get(SMTP_SUPPORT_LOGIN_KEY)));
 
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject("Support newPOST");
@@ -140,7 +143,7 @@ public class SMTP {
             message.setContent(multipart);
 
             Transport transport = session.getTransport("smtps");
-            transport.connect(PropertiesHolder.get(SMTP_HOST_KEY), PropertiesHolder.get(SMTP_LOGIN_KEY), PropertiesHolder.get(SMTP_PASSWORD_KEY));
+            transport.connect(PropertiesHolder.get(SMTP_SUPPORT_HOST_KEY), PropertiesHolder.get(SMTP_SUPPORT_LOGIN_KEY), PropertiesHolder.get(SMTP_SUPPORT_PASSWORD_KEY));
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         } catch (AddressException ae) {

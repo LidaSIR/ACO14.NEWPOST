@@ -1,10 +1,7 @@
 package newpost.controller;
 
 import newpost.model.common.*;
-import newpost.model.office.Client;
-import newpost.model.office.Employee;
-import newpost.model.office.PostOffice;
-import newpost.model.office.PostTicket;
+import newpost.model.office.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -123,13 +120,18 @@ public class DataInitFactory {
 
         List<PostOffice> list = new ArrayList<>();
 
-        list.add(new PostOffice(new Address("Львів", "Вулиця Степана Бандери", "15")));
-        list.add(new PostOffice(new Address("Рівне", "Вулиця Соборна", "8")));
-        list.add(new PostOffice(new Address("Фастів", "Вулиця Ковпака", "12")));
-        list.add(new PostOffice(new Address("Одеса", "Проспект Гагаріна", "8")));
-        list.add(new PostOffice(new Address("Луцьк", "Вулиця Коперника", "9")));
-        list.add(new PostOffice(new Address("Суми", "Вулиця Черепіна", "4")));
-        list.add(new PostOffice(new Address("Харків", "Салтівське шосе", "7")));
+        list.add(new PostOffice(new Address("Lviv", "Stepana Bandery St", "15")));
+        list.add(new PostOffice(new Address("Rivne", "Soborna St", "8")));
+        list.add(new PostOffice(new Address("Fastiv", "Kovpaka St", "12")));
+        list.add(new PostOffice(new Address("Odessa", "Haharina Ave", "8")));
+        list.add(new PostOffice(new Address("Lutsk", "Kopernyka St", "9")));
+        list.add(new PostOffice(new Address("Sumy", "Cherepina St", "4")));
+        list.add(new PostOffice(new Address("Kharkiv", "Saltivs'kyi Lane", "7")));
+        list.add(new PostOffice(new Address("Dnipro", "Pushkina Ave", "71")));
+        list.add(new PostOffice(new Address("Vinnytsia", "Monastyrska St", "12")));
+        list.add(new PostOffice(new Address("Simferopol", "Zhovtneva St", "16")));
+        list.add(new PostOffice(new Address("Donetsk", "Kortunova St", "15")));
+        list.add(new PostOffice(new Address("Uzhhorod", "Volodymyrs'ka St", "19")));
 
         return list;
     }
@@ -138,4 +140,9 @@ public class DataInitFactory {
         return new Employee("Manager", createFullName(), createPhoneNumber(), createSalary());
     }
 
+    public static Employee createSupport() {
+        Employee employee = new Employee("Support", createFullName(), createPhoneNumber(), createSalary());
+        employee.setUserType(UserType.SUPPORT);
+        return employee;
+    }
 }

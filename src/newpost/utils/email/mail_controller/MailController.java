@@ -78,7 +78,7 @@ public class MailController implements IMailController{
                 Letter letter = new Letter();
                 letter.setTopic(msg.getSubject());
                 letter.setFromName(msg.getFrom()[0].toString());
-                letter.setFromName(msg.getAllRecipients()[0].toString());
+                letter.setToName(msg.getAllRecipients()[0].toString());
                 letter.setMessage(getBodyFromEmail(msg));
                 letter.setState("new");
                 letter.setUid(uid);

@@ -7,9 +7,7 @@ import newpost.model.office.Employee;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Helps init db by test data
@@ -41,7 +39,7 @@ public class InitDB {
         appDataContainer.getEmployees().add(employee);
         appDataContainer.getUsers().put(employee.getLogin(), employee);
         //add support employee
-        Employee supportMember = DataInitFactory.createEmployee();
+        Employee supportMember = DataInitFactory.createSupport();
         supportMember.setLogin("support");
         supportMember.setPassword("noway");
         appDataContainer.getEmployees().add(supportMember);

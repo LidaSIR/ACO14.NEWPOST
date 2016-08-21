@@ -1,5 +1,6 @@
 package newpost.utils.support;
 
+import newpost.utils.PropertiesHolder;
 import newpost.utils.email.exceptions.NoNewEmailException;
 import newpost.utils.email.mail_controller.MailController;
 import newpost.utils.email.model_letter.Letter;
@@ -17,28 +18,16 @@ import java.util.Map;
  */
 public class SupportController implements ISupportController {
     private Map<String, String> properties;
-    private static final String HOST = "host";
-    private static final String MAIL_STORE_TYPE = "mailStoreType";
-    private static final String USER_NAME = "username";
-    private static final String PASSWORD = "password";
-    private static final String LOCATION = "location";
-
-    public SupportController() throws IOException {
-        readMailProperties();
-    }
-
-    private void readMailProperties() throws IOException {
-        try {
-            properties = SMTP.getSMTPPropertiesFromFile("resources/supportProperties");
-        } catch (IOException e) {
-            throw new IOException("File not found. Please verify properties path.");
-        }
-    }
+    private static final String HOST = "supporthost";
+    private static final String MAIL_STORE_TYPE = "supportmailStoreType";
+    private static final String USER_NAME = "supportusername";
+    private static final String PASSWORD = "supportpassword";
+    private static final String LOCATION = "supportlocation";
 
     @Override
     public void sendEmail(String email, String textMessage) {
         try {
-            SMTP.sendMail(email, textMessage);
+            SMTP.sendMailFromSupport(email, textMessage);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,11 +41,11 @@ public class SupportController implements ISupportController {
         try {
             letterList = mailController.getNewEmails(
                                                     mailController.connectToEmail(
-                                                                                properties.get(HOST),
-                                                                                properties.get(MAIL_STORE_TYPE),
-                                                                                properties.get(USER_NAME),
-                                                                                properties.get(PASSWORD)),
-                                                                                                            properties.get(LOCATION));
+                                                                                PropertiesHolder.get(HOST),
+                                                                                PropertiesHolder.get(MAIL_STORE_TYPE),
+                                                                                PropertiesHolder.get(USER_NAME),
+                                                                                PropertiesHolder.get(PASSWORD)),
+                                                                                                                PropertiesHolder.get(LOCATION));
         } catch (MessagingException e) {
             e.printStackTrace();
         } catch (IOException e) {
