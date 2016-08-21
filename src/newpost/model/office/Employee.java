@@ -4,9 +4,9 @@ package newpost.model.office;
  * Created by Lida on 16.07.2016.
  */
 public class Employee extends User {
+
     private String jobTitle; // make constant?
     private int salary;
-
 
     public Employee(String jobTitle, String fullName, String phone, int salary) {
        super(fullName,phone);

@@ -10,12 +10,14 @@ import newpost.model.office.Employee;
 import newpost.model.office.User;
 import newpost.model.office.UserType;
 import newpost.utils.factory.ControllerFactory;
+import newpost.utils.support.SupportController;
 import newpost.utils.support.SupportForm;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * Created by Lida on 18.08.2016.
@@ -74,16 +76,21 @@ public class LoginFrame extends JFrame {
             User user = loginController.findUser(login.getText(), password.getText());
             if (user.getUserType() == UserType.MANAGER) {
                 ManagerView managerFrame = new ManagerView(managerController,clientController);
-                managerFrame.showManagerView();
                 setVisible(false);
             } else if (user.getUserType() == UserType.CLIENT) {
                 ClientView clientView = new ClientView(clientController, user);
                 setVisible(false);
+            } else if(user.getUserType() == UserType.SUPPORT) {
+                try {
+                    new SupportForm(new SupportController());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             } else {
                 login.setText("");
                 password.setText("");
                 incorrectPass.setText("invalid login or password");
-                incorrectPass.setForeground(Color.red);
+                incorrectPass.setForeground(Color.RED);
             }
 
         }

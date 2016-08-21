@@ -44,6 +44,7 @@ public class ManagerView extends JFrame {
         this.managerController = managerController;
         this.clientController = clientController;
         this.productsMap = new HashMap<>();
+        showManagerView();
     }
 
     public void showManagerView() {

@@ -14,18 +14,16 @@ import java.util.List;
 /**
  * Created by Vladislav on 19.08.2016.
  */
-public class SupportForm extends JFrame{
-    private SupportController controller;
+public class SupportForm extends JFrame {
+
+    private ISupportController controller;
     private DefaultListModel letterListModel = new DefaultListModel();
     private JList mailList = new JList(letterListModel);
 
-    public SupportForm() {
-        try {
-            controller = new SupportController();
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Properties file is not correct. Please verify.", "Properties file not found", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
-        }
+    public SupportForm(ISupportController supportController) {
+
+        controller = supportController;
+
         setTitle("Support");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,7 +31,7 @@ public class SupportForm extends JFrame{
         setVisible(true);
     }
 
-    void init(){
+    void init() {
         initEmailList();
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(mailList);
@@ -59,14 +57,19 @@ public class SupportForm extends JFrame{
         getContentPane().add(main);
     }
 
-    public void initEmailList(){
-        List<Letter> emailList = controller.getNewEmails();
+    public void initEmailList() {
+        List<Letter> emailList = null;
+        try {
+            emailList = controller.getNewEmails();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         mailList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                JList list = (JList)evt.getSource();
+                JList list = (JList) evt.getSource();
                 if (evt.getClickCount() == 2) {
-                    new LetterContent((Letter)mailList.getSelectedValue(), controller);
+                    new LetterContent((Letter) mailList.getSelectedValue(), controller);
                 }
             }
         });

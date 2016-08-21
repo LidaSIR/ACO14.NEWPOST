@@ -2,6 +2,7 @@ package newpost.view.frame;
 
 import com.lynden.gmapsexampleapp.FXMLController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import newpost.model.common.*;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
@@ -45,11 +46,14 @@ public class TicketInfoView extends JFrame {
         showOnMapButton.addActionListener((event) -> {
 
             Address to = postTicket.getTo();
-            Location location = googleMapsAPI.findLocation("Ukraine", to.getCity(),to.getStreet(), to.getHouseNum());
+            Location location = googleMapsAPI.findLocation("Ukraine", to.getCity(), to.getStreet(), to.getHouseNum());
 
-            FXMLController.main(new String[]{"lat1:" + location.getLat(),
-                    "long1:" + location.getLng(),
-                    "title1:" + postTicket.getId() + "\n" + postTicket.getStatus()});
+            new Thread(() -> {
+                        FXMLController.main(new String[]{"lat1:" + location.getLat(),
+                                "long1:" + location.getLng(),
+                                "title1:" + postTicket.getId() + "\n" + postTicket.getStatus()});
+                    }
+            ).start();
 
         });
 
