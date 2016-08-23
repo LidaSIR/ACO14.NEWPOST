@@ -113,23 +113,20 @@ public class ManagerView extends JFrame {
         addClientButton.setSize(150, 30);
         panelAddClient.add(addClientButton, BorderLayout.SOUTH);
 
-        addClientButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    managerController.addClient(new Passport(textFieldFullName.getText(), passportTextField.getText()),
-                            phoneTextField.getText(), mailTextField.getText());
-                    JOptionPane.showMessageDialog(new JFrame(), "Client added!", "NEW POST",JOptionPane.INFORMATION_MESSAGE);
+        addClientButton.addActionListener(e -> {
+            try {
+                managerController.addClient(new Passport(textFieldFullName.getText(), passportTextField.getText()),
+                        phoneTextField.getText(), mailTextField.getText());
+                JOptionPane.showMessageDialog(new JFrame(), "Client added!", "NEW POST",JOptionPane.INFORMATION_MESSAGE);
 
-                    // Clean text fields
-                    textFieldFullName.setText("");
-                    passportTextField.setText("");
-                    phoneTextField.setText("");
-                    mailTextField.setText("");
+                // Clean text fields
+                textFieldFullName.setText("");
+                passportTextField.setText("");
+                phoneTextField.setText("");
+                mailTextField.setText("");
 
-                } catch (ValidationException e1) {
-                    JOptionPane.showMessageDialog(new JFrame(), e1, "NEW POST",JOptionPane.ERROR_MESSAGE);
-                }
+            } catch (ValidationException e1) {
+                JOptionPane.showMessageDialog(new JFrame(), e1, "NEW POST",JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -195,19 +192,16 @@ public class ManagerView extends JFrame {
         location = ManagerView.class.getResource(AppConstants.ERROR_ICON).getPath();
         JButton removeProductButton = new JButton("Remove product",
                 (new ImageIcon(new ImageIcon(location).getImage().getScaledInstance(15,15,Image.SCALE_SMOOTH))));
-        removeProductButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    productsMap.remove(productJList.getSelectedItem());
-                    productJList.removeItemAt(productJList.getSelectedIndex());
-                    JOptionPane.showMessageDialog(new JFrame(), "Product removed!");
+        removeProductButton.addActionListener(e -> {
+            try {
+                productsMap.remove(productJList.getSelectedItem());
+                productJList.removeItemAt(productJList.getSelectedIndex());
+                JOptionPane.showMessageDialog(new JFrame(), "Product removed!");
 
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Error");
-                }
-
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(new JFrame(), "Error");
             }
+
         });
         panelForProductList.add(removeProductButton);
         addProductsPanel.add(panelForProductList);
@@ -480,24 +474,24 @@ public class ManagerView extends JFrame {
 
     private static void showResult(JTable table, List<PostTicket> postTicketList) {
 
-        String data[] = new String[4];
+        String tableRow[] = new String[4];
         DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
         defaultTableModel.setRowCount(0);
 
         if (postTicketList == null) {
-            data[0] = "";
-            data[1] = "";
-            data[2] = "";
-            data[3] = "";
-            defaultTableModel.addRow(data);
+            tableRow[0] = "";
+            tableRow[1] = "";
+            tableRow[2] = "";
+            tableRow[3] = "";
+            defaultTableModel.addRow(tableRow);
         } else {
             for (int i = 0; i < postTicketList.size(); i++) {
                 if (postTicketList.get(i).getStatus() != TicketStatus.CANCELED) {
-                    data[0] = postTicketList.get(i).getId();
-                    data[1] = postTicketList.get(i).getClient().getPassport().getFullname();
-                    data[2] = postTicketList.get(i).getClient().getPhone();
-                    data[3] = postTicketList.get(i).getClient().getMail();
-                    defaultTableModel.addRow(data);
+                    tableRow[0] = postTicketList.get(i).getId();
+                    tableRow[1] = postTicketList.get(i).getClient().getPassport().getFullname();
+                    tableRow[2] = postTicketList.get(i).getClient().getPhone();
+                    tableRow[3] = postTicketList.get(i).getClient().getMail();
+                    defaultTableModel.addRow(tableRow);
                 }
             }
         }
