@@ -11,6 +11,7 @@ import newpost.model.common.Size;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 import newpost.model.office.TicketStatus;
+import newpost.utils.AppConstants;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -66,7 +67,8 @@ public class ManagerView extends JFrame {
 
     private static JFrame createMainFrame() {
         JFrame managerFrame = new JFrame(TITLE);
-        managerFrame.setIconImage(new ImageIcon("resources/icons/managerViewIcon.png").getImage());
+        String location = ManagerView.class.getResource(AppConstants.MANAGER_VIEW_ICON).getPath();
+        managerFrame.setIconImage(new ImageIcon(location).getImage());
         managerFrame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         managerFrame.setResizable(false);
         managerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -105,8 +107,9 @@ public class ManagerView extends JFrame {
         contentPanelAddClient.add(phonePanel);
 
         // Create button "Add client"
+        String location = ManagerView.class.getResource(AppConstants.PLUS_ICON).getPath();
         JButton addClientButton = new JButton("Add new client",
-                (new ImageIcon(new ImageIcon("resources/icons/plus.png").getImage().getScaledInstance(25,25,Image.SCALE_SMOOTH))));
+                (new ImageIcon(new ImageIcon(location).getImage().getScaledInstance(25,25,Image.SCALE_SMOOTH))));
         addClientButton.setSize(150, 30);
         panelAddClient.add(addClientButton, BorderLayout.SOUTH);
 
@@ -148,8 +151,9 @@ public class ManagerView extends JFrame {
         JPanel clientPhonePanel = createPanel("Example: 0664540934", "Client phone:", 20, 15, textFieldClientPhoneTicketTab);
         contentPanelCreateTicket.add(clientPhonePanel);
 
+        String location = ManagerView.class.getResource(AppConstants.ID_CARD_ICON).getPath();
         JButton checkButton = new JButton("Check client in database",
-                (new ImageIcon(new ImageIcon("resources/icons/idCard.png").getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH))));
+                (new ImageIcon(new ImageIcon(location).getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH))));
         checkButton.setBounds(165, 85, 250, 30);
         checkButton.addActionListener(e -> {
             try {
@@ -188,8 +192,9 @@ public class ManagerView extends JFrame {
 
         JPanel panelForProductList = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelForProductList.add(productJList);
+        location = ManagerView.class.getResource(AppConstants.ERROR_ICON).getPath();
         JButton removeProductButton = new JButton("Remove product",
-                (new ImageIcon(new ImageIcon("resources/icons/error.png").getImage().getScaledInstance(15,15,Image.SCALE_SMOOTH))));
+                (new ImageIcon(new ImageIcon(location).getImage().getScaledInstance(15,15,Image.SCALE_SMOOTH))));
         removeProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -245,8 +250,9 @@ public class ManagerView extends JFrame {
         contentPanelCreateTicket.add(sendToPanel);
         contentPanelCreateTicket.add(addProductsPanel);
 
+        location = ManagerView.class.getResource(AppConstants.MANAGER_VIEW_ICON).getPath();
         JButton addProductButton = new JButton("Add product",
-                (new ImageIcon(new ImageIcon("resources/icons/plus.png").getImage().getScaledInstance(23,23,Image.SCALE_SMOOTH))));
+                (new ImageIcon(new ImageIcon(location).getImage().getScaledInstance(23,23,Image.SCALE_SMOOTH))));
         addProductButton.setBounds(165, 330, 250, 30);
         addProductButton.addActionListener(new ActionListener() {
             @Override
@@ -281,8 +287,9 @@ public class ManagerView extends JFrame {
         });
         contentPanelCreateTicket.add(addProductButton);
 
+        location = ManagerView.class.getResource(AppConstants.ARCHIVE_ICON).getPath();
         JButton createTicketButton = new JButton("Create ticket",
-                (new ImageIcon(new ImageIcon("resources/icons/archive.png").getImage().getScaledInstance(25,25,Image.SCALE_SMOOTH))));
+                (new ImageIcon(new ImageIcon(location).getImage().getScaledInstance(25,25,Image.SCALE_SMOOTH))));
         createTicketButton.addActionListener(e -> {
             try {
                 Client client = managerController.getClient(textFieldClientPhoneTicketTab.getText());
@@ -351,8 +358,9 @@ public class ManagerView extends JFrame {
 
         contentPanelSearch.add(scrollPane);
 
+        String location = ManagerView.class.getResource(AppConstants.SEARCH_ICON).getPath();
         JButton searchButton = new JButton("Search",
-                (new ImageIcon(new ImageIcon("resources/icons/search.png").getImage().getScaledInstance(15,15,Image.SCALE_SMOOTH))));
+                (new ImageIcon(new ImageIcon(location).getImage().getScaledInstance(15,15,Image.SCALE_SMOOTH))));
         searchButton.addActionListener(e -> {
             String radioButtonText = getSelectedButtonText(searchFilterRadioButtonGroup);
             if (radioButtonText == null) {
@@ -406,8 +414,9 @@ public class ManagerView extends JFrame {
         contentPanelSearch.add(filterPanel);
         panelSearch.add(contentPanelSearch);
 
+        location = ManagerView.class.getResource(AppConstants.ERROR_ICON).getPath();
         JButton cancelButton = new JButton("Cancel ticket",
-                (new ImageIcon(new ImageIcon("resources/icons/error.png").getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH))));
+                (new ImageIcon(new ImageIcon(location).getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH))));
         cancelButton.addActionListener(e -> {
             try {
                 Object ticketId = table.getValueAt(table.getSelectedRow(), 0);
@@ -419,8 +428,9 @@ public class ManagerView extends JFrame {
             }
         });
 
+        location = ManagerView.class.getResource(AppConstants.INFO_ICON).getPath();
         JButton showInfoButton = new JButton("Show info",
-                (new ImageIcon(new ImageIcon("resources/icons/info.png").getImage().getScaledInstance(23,23,Image.SCALE_SMOOTH))));
+                (new ImageIcon(new ImageIcon(location).getImage().getScaledInstance(23,23,Image.SCALE_SMOOTH))));
         showInfoButton.addActionListener(e -> {
             try {
                 Object ticketId = table.getValueAt(table.getSelectedRow(), 0);

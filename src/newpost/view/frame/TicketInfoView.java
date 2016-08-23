@@ -1,9 +1,9 @@
 package newpost.view.frame;
 
 import com.lynden.gmapsexampleapp.FXMLController;
-import javafx.application.Application;
-import javafx.application.Platform;
-import newpost.model.common.*;
+import newpost.model.common.Address;
+import newpost.model.common.MyDate;
+import newpost.model.common.Product;
 import newpost.model.office.Client;
 import newpost.model.office.PostTicket;
 import newpost.utils.geolocation.controller.GoogleMapsAPI;
