@@ -3,6 +3,8 @@ package newpost.view.frame;
 import newpost.controller.interfaces.IClientController;
 import newpost.controller.interfaces.ILoginController;
 import newpost.controller.interfaces.IManagerController;
+import newpost.db.AppDataContainer;
+import newpost.model.office.Client;
 import newpost.model.office.User;
 import newpost.model.office.UserType;
 import newpost.utils.support.SupportController;
@@ -72,7 +74,7 @@ public class LoginFrame extends JFrame {
                 ManagerView managerFrame = new ManagerView(managerController,clientController);
                 setVisible(false);
             } else if (user.getUserType() == UserType.CLIENT) {
-                ClientView clientView = new ClientView(clientController, user);
+                ClientView clientView = new ClientView(new AppDataContainer(), (Client) user);
                 setVisible(false);
             } else if(user.getUserType() == UserType.SUPPORT) {
                 new SupportForm(new SupportController());
